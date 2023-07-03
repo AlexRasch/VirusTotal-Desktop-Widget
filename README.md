@@ -1,9 +1,9 @@
 # VT-Desktop-Widget
 
-![VT-Desktop-Widget Screenshot](https://github.com/AlexRasch/VT-Desktop-Widget/assets/46262688/3d4b4bf7-1168-4218-b099-3d6ca0d88b57)
+![VT-Desktop-Widget Screenshot]
 
 VT-Desktop-Widget is a simple Windows desktop widget that integrates with the VirusTotal API to perform file scans and displays basic system information such as RAM and CPU usage. It is developed using C# and Windows Forms, utilizing PInvoke for some functions. Please note that due to these dependencies, the widget may not be compatible with Linux or macOS.
-
+(https://github.com/AlexRasch/VT-Desktop-Widget/assets/46262688/3d4b4bf7-1168-4218-b099-3d6ca0d88b57)
 ## Features
 
 - Perform file scans using the VirusTotal API
