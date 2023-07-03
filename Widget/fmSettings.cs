@@ -1,0 +1,46 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using static Widget.WidgetConfiguration;
+
+namespace Widget
+{
+    public partial class fmSettings : Form
+    {
+        WidgetSettings config = new WidgetSettings();
+
+        public fmSettings()
+        {
+            InitializeComponent();
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            string apiKey = txtApiKey.Text;
+
+            WidgetSettings settings = new WidgetSettings
+            {
+                VirusTotalApiKey = apiKey,
+                LicenseAgreementAccepted = true
+            };
+
+            string jsonString = JsonSerializer.Serialize(settings);
+            config.SaveUserData(jsonString);
+
+        }
+
+        private void fmSettings_Load(object sender, EventArgs e)
+        {
+            config = config.LoadSettingsFromConfigFile();
+
+            txtApiKey.Text = config.VirusTotalApiKey;
+        }
+    }
+}
