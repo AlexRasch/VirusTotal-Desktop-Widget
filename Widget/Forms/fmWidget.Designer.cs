@@ -169,7 +169,7 @@
             ShowInTaskbar = false;
             SizeGripStyle = SizeGripStyle.Hide;
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Form1";
+            Text = "VT-Desktop-Widget";
             Load += frmWidget_Load;
             MouseDown += frmWidget_MouseDown;
             ((System.ComponentModel.ISupportInitialize)pbSubmit).EndInit();

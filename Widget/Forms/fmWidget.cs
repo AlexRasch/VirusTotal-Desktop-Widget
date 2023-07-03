@@ -15,7 +15,7 @@ namespace Widget
         // Performance
         PerformanceCounter cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
         PerformanceCounter ramCounter = new PerformanceCounter("Memory", "Available MBytes");
-        
+
         // Widget settings
         WidgetSettings widgetSettings = new WidgetSettings();
 

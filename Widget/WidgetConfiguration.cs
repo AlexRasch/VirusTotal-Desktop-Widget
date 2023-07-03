@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -13,23 +14,27 @@ namespace Widget
     internal class WidgetConfiguration
     {
         // Widget constant
-        public const string widgetMutex = "Widget_VirusTotal";
+        public const string widgetMutex = "VT-Desktop-Widget";
+        public const string appName = "VT-Desktop-Widget";
 
         // Paths
         private static readonly string widgetConfigFileName = "config.json";
-        private static readonly string widgetConfigDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Widget_VirusTotal");
+        private static readonly string widgetConfigDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "VT-Desktop-Widget");
         private static readonly string widgetConfigPath = Path.Combine(widgetConfigDirectory, widgetConfigFileName);
 
         public class WidgetSettings
         {
             public string? VirusTotalApiKey { get; set; }
             public bool LicenseAgreementAccepted { get; set; }
+            public bool AutoStartEnabled { get; set; }
+
 
             // Default settings
             private static readonly WidgetSettings DefaultSettings = new WidgetSettings
             {
                 VirusTotalApiKey = null,
-                LicenseAgreementAccepted = false
+                LicenseAgreementAccepted = false,
+                AutoStartEnabled = false
             };
 
 
@@ -61,7 +66,7 @@ namespace Widget
                     byte[] decryptedKey = DataProtector.UnprotectData(encryptedKey);
                     widgetSettings.VirusTotalApiKey = Encoding.UTF8.GetString(decryptedKey);
                 }
-
+                HandleAutostart(widgetSettings.AutoStartEnabled);
                 return widgetSettings;
             }
 
@@ -86,6 +91,7 @@ namespace Widget
                 });
 
                 File.WriteAllText(widgetConfigPath, jsonString);
+                HandleAutostart(widgetSettings.AutoStartEnabled);
             }
 
 
@@ -146,6 +152,25 @@ namespace Widget
                 {
                     return false;
                 }
+            }
+
+            private void HandleAutostart(bool AutoStartEnabled)
+            {
+                using (RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
+                {
+                    if (AutoStartEnabled)
+                    {
+                        key.SetValue(appName, Environment.GetCommandLineArgs()[0]);
+
+                    }
+                    else
+                    {
+                        key.DeleteValue(appName, false);
+                    }
+                }
+#if DEBUG
+                Debug.WriteLine($"HandleAutostart: {AutoStartEnabled}");
+#endif
             }
         }
     }

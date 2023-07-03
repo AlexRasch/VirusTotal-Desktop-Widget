@@ -32,7 +32,11 @@
             txtApiKey = new TextBox();
             label1 = new Label();
             btnSave = new Button();
+            groupBox1 = new GroupBox();
+            cbAutostart = new CheckBox();
+            lblAutoStart = new Label();
             gbVirusTotal.SuspendLayout();
+            groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // gbVirusTotal
@@ -72,11 +76,41 @@
             btnSave.UseVisualStyleBackColor = true;
             btnSave.Click += btnSave_Click;
             // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(cbAutostart);
+            groupBox1.Controls.Add(lblAutoStart);
+            groupBox1.Location = new Point(12, 82);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(651, 100);
+            groupBox1.TabIndex = 2;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Widget";
+            // 
+            // cbAutostart
+            // 
+            cbAutostart.AutoSize = true;
+            cbAutostart.Location = new Point(71, 31);
+            cbAutostart.Name = "cbAutostart";
+            cbAutostart.Size = new Size(15, 14);
+            cbAutostart.TabIndex = 1;
+            cbAutostart.UseVisualStyleBackColor = true;
+            // 
+            // lblAutoStart
+            // 
+            lblAutoStart.AutoSize = true;
+            lblAutoStart.Location = new Point(6, 30);
+            lblAutoStart.Name = "lblAutoStart";
+            lblAutoStart.Size = new Size(59, 15);
+            lblAutoStart.TabIndex = 0;
+            lblAutoStart.Text = "Autostart:";
+            // 
             // fmSettings
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(675, 450);
+            Controls.Add(groupBox1);
             Controls.Add(btnSave);
             Controls.Add(gbVirusTotal);
             MaximizeBox = false;
@@ -88,6 +122,8 @@
             Load += fmSettings_Load;
             gbVirusTotal.ResumeLayout(false);
             gbVirusTotal.PerformLayout();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -97,5 +133,8 @@
         private TextBox txtApiKey;
         private Label label1;
         private Button btnSave;
+        private GroupBox groupBox1;
+        private Label lblAutoStart;
+        private CheckBox cbAutostart;
     }
 }

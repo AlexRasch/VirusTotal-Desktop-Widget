@@ -19,16 +19,24 @@ namespace Widget
         public fmSettings()
         {
             InitializeComponent();
+
+            // UX
+            System.Windows.Forms.ToolTip toolTipAutoStart = new System.Windows.Forms.ToolTip();
+            toolTipAutoStart.SetToolTip(lblAutoStart, "Enable autostart to launch the widget automatically during Windows startup.");
+
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
             string apiKey = txtApiKey.Text;
+            bool IsAutoStartEnabled = cbAutostart.CheckState == CheckState.Checked;
 
             WidgetSettings settings = new WidgetSettings
             {
                 VirusTotalApiKey = apiKey,
-                LicenseAgreementAccepted = true
+                LicenseAgreementAccepted = true,
+                AutoStartEnabled = IsAutoStartEnabled,
+                
             };
 
             string jsonString = JsonSerializer.Serialize(settings);
@@ -39,8 +47,8 @@ namespace Widget
         private void fmSettings_Load(object sender, EventArgs e)
         {
             config = config.LoadSettingsFromConfigFile();
-
             txtApiKey.Text = config.VirusTotalApiKey;
+            cbAutostart.Checked = config.LicenseAgreementAccepted;
         }
     }
 }

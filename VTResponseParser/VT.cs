@@ -3,22 +3,23 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Diagnostics;
-using System.Security.Policy;
 
 namespace VirusTotal
 {
     public class VT
     {
-        
-        public string  apiKey { get; set; }
+        private readonly HttpClient httpClient;
+
+        public string ApiKey { get; set; }
 
         public VT(string apiKey)
         {
-
-            this.apiKey = apiKey;
-
+            ApiKey = apiKey;
+            httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Add("x-apikey", ApiKey);
+            httpClient.DefaultRequestHeaders.Add("accept", "application/json");
+            httpClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip");
         }
-
 
         public async Task<string> ScanFileAsync(string filePath)
         {
@@ -26,27 +27,21 @@ namespace VirusTotal
 
             try
             {
-                using (var httpClient = new HttpClient())
+                using (var fileStream = File.OpenRead(filePath))
                 {
-                    httpClient.DefaultRequestHeaders.Add("x-apikey", apiKey);
-                    httpClient.DefaultRequestHeaders.Add("accept", "application/json");
+                    var content = new MultipartFormDataContent();
+                    content.Add(new StreamContent(fileStream), "file", Path.GetFileName(filePath));
 
-                    using (var fileStream = File.OpenRead(filePath))
-                    {
-                        var content = new MultipartFormDataContent();
-                        content.Add(new StreamContent(fileStream), "file", Path.GetFileName(filePath));
-
-                        var response = await httpClient.PostAsync(apiUrl, content);
-                        string responseContent = await response.Content.ReadAsStringAsync();
+                    var response = await httpClient.PostAsync(apiUrl, content);
+                    string responseContent = await response.Content.ReadAsStringAsync();
 #if DEBUG
-                        Debug.WriteLine($"Response:{responseContent}");
+                    Debug.WriteLine($"Response: {responseContent}");
 #endif
 
-                        if (response.IsSuccessStatusCode)
-                        {
-                            // Successfully submitted the file for scanning
-                            return responseContent;
-                        }
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Successfully submitted the file for scanning
+                        return responseContent;
                     }
                 }
             }
@@ -73,23 +68,17 @@ namespace VirusTotal
 
             try
             {
-                using (var httpClient = new HttpClient())
-                {
-                    httpClient.DefaultRequestHeaders.Add("x-apikey", apiKey);
-                    httpClient.DefaultRequestHeaders.Add("accept", "application/json");
-
-                    var response = await httpClient.GetAsync(apiUrl);
-                    string responseContent = await response.Content.ReadAsStringAsync();
+                var response = await httpClient.GetAsync(apiUrl);
+                string responseContent = await response.Content.ReadAsStringAsync();
 #if DEBUG
-                    Debug.WriteLine($"Response: {responseContent}");
+                Debug.WriteLine($"Response: {responseContent}");
 #endif
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        // Successfully retrieved the report
-                        ResponseParser vtReponse = new ResponseParser();
-                        return vtReponse.ParseReport(responseContent);
-                    }
+                if (response.IsSuccessStatusCode)
+                {
+                    // Successfully retrieved the report
+                    ResponseParser vtResponse = new ResponseParser();
+                    return vtResponse.ParseReport(responseContent);
                 }
             }
             catch (Exception ex)
@@ -99,6 +88,5 @@ namespace VirusTotal
 
             return null;
         }
-
     }
 }
