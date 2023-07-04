@@ -9,7 +9,6 @@ namespace VirusTotal
     public class VT
     {
         private readonly HttpClient httpClient;
-
         public string ApiKey { get; set; }
 
         public VT(string apiKey)
