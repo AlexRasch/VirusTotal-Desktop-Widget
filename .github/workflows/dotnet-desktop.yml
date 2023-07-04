@@ -93,8 +93,8 @@ jobs:
     - name: Publish application
       run: dotnet publish ${{ env.Solution_Name }} --configuration ${{ matrix.configuration }} --output ./publish
 
-   - name: Archive artifacts
-     uses: actions/upload-artifact@v2
+    - name: Archive artifacts
+      uses: actions/upload-artifact@v2
       with:
         name: Application
         path: ./publish
