@@ -41,12 +41,11 @@
             // 
             dgvResult.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvResult.Dock = DockStyle.Fill;
-            dgvResult.Location = new Point(0, 30);
-            dgvResult.Margin = new Padding(3, 4, 3, 4);
+            dgvResult.Location = new Point(0, 24);
             dgvResult.Name = "dgvResult";
             dgvResult.RowHeadersWidth = 51;
             dgvResult.RowTemplate.Height = 25;
-            dgvResult.Size = new Size(789, 570);
+            dgvResult.Size = new Size(690, 426);
             dgvResult.TabIndex = 0;
             // 
             // mtVTScanResult
@@ -55,38 +54,36 @@
             mtVTScanResult.Items.AddRange(new ToolStripItem[] { toolStripMenuItem1, fileToolStripMenuItem });
             mtVTScanResult.Location = new Point(0, 0);
             mtVTScanResult.Name = "mtVTScanResult";
-            mtVTScanResult.Padding = new Padding(7, 3, 0, 3);
-            mtVTScanResult.Size = new Size(789, 30);
+            mtVTScanResult.Size = new Size(690, 24);
             mtVTScanResult.TabIndex = 1;
             mtVTScanResult.Text = "menuStrip1";
             // 
             // toolStripMenuItem1
             // 
             toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(14, 24);
+            toolStripMenuItem1.Size = new Size(12, 20);
             // 
             // fileToolStripMenuItem
             // 
             fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { exportToolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            fileToolStripMenuItem.Size = new Size(46, 24);
+            fileToolStripMenuItem.Size = new Size(37, 20);
             fileToolStripMenuItem.Text = "File";
             // 
             // exportToolStripMenuItem
             // 
             exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            exportToolStripMenuItem.Size = new Size(224, 26);
+            exportToolStripMenuItem.Size = new Size(108, 22);
             exportToolStripMenuItem.Text = "Export";
             // 
             // fmVTScanResult
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(789, 600);
+            ClientSize = new Size(690, 450);
             Controls.Add(dgvResult);
             Controls.Add(mtVTScanResult);
             MainMenuStrip = mtVTScanResult;
-            Margin = new Padding(3, 4, 3, 4);
             Name = "fmVTScanResult";
             Text = "fmVTScanResult";
             Load += fmVTScanResult_Load;

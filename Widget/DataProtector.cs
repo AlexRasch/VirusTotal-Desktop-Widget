@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Widget
 {
-    internal class DataProtector
+    public class DataProtector
     {
 
         public static byte[] ProtectData(byte[] data)

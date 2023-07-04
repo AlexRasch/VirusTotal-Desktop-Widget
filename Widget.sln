@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Widget", "Widget\Widget.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirusTotal", "VTResponseParser\VirusTotal.csproj", "{84DF0498-731E-4CB8-8A9C-AC4A4A9512E2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WidgetTests", "WidgetTests\WidgetTests.csproj", "{2832396F-499A-4D0A-9819-2B19176A5DB0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{84DF0498-731E-4CB8-8A9C-AC4A4A9512E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84DF0498-731E-4CB8-8A9C-AC4A4A9512E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84DF0498-731E-4CB8-8A9C-AC4A4A9512E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2832396F-499A-4D0A-9819-2B19176A5DB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2832396F-499A-4D0A-9819-2B19176A5DB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2832396F-499A-4D0A-9819-2B19176A5DB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2832396F-499A-4D0A-9819-2B19176A5DB0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

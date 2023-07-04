@@ -16,8 +16,6 @@ namespace Widget
         {
             NativeMethods.ReleaseCapture();
             NativeMethods.SendMessage(formHandle, NativeMethods.WM_NCLBUTTONDOWN, NativeMethods.HTCAPTION, 0);
-
-           
         }
 
 
