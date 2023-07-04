@@ -63,7 +63,6 @@ namespace Widget
                 Debug.WriteLine($"UnhandledException: ({e.ToString()})");
             }
 #endif
-
         }
     }
 }
