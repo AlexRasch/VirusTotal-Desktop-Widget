@@ -48,7 +48,7 @@ namespace Widget
         {
             config = config.LoadSettingsFromConfigFile();
             txtApiKey.Text = config.VirusTotalApiKey;
-            cbAutostart.Checked = config.LicenseAgreementAccepted;
+            cbAutostart.Checked = config.AutoStartEnabled;
         }
     }
 }
