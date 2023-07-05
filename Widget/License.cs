@@ -10,6 +10,7 @@ namespace Widget
     {
         public static string LicenseText { get; } = @"
         The author and contributors of this software cannot be held responsible for any damages or liabilities arising from the use, misuse, or inability to use this software. Use it at your own risk.
+        
         ";
     }
 }
