@@ -62,13 +62,11 @@ jobs:
        Compress-Archive -Path $outputPath -DestinationPath $zipPath
       
     - name: Create a new GitHub release if a new tag is pushed
-      uses: softprops/action-gh-release@v0.1.15 #
-      with:
-        files: |
-            widget/bin/Publish/win-x64.zip
-        body: |
-         New version
+      uses: softprops/action-gh-release@v1 #
       if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: widget/bin/Publish/win-x64.zip
+        body: New version
       env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       
