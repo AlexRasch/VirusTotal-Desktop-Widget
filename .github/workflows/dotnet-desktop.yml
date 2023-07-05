@@ -49,9 +49,8 @@ jobs:
         
     # Attempt to build and compress as .zip    
     - name: Build (.NET x64)
-      run: dotnet build --configuration Release --framework net6.0 --runtime win-x64 --output ./publish/win-x64
+      run: dotnet build --configuration Release --output ./publish/win-x64
     
-      
     - name: Archive artifacts
       uses: actions/upload-artifact@v2
       with:
