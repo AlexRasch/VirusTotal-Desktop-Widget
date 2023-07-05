@@ -12,7 +12,7 @@ jobs:
   build:
     strategy:
       matrix:
-        configuration: [Debug, Release]
+        configuration: [Release]
 
     runs-on: windows-latest  # For a list of available runner types, refer to
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
@@ -36,18 +36,28 @@ jobs:
     # Execute all unit tests in the solution
     - name: Execute unit tests
       run: dotnet test
+      
+    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
+    - name: Setup MSBuild.exe
+      uses: microsoft/setup-msbuild@v1.0.2
 
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
       run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
       env:
         Configuration: ${{ matrix.configuration }}
-
-    - name: Build solution
-      run: dotnet build --configuration ${{ matrix.configuration }}
-
-    - name: Publish application
-      run: dotnet publish ${{ env.Solution_Name }} --configuration ${{ matrix.configuration }} --output ./publish
+        
+    # Attempt to build and compress as .zip    
+    - name: Build (.NET x64)
+      shell: pwsh
+      run: |
+          $msbuildPath = Split-Path (& "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -requires Microsoft.Component.MSBuild -find MSBuild\Current\Bin\amd64\MSBuild.exe | Select-Object -First 1) -Parent
+          $env:PATH = $msbuildPath + ';' + $env:PATH
+          .\build.ps1 net-x64
+          New-Item -ItemType Directory -Path C:\builtfiles -Force > $null
+          Compress-Archive -Path VT-Desktop-Widget\Widget\bin\Release\net6.0-windows\publish\win-x64\publish\* -DestinationPath C:\builtfiles\net-win64.zip
+          .\clean-all.cmd
+    
       
     - name: Archive artifacts
       uses: actions/upload-artifact@v2
