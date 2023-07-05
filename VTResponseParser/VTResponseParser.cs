@@ -88,7 +88,6 @@ namespace VirusTotal
             {
                 Console.WriteLine($"Error parsing VirusTotal response: {ex.Message}");
             }
-
             return report;
         }
 
