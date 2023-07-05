@@ -65,5 +65,5 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: Application
-        path: ./publish
+        path: widget/bin/Publish/win-x64.zip
           
