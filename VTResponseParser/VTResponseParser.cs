@@ -161,7 +161,6 @@ namespace VirusTotal
             return fileInfo;
         }
     }
-
     public struct Meta
     {
         public struct FileInfo
