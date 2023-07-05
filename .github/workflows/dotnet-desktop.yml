@@ -61,9 +61,19 @@ jobs:
        $zipPath = "./bin/Publish/win-x64.zip"
        Compress-Archive -Path $outputPath -DestinationPath $zipPath
       
-    - name: Archive artifacts
-      uses: actions/upload-artifact@v2
+    - name: Create a new GitHub release if a new tag is pushed
+      uses: softprops/action-gh-release@v0.1.15 #
       with:
-        name: Application
-        path: widget/bin/Publish/win-x64.zip
+        files: |
+            widget/bin/Publish/win-x64.zip
+        body: |
+         New version
+      env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      
+    #- name: Archive artifacts
+     # uses: actions/upload-artifact@v2
+      #with:
+       # name: Application
+        #path: widget/bin/Publish/win-x64.zip
           
