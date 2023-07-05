@@ -18,7 +18,6 @@ namespace VirusTotal
             public string Type { get; set; }
             public string SelfLink { get; set; }
             
-
             public Dictionary<string, EngineResult> Results { get; set; } // New property for results
 
             public class EngineResult
