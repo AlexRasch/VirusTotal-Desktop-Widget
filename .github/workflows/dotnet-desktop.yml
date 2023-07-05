@@ -70,9 +70,9 @@ jobs:
       env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       
-    #- name: Archive artifacts
-     # uses: actions/upload-artifact@v2
-      #with:
-       # name: Application
-        #path: widget/bin/Publish/win-x64.zip
+    - name: Archive artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: Application
+        path: widget/bin/Publish/win-x64.zip
           
