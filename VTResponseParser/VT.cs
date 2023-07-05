@@ -76,13 +76,15 @@ namespace VirusTotal
                 if (response.IsSuccessStatusCode)
                 {
                     // Successfully retrieved the report
-                    ResponseParser vtResponse = new ResponseParser();
+                    ResponseParser vtResponse = new();
                     return vtResponse.ParseReport(responseContent);
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred while retrieving the report: {ex.Message}");
+#if DEBUG
+                Debug.WriteLine($"VT error while retrieving the report: {ex.Message}");
+#endif
             }
 
             return null;

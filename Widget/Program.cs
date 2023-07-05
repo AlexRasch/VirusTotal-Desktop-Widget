@@ -7,7 +7,7 @@ namespace Widget
     internal static class Program
     {
 
-        public static Mutex mutex = new Mutex(true, $"{WidgetConfiguration.widgetMutex}", out isFirstInstance);
+        public static Mutex mutex = new(true, $"{WidgetConfiguration.widgetMutex}", out isFirstInstance);
         private static bool isFirstInstance;
 
         [STAThread]
@@ -26,7 +26,7 @@ namespace Widget
                 AppDomain.CurrentDomain.UnhandledException += HandleUnhandledException;
 
                 ApplicationConfiguration.Initialize();
-                frmWidget mainForm = new frmWidget();
+                frmWidget mainForm = new ();
                 Application.Run(mainForm);
             }
             finally
@@ -46,7 +46,7 @@ namespace Widget
         private static void HandleThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
 #if DEBUG
-            Debug.WriteLine($"ThreadException: {e.ToString()}");
+            Debug.WriteLine($"ThreadException: {e}");
 #endif
         }
 
@@ -56,7 +56,7 @@ namespace Widget
             if (e.ExceptionObject is Exception exception)
             {
                 string exceptionMessage = exception.Message;
-                Debug.WriteLine($"UnhandledException: {exceptionMessage} ({e.ToString()})");
+                Debug.WriteLine($"UnhandledException: {exceptionMessage} ({e})");
             }
             else
             {

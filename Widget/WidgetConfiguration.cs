@@ -30,7 +30,7 @@ namespace Widget
 
 
             // Default settings
-            private static readonly WidgetSettings DefaultSettings = new WidgetSettings
+            private static readonly WidgetSettings DefaultSettings = new ()
             {
                 VirusTotalApiKey = null,
                 LicenseAgreementAccepted = false,
@@ -140,7 +140,7 @@ namespace Widget
             {
                 try
                 {
-                    JsonSerializerOptions jsonOptions = new JsonSerializerOptions
+                    JsonSerializerOptions jsonOptions = new ()
                     {
                         WriteIndented = true
                     };

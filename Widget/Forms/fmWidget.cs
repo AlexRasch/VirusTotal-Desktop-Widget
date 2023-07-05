@@ -13,11 +13,11 @@ namespace Widget
     public partial class frmWidget : Form
     {
         // Performance
-        PerformanceCounter cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
-        PerformanceCounter ramCounter = new PerformanceCounter("Memory", "Available MBytes");
+        PerformanceCounter cpuCounter = new("Processor", "% Processor Time", "_Total");
+        PerformanceCounter ramCounter = new("Memory", "Available MBytes");
 
         // Widget settings
-        WidgetSettings widgetSettings = new WidgetSettings();
+        WidgetSettings widgetSettings = new();
 
 
         public frmWidget()
@@ -34,9 +34,9 @@ namespace Widget
             Paint += new PaintEventHandler(set_background);
 
             // UX
-            System.Windows.Forms.ToolTip toolTipScan = new System.Windows.Forms.ToolTip();
+            System.Windows.Forms.ToolTip toolTipScan = new();
             toolTipScan.SetToolTip(this.pbSubmit, "Submit File for VirusTotal Analysis");
-            System.Windows.Forms.ToolTip toolTipExitWidget = new System.Windows.Forms.ToolTip();
+            System.Windows.Forms.ToolTip toolTipExitWidget = new();
             toolTipScan.SetToolTip(this.lblExit, "Shutdown the widget");
 
             this.AllowDrop = true;
@@ -65,7 +65,7 @@ namespace Widget
         private void set_background(Object? sender, PaintEventArgs e)
         {
             Graphics graphics = e.Graphics;
-            Rectangle gradient_rectangle = new Rectangle(0, 0, Width, Height);
+            Rectangle gradient_rectangle = new(0, 0, Width, Height);
             Brush b = new LinearGradientBrush(gradient_rectangle, Color.FromArgb(32, 33, 35), Color.FromArgb(110, 110, 128), 90f);
             graphics.FillRectangle(b, gradient_rectangle);
         }
@@ -92,14 +92,14 @@ namespace Widget
 
         private async void pbSettings_Click(object sender, EventArgs e)
         {
-            fmSettings fmSettings = new fmSettings();
+            fmSettings fmSettings = new();
             fmSettings.Show();
         }
 
         /* VirusTotal */
         private async void pbScan_Click(object sender, EventArgs e)
         {
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            using (OpenFileDialog openFileDialog = new())
             {
                 if (string.IsNullOrEmpty(widgetSettings.VirusTotalApiKey))
                 {
@@ -113,16 +113,14 @@ namespace Widget
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    VT vt = new VT(widgetSettings.VirusTotalApiKey);
+                    VT vt = new(widgetSettings.VirusTotalApiKey);
 
                     // Scan file
-                    ResponseParser vtReponse = new ResponseParser();
+                    ResponseParser vtReponse = new();
                     ResponseParser.VTReport vtScanResponse = vtReponse.ParseReport(await vt.ScanFileAsync(openFileDialog.FileName));
 #if DEBUG
                     Debug.WriteLine($"Submited file for analyis");
 #endif
-                    // Add error handling
-
 
                     // Get report
                     ResponseParser.VTReport vtScanReport = await GetNonQueuedReportAsync(vt, vtScanResponse.Id);
@@ -132,7 +130,7 @@ namespace Widget
 #endif
 
                     // Display report
-                    fmVTScanResult scanResult = new fmVTScanResult(vtScanReport);
+                    fmVTScanResult scanResult = new(vtScanReport);
                     scanResult.Show();
 
                 }
