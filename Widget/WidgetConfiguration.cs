@@ -11,7 +11,7 @@ using static Widget.WidgetConfiguration;
 
 namespace Widget
 {
-    internal class WidgetConfiguration
+    public class WidgetConfiguration
     {
         // Widget constant
         public const string widgetMutex = "VT-Desktop-Widget";
@@ -21,7 +21,7 @@ namespace Widget
         // Paths
         private static readonly string widgetConfigFileName = "config.json";
         private static readonly string widgetConfigDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "VT-Desktop-Widget");
-        private static readonly string widgetConfigPath = Path.Combine(widgetConfigDirectory, widgetConfigFileName);
+        public static readonly string widgetConfigPath = Path.Combine(widgetConfigDirectory, widgetConfigFileName);
 
         public class WidgetSettings
         {
