@@ -40,13 +40,13 @@ namespace Widget
             };
 
             string jsonString = JsonSerializer.Serialize(settings);
-            config.SaveUserData(jsonString);
+            WidgetSettings.SaveUserData(jsonString);
 
         }
 
         private void fmSettings_Load(object sender, EventArgs e)
         {
-            config = config.LoadSettingsFromConfigFile();
+            config = WidgetSettings.LoadSettingsFromConfigFile();
             txtApiKey.Text = config.VirusTotalApiKey;
             cbAutostart.Checked = config.AutoStartEnabled;
         }
