@@ -40,7 +40,7 @@ namespace Widget
             this.AllowDrop = true;
 
             // Load Widget settings
-            widgetSettings = widgetSettings.LoadSettingsFromConfigFile();
+            widgetSettings = WidgetSettings.LoadSettingsFromConfigFile();
         }
 
         private void frmWidget_Load(object sender, EventArgs e)

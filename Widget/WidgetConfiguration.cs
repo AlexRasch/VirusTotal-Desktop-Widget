@@ -11,16 +11,17 @@ using static Widget.WidgetConfiguration;
 
 namespace Widget
 {
-    internal class WidgetConfiguration
+    public class WidgetConfiguration
     {
         // Widget constant
         public const string widgetMutex = "VT-Desktop-Widget";
         public const string appName = "VT-Desktop-Widget";
+        private const string AutoStartRegistryKeyPath = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
 
         // Paths
         private static readonly string widgetConfigFileName = "config.json";
         private static readonly string widgetConfigDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "VT-Desktop-Widget");
-        private static readonly string widgetConfigPath = Path.Combine(widgetConfigDirectory, widgetConfigFileName);
+        public static readonly string widgetConfigPath = Path.Combine(widgetConfigDirectory, widgetConfigFileName);
 
         public class WidgetSettings
         {
@@ -28,17 +29,15 @@ namespace Widget
             public bool LicenseAgreementAccepted { get; set; }
             public bool AutoStartEnabled { get; set; }
 
-
             // Default settings
-            private static readonly WidgetSettings DefaultSettings = new ()
+            private static readonly WidgetSettings DefaultSettings = new()
             {
                 VirusTotalApiKey = null,
                 LicenseAgreementAccepted = false,
                 AutoStartEnabled = false
             };
 
-
-            public WidgetSettings LoadSettingsFromConfigFile()
+            public static WidgetSettings LoadSettingsFromConfigFile()
             {
                 if (!EnsureConfigFileExists())
                     throw new Exception("Config file error");
@@ -57,7 +56,20 @@ namespace Widget
 #if DEBUG
                 Debug.WriteLine($"WidgetSettings jsonString: {jsonString}");
 #endif
-                WidgetSettings widgetSettings = JsonSerializer.Deserialize<WidgetSettings>(jsonString);
+
+                WidgetSettings? widgetSettings = JsonSerializer.Deserialize<WidgetSettings>(jsonString);
+
+                // Config file corrupted
+                if (widgetSettings == null)
+                {
+#if DEBUG
+                    Debug.WriteLine("Config file corrupted");
+#endif
+                    InitializeConfigFileWithDefaultSettings();
+                    jsonString = File.ReadAllText(widgetConfigPath);
+                    widgetSettings = JsonSerializer.Deserialize<WidgetSettings>(jsonString);
+                }
+
 
                 // Decrypt sensitive user data
                 if (!string.IsNullOrEmpty(widgetSettings?.VirusTotalApiKey))
@@ -66,36 +78,40 @@ namespace Widget
                     byte[] decryptedKey = DataProtector.UnprotectData(encryptedKey);
                     widgetSettings.VirusTotalApiKey = Encoding.UTF8.GetString(decryptedKey);
                 }
-                HandleAutostart(widgetSettings.AutoStartEnabled);
+
+                HandleAutostart(widgetSettings!.AutoStartEnabled);
+
                 return widgetSettings;
             }
 
-            public void SaveUserData(string jsonData)
+            public static void SaveUserData(string jsonData)
             {
                 // Ensure the config file exists
                 if (!EnsureConfigFileExists())
                     throw new Exception("Config file error");
 
                 // Encrypt sensitive user data
-                WidgetSettings widgetSettings = JsonSerializer.Deserialize<WidgetSettings>(jsonData);
-                if (!string.IsNullOrEmpty(widgetSettings?.VirusTotalApiKey))
+                WidgetSettings? widgetSettings = JsonSerializer.Deserialize<WidgetSettings>(jsonData);
+
+                if (widgetSettings != null)
                 {
-                    byte[] encryptedKey = DataProtector.ProtectData(Encoding.UTF8.GetBytes(widgetSettings.VirusTotalApiKey));
-                    widgetSettings.VirusTotalApiKey = Convert.ToBase64String(encryptedKey);
+                    if (!string.IsNullOrEmpty(widgetSettings?.VirusTotalApiKey))
+                    {
+                        byte[] encryptedKey = DataProtector.ProtectData(Encoding.UTF8.GetBytes(widgetSettings.VirusTotalApiKey));
+                        widgetSettings.VirusTotalApiKey = Convert.ToBase64String(encryptedKey);
+                    }
+                    
+                    // Serialize the WidgetSettings instance to JSON with indentation
+                    string jsonString = JsonSerializer.Serialize(widgetSettings, new JsonSerializerOptions
+                    {
+                        WriteIndented = true
+                    });
+
+                    File.WriteAllText(widgetConfigPath, jsonString);
+                    HandleAutostart(widgetSettings!.AutoStartEnabled);
                 }
-
-                // Serialize the WidgetSettings instance to JSON with indentation
-                string jsonString = JsonSerializer.Serialize(widgetSettings, new JsonSerializerOptions
-                {
-                    WriteIndented = true
-                });
-
-                File.WriteAllText(widgetConfigPath, jsonString);
-                HandleAutostart(widgetSettings.AutoStartEnabled);
             }
-
-
-            public bool EnsureConfigFileExists()
+            public static bool EnsureConfigFileExists()
             {
                 if (!DoesConfigFileExist(widgetConfigPath))
                 {
@@ -106,14 +122,11 @@ namespace Widget
                 }
                 return true;
             }
-
-            public bool DoesConfigFileExist(string filePath)
+            public static bool DoesConfigFileExist(string filePath)
             {
                 return File.Exists(filePath);
             }
-
-
-            public bool CreateConfigFile(string filePath)
+            public static bool CreateConfigFile(string filePath)
             {
                 try
                 {
@@ -130,17 +143,16 @@ namespace Widget
                 catch (Exception E)
                 {
 #if DEBUG
-                    Debug.WriteLine($"CreateConfigFile: {E.ToString()}");
+                    Debug.WriteLine($"CreateConfigFile: {E}");
 #endif
                     return false;
                 }
             }
-
-            private bool InitializeConfigFileWithDefaultSettings()
+            private static bool InitializeConfigFileWithDefaultSettings()
             {
                 try
                 {
-                    JsonSerializerOptions jsonOptions = new ()
+                    JsonSerializerOptions jsonOptions = new()
                     {
                         WriteIndented = true
                     };
@@ -153,19 +165,20 @@ namespace Widget
                     return false;
                 }
             }
-
-            private void HandleAutostart(bool AutoStartEnabled)
+            private static void HandleAutostart(bool AutoStartEnabled)
             {
-                using (RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
+                using (RegistryKey? key = Registry.CurrentUser.OpenSubKey(AutoStartRegistryKeyPath, true))
                 {
-                    if (AutoStartEnabled)
+                    if (key != null)
                     {
-                        key.SetValue(appName, Environment.GetCommandLineArgs()[0]);
-
-                    }
-                    else
-                    {
-                        key.DeleteValue(appName, false);
+                        if (AutoStartEnabled)
+                        {
+                            key!.SetValue(appName, Environment.GetCommandLineArgs()[0]);
+                        }
+                        else
+                        {
+                            key!.DeleteValue(appName, false);
+                        }
                     }
                 }
 #if DEBUG
