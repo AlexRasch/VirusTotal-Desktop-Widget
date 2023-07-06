@@ -151,7 +151,7 @@ namespace Widget
         }
 
 
-        private async Task<ResponseParser.VTReport> GetNonQueuedReportAsync(VT vt, string reportId, int delay = 10)
+        private static async Task<ResponseParser.VTReport> GetNonQueuedReportAsync(VT vt, string reportId, int delay = 10)
         {
             ResponseParser.VTReport vtScanReport = await vt.GetReportAsync(reportId);
             while (vtScanReport.Status == "queued")
