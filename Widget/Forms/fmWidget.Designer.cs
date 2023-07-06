@@ -120,8 +120,9 @@
             pbRAM.Margin = new Padding(3, 2, 3, 2);
             pbRAM.Name = "pbRAM";
             pbRAM.Size = new Size(223, 8);
+            pbRAM.Step = 1;
             pbRAM.TabIndex = 6;
-            pbRAM.Value = 20;
+            pbRAM.Value = 23;
             // 
             // pbCPU
             // 
@@ -129,6 +130,7 @@
             pbCPU.Margin = new Padding(3, 2, 3, 2);
             pbCPU.Name = "pbCPU";
             pbCPU.Size = new Size(223, 8);
+            pbCPU.Step = 1;
             pbCPU.TabIndex = 7;
             pbCPU.Value = 40;
             // 
