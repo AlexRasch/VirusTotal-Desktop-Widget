@@ -10,6 +10,7 @@ using static Widget.WidgetConfiguration;
 
 namespace Widget
 {
+#pragma warning disable IDE1006
     public partial class frmWidget : Form
     {
         // Performance
