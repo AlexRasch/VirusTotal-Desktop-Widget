@@ -15,7 +15,7 @@ namespace Widget
     public partial class frmWidget : Form
     {
         // Widget settings
-        WidgetSettings widgetSettings = new();
+        readonly WidgetSettings widgetSettings = new();
 
 
         public frmWidget()
@@ -163,7 +163,5 @@ namespace Widget
 
             return vtScanReport;
         }
-
-
     }
 }
