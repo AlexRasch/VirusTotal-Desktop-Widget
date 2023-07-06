@@ -13,8 +13,8 @@ namespace Widget
     public partial class frmWidget : Form
     {
         // Performance
-        PerformanceCounter cpuCounter = new("Processor", "% Processor Time", "_Total");
-        PerformanceCounter ramCounter = new("Memory", "Available MBytes");
+        private readonly PerformanceCounter cpuCounter = new("Processor", "% Processor Time", "_Total");
+        private readonly PerformanceCounter ramCounter = new("Memory", "Available MBytes");
 
         // Widget settings
         WidgetSettings widgetSettings = new();
