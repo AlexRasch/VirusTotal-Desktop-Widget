@@ -7,16 +7,13 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 using VirusTotal;
 using static Widget.WidgetConfiguration;
+using System.Threading;
 
 namespace Widget
 {
 #pragma warning disable IDE1006
     public partial class frmWidget : Form
     {
-        // Performance
-        private readonly PerformanceCounter cpuCounter = new("Processor", "% Processor Time", "_Total");
-        private readonly PerformanceCounter ramCounter = new("Memory", "Available MBytes");
-
         // Widget settings
         WidgetSettings widgetSettings = new();
 
@@ -53,15 +50,10 @@ namespace Widget
             int formY = distanceFromEdge;
             Location = new System.Drawing.Point(formX, formY);
 
-            getCurrentSystemUsage();
+            GetCurrentSystemUsage();
         }
 
-        private void frmWidget_MouseDown(object sender, MouseEventArgs e)
-        {
-
-            WindowsAPI.DragWindowsForm(this.Handle);
-
-        }
+        private void frmWidget_MouseDown(object sender, MouseEventArgs e) => WindowsAPI.DragWindowsForm(this.Handle);
 
         private void set_background(Object? sender, PaintEventArgs e)
         {
@@ -74,6 +66,13 @@ namespace Widget
         /* Widget  */
         private void lblExit_Click(object sender, EventArgs e)
         {
+            // Cancel running tasks
+            try
+            {
+                CancelSystemUsage();
+            }
+            catch { }
+
             if (System.Windows.Forms.Application.MessageLoop)
             {
                 System.Windows.Forms.Application.Exit();
@@ -150,7 +149,6 @@ namespace Widget
             }
         }
 
-
         private static async Task<ResponseParser.VTReport> GetNonQueuedReportAsync(VT vt, string reportId, int delay = 10)
         {
             ResponseParser.VTReport vtScanReport = await vt.GetReportAsync(reportId);
@@ -167,36 +165,5 @@ namespace Widget
         }
 
 
-
-        /* Widget display system resource usage */
-        private async void getCurrentSystemUsage()
-        {
-            float cpuUsage;
-            int cpuUsageInt;
-
-            //Get installed ram
-            WindowsAPI.GetPhysicallyInstalledSystemMemory(out long memKb);
-
-            memKb /= 1024;
-
-            await Task.Run(() =>
-            {
-                // ToDo  CancellationToken
-                for (; ; )
-                {
-                    cpuUsage = cpuCounter.NextValue();
-                    cpuUsageInt = Convert.ToInt32(cpuUsage);
-                    Invoke(new Action(() => pbCPU.Value = cpuUsageInt));
-
-
-                    float ramUsage = ramCounter.NextValue();
-                    float ramPercentage = (ramUsage / memKb) * 100;
-                    int ramPercentageInt = (int)Math.Round(ramPercentage);
-                    Invoke(new Action(() => pbRAM.Value = ramPercentageInt));
-
-                    Thread.Sleep(1000);
-                }
-            });
-        }
     }
 }

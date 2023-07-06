@@ -10,7 +10,7 @@ namespace Widget
         public static long GetPhysicallyInstalledSystemMemory(out long TotalMemoryInKilobytes)
         {
             NativeMethods.GetPhysicallyInstalledSystemMemory(out TotalMemoryInKilobytes);
-            return TotalMemoryInKilobytes;
+            return TotalMemoryInKilobytes /= 1024;
 
         }
 
