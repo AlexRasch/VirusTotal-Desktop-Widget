@@ -174,8 +174,7 @@ namespace Widget
             int cpuUsageInt;
 
             //Get installed ram
-            long memKb;
-            WindowsAPI.GetPhysicallyInstalledSystemMemory(out memKb);
+            WindowsAPI.GetPhysicallyInstalledSystemMemory(out long memKb);
 
             memKb = memKb / 1024;
 
