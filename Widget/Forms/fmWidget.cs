@@ -177,7 +177,7 @@ namespace Widget
             //Get installed ram
             WindowsAPI.GetPhysicallyInstalledSystemMemory(out long memKb);
 
-            memKb = memKb / 1024;
+            memKb /= 1024;
 
             await Task.Run(() =>
             {
