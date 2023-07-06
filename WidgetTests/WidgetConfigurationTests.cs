@@ -21,7 +21,7 @@ namespace WidgetTests
                 " \"AutoStartEnabled\": false" +
                 "}";
 
-            System.IO.File.WriteAllText(WidgetConfiguration.widgetConfigPath, configData);
+            WidgetSettings.SaveUserData(configData);
 
             // Act
             var settings = WidgetConfiguration.WidgetSettings.LoadSettingsFromConfigFile();
