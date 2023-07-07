@@ -163,5 +163,69 @@ namespace Widget
 
             return vtScanReport;
         }
+
+        private CancellationTokenSource cancellationTokenSource;
+
+        /// <summary>
+        /// Cancle the getCurrentSystemUsage
+        /// </summary>
+        private void CancelSystemUsage()
+        {
+            cancellationTokenSource?.Cancel();
+        }
+
+        /// <summary>
+        /// Retrieves the current system usage, including CPU and RAM usage, and updates the corresponding UI controls.
+        /// </summary>
+        private async void GetCurrentSystemUsage()
+        {
+            cancellationTokenSource = new();
+            CancellationToken cancellationToken = cancellationTokenSource.Token;
+
+            await Task.Run(() =>
+            {
+                // Get installed RAM
+                WindowsAPI.GetPhysicallyInstalledSystemMemory(out long memKb);
+
+                const float usageThreshold = 2.0f;
+
+                float cpuUsage;
+                float previousCpuUsage = 0f;
+                int cpuUsageInt;
+
+                float ramUsage;
+                float previousRamUsage = 0f;
+                //int ramPercentageInt;
+
+                while (!cancellationToken.IsCancellationRequested)
+                {
+                    using PerformanceCounter cpuCounter = new("Processor", "% Processor Time", "_Total");
+                    //using PerformanceCounter ramCounter = new("Memory", "Available MBytes");
+
+                    cpuUsage = cpuCounter.NextValue();
+                    cpuUsageInt = (int)Math.Round(cpuUsage);
+
+                    //ramUsage = ramCounter.NextValue();
+                    ramUsage = WindowsAPI.GetMemoryUsage();
+                    //ramPercentageInt = (int)Math.Min(ramUsage * 100 / memKb, 100);
+
+                    if (Math.Abs(cpuUsage - previousCpuUsage) > usageThreshold || Math.Abs(ramUsage - previousRamUsage) > usageThreshold)
+                    {
+                        Invoke(new Action(() =>
+                        {
+                            pbCPU.Value = cpuUsageInt;
+                            //pbRAM.Value = ramPercentageInt;
+                            pbRAM.Value = (int)Math.Min(ramUsage, 100);
+                        }));
+                    }
+
+                    previousCpuUsage = cpuUsage;
+                    previousRamUsage = ramUsage;
+
+                    //Task.Delay(1000); //this appear to increase ram usage with around 10mb D:
+                    Thread.Sleep(1000);
+                }
+            }, cancellationToken);
+        }
     }
 }
