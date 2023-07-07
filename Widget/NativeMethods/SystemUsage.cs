@@ -29,7 +29,6 @@ namespace Widget
                     return memoryUsage;
                 }
             }
-
             return 0;
         }
 
