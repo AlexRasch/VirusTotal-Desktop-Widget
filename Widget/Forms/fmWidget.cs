@@ -29,7 +29,7 @@ namespace Widget
                     control.BackColor = Color.Transparent;
             }
             pbSubmit.AllowDrop = true;
-            Paint += new PaintEventHandler(set_background);
+            //Paint += new PaintEventHandler(set_background);
 
             // UX
             System.Windows.Forms.ToolTip toolTipScan = new();
@@ -41,6 +41,12 @@ namespace Widget
 
             // Load Widget settings
             widgetSettings = WidgetSettings.LoadSettingsFromConfigFile();
+        }
+
+        private void frmWidgetStyle()
+        {
+            this.BackgroundImage = new Bitmap(Widget.Properties.Resources.bg_outrun);
+            
         }
 
         private void frmWidget_Load(object sender, EventArgs e)

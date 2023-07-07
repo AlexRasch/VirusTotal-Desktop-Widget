@@ -46,6 +46,7 @@
             // pbSubmit
             // 
             pbSubmit.Anchor = AnchorStyles.Bottom;
+            pbSubmit.BackColor = Color.Transparent;
             pbSubmit.Image = Properties.Resources.submit;
             pbSubmit.Location = new Point(140, 220);
             pbSubmit.Name = "pbSubmit";
@@ -59,6 +60,7 @@
             // pbScan
             // 
             pbScan.Anchor = AnchorStyles.Bottom;
+            pbScan.BackColor = Color.Transparent;
             pbScan.Image = Properties.Resources.scan;
             pbScan.Location = new Point(15, 220);
             pbScan.Name = "pbScan";
@@ -71,6 +73,7 @@
             // pictureBox2
             // 
             pictureBox2.Anchor = AnchorStyles.Bottom;
+            pictureBox2.BackColor = Color.Transparent;
             pictureBox2.Location = new Point(140, 140);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(104, 70);
@@ -81,6 +84,7 @@
             // pbSettings
             // 
             pbSettings.Anchor = AnchorStyles.Bottom;
+            pbSettings.BackColor = Color.Transparent;
             pbSettings.Image = Properties.Resources.settings;
             pbSettings.Location = new Point(15, 140);
             pbSettings.Name = "pbSettings";
@@ -137,7 +141,7 @@
             // lblExit
             // 
             lblExit.AutoSize = true;
-            lblExit.BackColor = Color.DimGray;
+            lblExit.BackColor = Color.Transparent;
             lblExit.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
             lblExit.ForeColor = Color.IndianRed;
             lblExit.Location = new Point(220, 9);
@@ -152,6 +156,8 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.DimGray;
+            BackgroundImage = Properties.Resources.bg_outrun;
+            BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(260, 300);
             Controls.Add(lblExit);
             Controls.Add(pbCPU);

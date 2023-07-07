@@ -15,6 +15,7 @@ namespace Widget
     public partial class fmSettings : Form
     {
         WidgetSettings config = new WidgetSettings();
+        private List<WidgetTheme> themes = WidgetTheme.GetAvailableThemes();
 
         public fmSettings()
         {
@@ -36,8 +37,9 @@ namespace Widget
                 VirusTotalApiKey = apiKey,
                 LicenseAgreementAccepted = true,
                 AutoStartEnabled = IsAutoStartEnabled,
-                
-            };
+                widgetTheme = GetThemeFromComboBox(),
+
+        };
 
             string jsonString = JsonSerializer.Serialize(settings);
             WidgetSettings.SaveUserData(jsonString);
@@ -49,6 +51,48 @@ namespace Widget
             config = WidgetSettings.LoadSettingsFromConfigFile();
             txtApiKey.Text = config.VirusTotalApiKey;
             cbAutostart.Checked = config.AutoStartEnabled;
+
+            // Load themes
+            InitializeThemeComboBox();
         }
+
+        private void InitializeThemeComboBox()
+        {
+            // Clear existing items and add themes to the ComboBox
+            cmbTheme.Items.Clear();
+            foreach (var theme in themes)
+            {
+                cmbTheme.Items.Add(theme.Name);
+            }
+
+            // Set the default selected theme
+            cmbTheme.SelectedItem = GetSelectedThemeFromSettings();
+        }
+
+        private WidgetTheme GetThemeFromComboBox()
+        {
+            string themeName = this.cmbTheme.GetItemText(this.cmbTheme.SelectedItem);
+            foreach (var theme in themes)
+            {
+                if(theme.Name == themeName)
+                    return theme;
+            }
+            return null;
+
+        }
+
+        private string GetSelectedThemeFromSettings()
+        {
+            if(config.widgetTheme == null)
+            {
+                return "Default";
+            }
+            else
+            {
+                return config.widgetTheme.Name;
+            }
+            
+        }
+
     }
 }

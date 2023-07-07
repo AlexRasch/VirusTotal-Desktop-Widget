@@ -33,6 +33,8 @@
             label1 = new Label();
             btnSave = new Button();
             groupBox1 = new GroupBox();
+            cmbTheme = new ComboBox();
+            lblTheme = new Label();
             cbAutostart = new CheckBox();
             lblAutoStart = new Label();
             gbVirusTotal.SuspendLayout();
@@ -68,7 +70,7 @@
             // 
             // btnSave
             // 
-            btnSave.Location = new Point(554, 407);
+            btnSave.Location = new Point(554, 201);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(109, 31);
             btnSave.TabIndex = 1;
@@ -78,6 +80,8 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(cmbTheme);
+            groupBox1.Controls.Add(lblTheme);
             groupBox1.Controls.Add(cbAutostart);
             groupBox1.Controls.Add(lblAutoStart);
             groupBox1.Location = new Point(12, 82);
@@ -86,6 +90,23 @@
             groupBox1.TabIndex = 2;
             groupBox1.TabStop = false;
             groupBox1.Text = "Widget";
+            // 
+            // cmbTheme
+            // 
+            cmbTheme.FormattingEnabled = true;
+            cmbTheme.Location = new Point(358, 27);
+            cmbTheme.Name = "cmbTheme";
+            cmbTheme.Size = new Size(194, 23);
+            cmbTheme.TabIndex = 4;
+            // 
+            // lblTheme
+            // 
+            lblTheme.AutoSize = true;
+            lblTheme.Location = new Point(306, 30);
+            lblTheme.Name = "lblTheme";
+            lblTheme.Size = new Size(46, 15);
+            lblTheme.TabIndex = 2;
+            lblTheme.Text = "Theme:";
             // 
             // cbAutostart
             // 
@@ -109,7 +130,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(675, 450);
+            ClientSize = new Size(675, 241);
             Controls.Add(groupBox1);
             Controls.Add(btnSave);
             Controls.Add(gbVirusTotal);
@@ -136,5 +157,7 @@
         private GroupBox groupBox1;
         private Label lblAutoStart;
         private CheckBox cbAutostart;
+        private Label lblTheme;
+        private ComboBox cmbTheme;
     }
 }

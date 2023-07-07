@@ -29,12 +29,15 @@ namespace Widget
             public bool LicenseAgreementAccepted { get; set; }
             public bool AutoStartEnabled { get; set; }
 
+            public WidgetTheme? widgetTheme { get; set; }
+
             // Default settings
             private static readonly WidgetSettings DefaultSettings = new()
             {
                 VirusTotalApiKey = null,
                 LicenseAgreementAccepted = false,
-                AutoStartEnabled = false
+                AutoStartEnabled = false,
+                widgetTheme = null
             };
 
             public static WidgetSettings LoadSettingsFromConfigFile()
