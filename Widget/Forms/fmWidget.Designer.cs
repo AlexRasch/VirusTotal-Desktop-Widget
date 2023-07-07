@@ -66,7 +66,6 @@
             pbScan.SizeMode = PictureBoxSizeMode.StretchImage;
             pbScan.TabIndex = 1;
             pbScan.TabStop = false;
-            pbScan.Click += pbScan_Click_1;
             // 
             // pictureBox2
             // 

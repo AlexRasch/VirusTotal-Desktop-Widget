@@ -11,7 +11,6 @@ namespace Widget
         {
             NativeMethods.GetPhysicallyInstalledSystemMemory(out TotalMemoryInKilobytes);
             return TotalMemoryInKilobytes /= 1024;
-
         }
 
         internal static partial class NativeMethods
@@ -20,6 +19,17 @@ namespace Widget
             [DllImport("kernel32.dll")]
             [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool GetPhysicallyInstalledSystemMemory(out long TotalMemoryInKilobytes);
+
+            [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+            [DllImport("kernel32.dll", SetLastError = true)]
+            public static extern bool GetSystemTimes(out FILETIME lpIdleTime, out FILETIME lpKernelTime, out FILETIME lpUserTime);
+
+            [StructLayout(LayoutKind.Sequential)]
+            public struct FILETIME
+            {
+                public uint dwLowDateTime;
+                public uint dwHighDateTime;
+            }
         }
 
     }
