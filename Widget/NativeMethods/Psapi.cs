@@ -10,6 +10,7 @@ namespace Widget
 
         internal static partial class NativeMethods
         {
+            [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
             [DllImport("psapi.dll", SetLastError = true)]
             public static extern bool GetPerformanceInfo(out PERFORMANCE_INFORMATION pPerformanceInformation, uint cb);
 
