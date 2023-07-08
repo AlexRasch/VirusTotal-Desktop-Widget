@@ -15,6 +15,7 @@ namespace Widget
     {
         // Widget constant
         public const string widgetMutex = "VT-Desktop-Widget";
+        //public const string widgetMutex = "VT-Desktop-Widget-Test";
         public const string appName = "VT-Desktop-Widget";
         private const string AutoStartRegistryKeyPath = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
 

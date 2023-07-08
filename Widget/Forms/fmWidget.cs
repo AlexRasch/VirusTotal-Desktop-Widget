@@ -72,6 +72,8 @@ namespace Widget
                 CancelSystemUsage();
             }
             catch { }
+            cancellationTokenSource?.Cancel();
+            cancellationTokenSource?.Dispose();
 
             if (System.Windows.Forms.Application.MessageLoop)
             {
@@ -84,11 +86,6 @@ namespace Widget
         }
 
         /* Used for scanning system and view possible suspect files */
-        private void pbScan_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
 
         private async void pbSettings_Click(object sender, EventArgs e)
         {
@@ -162,6 +159,61 @@ namespace Widget
             }
 
             return vtScanReport;
+        }
+
+        private CancellationTokenSource cancellationTokenSource;
+
+        /// <summary>
+        /// Cancle the getCurrentSystemUsage
+        /// </summary>
+        private void CancelSystemUsage()
+        {
+            cancellationTokenSource?.Cancel();
+        }
+
+        /// <summary>
+        /// Retrieves the current system usage, including CPU and RAM usage, and updates the corresponding UI controls.
+        /// </summary>
+        private async void GetCurrentSystemUsage()
+        {
+            cancellationTokenSource = new();
+            CancellationToken cancellationToken = cancellationTokenSource.Token;
+
+            await Task.Run(() =>
+            {
+                const float usageThreshold = 2.0f;
+
+                float cpuUsage;
+                float previousCpuUsage = 0f;
+
+                float ramUsage;
+                float previousRamUsage = 0f;
+
+                while (!cancellationToken.IsCancellationRequested)
+                {
+                    cpuUsage = WindowsAPI.GetCpuUsage();
+                    ramUsage = WindowsAPI.GetMemoryUsage();
+
+                    if (Math.Abs(cpuUsage - previousCpuUsage) > usageThreshold || Math.Abs(ramUsage - previousRamUsage) > usageThreshold)
+                    {
+                        Invoke(new Action(() =>
+                        {
+                            pbCPU.Value = (int)Math.Min(cpuUsage, 100);
+#if DEBUG
+                            Debug.WriteLine($"CPU: {pbCPU.Value}");
+#endif
+                            pbRAM.Value = (int)Math.Min(ramUsage, 100);
+#if DEBUG
+                            Debug.WriteLine($"Ram: {pbRAM.Value}");
+#endif
+                        }));
+                    }
+                    previousCpuUsage = cpuUsage;
+                    previousRamUsage = ramUsage;
+                    Thread.Sleep(1000);
+                    //Task.Delay(2000);
+                }
+            }, cancellationToken);
         }
     }
 }
