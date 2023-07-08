@@ -2,7 +2,7 @@
 
 VirusTotal Desktop Widget is a simple Windows desktop widget that integrates with the VirusTotal API to perform file scans and displays basic system information such as RAM and CPU usage. It is developed using C# and Windows Forms, utilizing PInvoke for some functions. Please note that due to these dependencies, the widget may not be compatible with Linux or macOS.
 
-  ![GitHub all releases](https://img.shields.io/github/downloads/AlexRasch/VT-Desktop-Widget/total) ![GitHub Repo stars](https://img.shields.io/github/stars/AlexRasch/VT-Desktop-Widget)
+  ![GitHub all releases](https://img.shields.io/github/downloads/AlexRasch/VirusTotal-Desktop-Widget/total) ![GitHub Repo stars](https://img.shields.io/github/stars/AlexRasch/VirusTotal-Desktop-Widget)
 
 
 
