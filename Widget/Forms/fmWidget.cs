@@ -194,7 +194,7 @@ namespace Widget
                     cpuUsage = WindowsAPI.GetCpuUsage();
                     ramUsage = WindowsAPI.GetMemoryUsage();
 
-                    if (/*Math.Abs(cpuUsage - previousCpuUsage) > usageThreshold || */Math.Abs(ramUsage - previousRamUsage) > usageThreshold)
+                    if (Math.Abs(cpuUsage - previousCpuUsage) > usageThreshold || Math.Abs(ramUsage - previousRamUsage) > usageThreshold)
                     {
                         Invoke(new Action(() =>
                         {
