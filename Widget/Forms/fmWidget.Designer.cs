@@ -29,65 +29,29 @@
         private void InitializeComponent()
         {
             pbSubmit = new PictureBox();
-            pbScan = new PictureBox();
-            pictureBox2 = new PictureBox();
-            pbSettings = new PictureBox();
             label1 = new Label();
             lblRAM = new Label();
             pbRAM = new ProgressBar();
             pbCPU = new ProgressBar();
             lblExit = new Label();
+            lblSettings = new Label();
             ((System.ComponentModel.ISupportInitialize)pbSubmit).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pbScan).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pbSettings).BeginInit();
             SuspendLayout();
             // 
             // pbSubmit
             // 
-            pbSubmit.Anchor = AnchorStyles.Bottom;
-            pbSubmit.Image = Properties.Resources.submit;
-            pbSubmit.Location = new Point(140, 220);
+            pbSubmit.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            pbSubmit.BackColor = Color.Transparent;
+            pbSubmit.BackgroundImageLayout = ImageLayout.Stretch;
+            pbSubmit.Image = Properties.Resources.square_targeting;
+            pbSubmit.Location = new Point(21, 196);
             pbSubmit.Name = "pbSubmit";
-            pbSubmit.Size = new Size(104, 70);
+            pbSubmit.Size = new Size(223, 92);
             pbSubmit.SizeMode = PictureBoxSizeMode.StretchImage;
             pbSubmit.TabIndex = 0;
             pbSubmit.TabStop = false;
             pbSubmit.Click += pbScan_Click;
             pbSubmit.DragDrop += pbScan_DragDrop;
-            // 
-            // pbScan
-            // 
-            pbScan.Anchor = AnchorStyles.Bottom;
-            pbScan.Image = Properties.Resources.scan;
-            pbScan.Location = new Point(15, 220);
-            pbScan.Name = "pbScan";
-            pbScan.Size = new Size(104, 70);
-            pbScan.SizeMode = PictureBoxSizeMode.StretchImage;
-            pbScan.TabIndex = 1;
-            pbScan.TabStop = false;
-            // 
-            // pictureBox2
-            // 
-            pictureBox2.Anchor = AnchorStyles.Bottom;
-            pictureBox2.Location = new Point(140, 140);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(104, 70);
-            pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox2.TabIndex = 2;
-            pictureBox2.TabStop = false;
-            // 
-            // pbSettings
-            // 
-            pbSettings.Anchor = AnchorStyles.Bottom;
-            pbSettings.Image = Properties.Resources.settings;
-            pbSettings.Location = new Point(15, 140);
-            pbSettings.Name = "pbSettings";
-            pbSettings.Size = new Size(104, 70);
-            pbSettings.SizeMode = PictureBoxSizeMode.StretchImage;
-            pbSettings.TabIndex = 3;
-            pbSettings.TabStop = false;
-            pbSettings.Click += pbSettings_Click;
             // 
             // label1
             // 
@@ -136,31 +100,48 @@
             // lblExit
             // 
             lblExit.AutoSize = true;
-            lblExit.BackColor = Color.DimGray;
+            lblExit.BackColor = Color.Transparent;
             lblExit.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
-            lblExit.ForeColor = Color.IndianRed;
+            lblExit.ForeColor = Color.Firebrick;
             lblExit.Location = new Point(220, 9);
             lblExit.Name = "lblExit";
             lblExit.Size = new Size(24, 25);
             lblExit.TabIndex = 8;
             lblExit.Text = "X";
             lblExit.Click += lblExit_Click;
+            lblExit.MouseEnter += lblExit_MouseEnter;
+            lblExit.MouseLeave += lblExit_MouseLeave;
+            // 
+            // lblSettings
+            // 
+            lblSettings.AutoSize = true;
+            lblSettings.BackColor = Color.Transparent;
+            lblSettings.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
+            lblSettings.ForeColor = Color.WhiteSmoke;
+            lblSettings.Location = new Point(190, 9);
+            lblSettings.Name = "lblSettings";
+            lblSettings.Size = new Size(23, 25);
+            lblSettings.TabIndex = 9;
+            lblSettings.Text = "S";
+            lblSettings.Click += lblSettings_Click;
+            lblSettings.MouseEnter += lblSettings_MouseEnter;
+            lblSettings.MouseLeave += lblSettings_MouseLeave;
             // 
             // frmWidget
             // 
+            AllowDrop = true;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.DimGray;
+            BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(260, 300);
+            Controls.Add(pbSubmit);
+            Controls.Add(lblSettings);
             Controls.Add(lblExit);
             Controls.Add(pbCPU);
             Controls.Add(pbRAM);
             Controls.Add(lblRAM);
             Controls.Add(label1);
-            Controls.Add(pbSettings);
-            Controls.Add(pictureBox2);
-            Controls.Add(pbScan);
-            Controls.Add(pbSubmit);
             DoubleBuffered = true;
             FormBorderStyle = FormBorderStyle.None;
             MaximizeBox = false;
@@ -170,13 +151,10 @@
             ShowInTaskbar = false;
             SizeGripStyle = SizeGripStyle.Hide;
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "VT-Desktop-Widget";
+            Text = "VirustTotal desktop widget";
             Load += frmWidget_Load;
             MouseDown += frmWidget_MouseDown;
             ((System.ComponentModel.ISupportInitialize)pbSubmit).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pbScan).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pbSettings).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -184,13 +162,12 @@
         #endregion
 
         private PictureBox pbSubmit;
-        private PictureBox pbScan;
-        private PictureBox pictureBox2;
-        private PictureBox pbSettings;
         private Label label1;
         private Label lblRAM;
         private ProgressBar pbRAM;
         private ProgressBar pbCPU;
         private Label lblExit;
+        private Label lblSettings;
+        private PictureBox pbVirusTotal;
     }
 }

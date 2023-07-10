@@ -34,8 +34,12 @@ namespace Widget
             // UX
             System.Windows.Forms.ToolTip toolTipScan = new();
             toolTipScan.SetToolTip(this.pbSubmit, "Submit File for VirusTotal Analysis");
+
+            System.Windows.Forms.ToolTip toolTipSettingsWidget = new();
+            toolTipSettingsWidget.SetToolTip(this.lblSettings, "View and edit settings");
+
             System.Windows.Forms.ToolTip toolTipExitWidget = new();
-            toolTipScan.SetToolTip(this.lblExit, "Shutdown the widget");
+            toolTipExitWidget.SetToolTip(this.lblExit, "Shutdown the widget");
 
             this.AllowDrop = true;
 
@@ -52,9 +56,11 @@ namespace Widget
 
             GetCurrentSystemUsage();
         }
-
+        private void lblExit_MouseEnter(object sender, EventArgs e) => lblExit.BackColor = Color.DimGray;
+        private void lblExit_MouseLeave(object sender, EventArgs e) => lblExit.BackColor = Color.Transparent;
+        private void lblSettings_MouseEnter(object sender, EventArgs e) => lblSettings.BackColor = Color.DimGray;
+        private void lblSettings_MouseLeave(object sender, EventArgs e) => lblSettings.BackColor = Color.Transparent;
         private void frmWidget_MouseDown(object sender, MouseEventArgs e) => WindowsAPI.DragWindowsForm(this.Handle);
-
         private void set_background(Object? sender, PaintEventArgs e)
         {
             Graphics graphics = e.Graphics;
@@ -84,11 +90,10 @@ namespace Widget
                 System.Environment.Exit(1);
             }
         }
-
-        /* Used for scanning system and view possible suspect files */
-
-        private async void pbSettings_Click(object sender, EventArgs e)
+        private void lblSettings_Click(object sender, EventArgs e)
         {
+
+
             fmSettings fmSettings = new();
             fmSettings.Show();
         }
@@ -215,5 +220,7 @@ namespace Widget
                 }
             }, cancellationToken);
         }
+
+
     }
 }
