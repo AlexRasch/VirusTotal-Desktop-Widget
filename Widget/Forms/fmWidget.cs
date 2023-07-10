@@ -92,10 +92,11 @@ namespace Widget
         }
         private void lblSettings_Click(object sender, EventArgs e)
         {
-
-
-            fmSettings fmSettings = new();
-            fmSettings.Show();
+            using (fmSettings fmSettings = new())
+            {
+                fmSettings.ShowDialog();
+            }
+                
         }
 
         /* VirusTotal */
@@ -171,10 +172,7 @@ namespace Widget
         /// <summary>
         /// Cancle the getCurrentSystemUsage
         /// </summary>
-        private void CancelSystemUsage()
-        {
-            cancellationTokenSource?.Cancel();
-        }
+        private void CancelSystemUsage() =>    cancellationTokenSource?.Cancel();
 
         /// <summary>
         /// Retrieves the current system usage, including CPU and RAM usage, and updates the corresponding UI controls.
@@ -220,7 +218,5 @@ namespace Widget
                 }
             }, cancellationToken);
         }
-
-
     }
 }

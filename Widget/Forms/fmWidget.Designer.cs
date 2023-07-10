@@ -168,6 +168,5 @@
         private ProgressBar pbCPU;
         private Label lblExit;
         private Label lblSettings;
-        private PictureBox pbVirusTotal;
     }
 }
