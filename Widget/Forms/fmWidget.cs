@@ -34,8 +34,12 @@ namespace Widget
             // UX
             System.Windows.Forms.ToolTip toolTipScan = new();
             toolTipScan.SetToolTip(this.pbSubmit, "Submit File for VirusTotal Analysis");
+
+            System.Windows.Forms.ToolTip toolTipSettingsWidget = new();
+            toolTipSettingsWidget.SetToolTip(this.lblSettings, "View and edit settings");
+
             System.Windows.Forms.ToolTip toolTipExitWidget = new();
-            toolTipScan.SetToolTip(this.lblExit, "Shutdown the widget");
+            toolTipExitWidget.SetToolTip(this.lblExit, "Shutdown the widget");
 
             this.AllowDrop = true;
 
@@ -52,9 +56,11 @@ namespace Widget
 
             GetCurrentSystemUsage();
         }
-
+        private void lblExit_MouseEnter(object sender, EventArgs e) => lblExit.BackColor = Color.DimGray;
+        private void lblExit_MouseLeave(object sender, EventArgs e) => lblExit.BackColor = Color.Transparent;
+        private void lblSettings_MouseEnter(object sender, EventArgs e) => lblSettings.BackColor = Color.DimGray;
+        private void lblSettings_MouseLeave(object sender, EventArgs e) => lblSettings.BackColor = Color.Transparent;
         private void frmWidget_MouseDown(object sender, MouseEventArgs e) => WindowsAPI.DragWindowsForm(this.Handle);
-
         private void set_background(Object? sender, PaintEventArgs e)
         {
             Graphics graphics = e.Graphics;
@@ -84,13 +90,12 @@ namespace Widget
                 System.Environment.Exit(1);
             }
         }
-
-        /* Used for scanning system and view possible suspect files */
-
-        private async void pbSettings_Click(object sender, EventArgs e)
+        private void lblSettings_Click(object sender, EventArgs e)
         {
-            fmSettings fmSettings = new();
-            fmSettings.Show();
+            using (fmSettings fmSettings = new())
+            {
+                fmSettings.ShowDialog();
+            }  
         }
 
         /* VirusTotal */
@@ -118,22 +123,18 @@ namespace Widget
 #if DEBUG
                     Debug.WriteLine($"Submited file for analyis");
 #endif
-
                     // Get report
                     ResponseParser.VTReport vtScanReport = await GetNonQueuedReportAsync(vt, vtScanResponse.Id);
 
 #if DEBUG
                     Debug.WriteLine($"Report status:{vtScanReport.Status}");
 #endif
-
                     // Display report
                     fmVTScanResult scanResult = new(vtScanReport);
                     scanResult.Show();
-
                 }
             }
         }
-
         private void pbScan_DragDrop(object sender, DragEventArgs? e)
         {
             if (e?.Data.GetDataPresent(DataFormats.FileDrop) == true)
@@ -145,7 +146,6 @@ namespace Widget
                 }
             }
         }
-
         private static async Task<ResponseParser.VTReport> GetNonQueuedReportAsync(VT vt, string reportId, int delay = 10)
         {
             ResponseParser.VTReport vtScanReport = await vt.GetReportAsync(reportId);
@@ -160,16 +160,12 @@ namespace Widget
 
             return vtScanReport;
         }
-
         private CancellationTokenSource cancellationTokenSource;
 
         /// <summary>
         /// Cancle the getCurrentSystemUsage
         /// </summary>
-        private void CancelSystemUsage()
-        {
-            cancellationTokenSource?.Cancel();
-        }
+        private void CancelSystemUsage() =>    cancellationTokenSource?.Cancel();
 
         /// <summary>
         /// Retrieves the current system usage, including CPU and RAM usage, and updates the corresponding UI controls.
