@@ -95,8 +95,7 @@ namespace Widget
             using (fmSettings fmSettings = new())
             {
                 fmSettings.ShowDialog();
-            }
-                
+            }  
         }
 
         /* VirusTotal */
@@ -124,22 +123,18 @@ namespace Widget
 #if DEBUG
                     Debug.WriteLine($"Submited file for analyis");
 #endif
-
                     // Get report
                     ResponseParser.VTReport vtScanReport = await GetNonQueuedReportAsync(vt, vtScanResponse.Id);
 
 #if DEBUG
                     Debug.WriteLine($"Report status:{vtScanReport.Status}");
 #endif
-
                     // Display report
                     fmVTScanResult scanResult = new(vtScanReport);
                     scanResult.Show();
-
                 }
             }
         }
-
         private void pbScan_DragDrop(object sender, DragEventArgs? e)
         {
             if (e?.Data.GetDataPresent(DataFormats.FileDrop) == true)
@@ -151,7 +146,6 @@ namespace Widget
                 }
             }
         }
-
         private static async Task<ResponseParser.VTReport> GetNonQueuedReportAsync(VT vt, string reportId, int delay = 10)
         {
             ResponseParser.VTReport vtScanReport = await vt.GetReportAsync(reportId);
@@ -166,7 +160,6 @@ namespace Widget
 
             return vtScanReport;
         }
-
         private CancellationTokenSource cancellationTokenSource;
 
         /// <summary>
