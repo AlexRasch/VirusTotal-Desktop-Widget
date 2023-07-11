@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Diagnostics;
+using System.Text.Json;
 
 namespace VirusTotal
 {
@@ -11,6 +12,7 @@ namespace VirusTotal
     {
         public class VTReport
         {
+            public VirusTotal.Error? Error { get; set; }
             public Meta.FileInfo FileInfo { get; set; }
             public string Status { get; set; }
             public string Id { get; set; }
@@ -28,9 +30,11 @@ namespace VirusTotal
                 public string? Method { get; set; }
                 public string? EngineUpdate { get; set; }
             }
+            
+            
         }
 
-        public VTReport ParseReport(string responseContent)
+        public VTReport ParseReport(string? responseContent)
         {
             var report = new VTReport();
 
@@ -38,6 +42,15 @@ namespace VirusTotal
             {
                 using (JsonDocument document = JsonDocument.Parse(responseContent))
                 {
+                    // Check for errors
+                    if(document.RootElement.TryGetProperty("error", out JsonElement errorElement))
+                    {
+#if DEBUG
+                        Debug.WriteLine("VTResponseParser: Possible error in response");
+#endif
+                        report.Error = ParseErrorMessage(errorElement);
+                    }
+
                     if (document.RootElement.TryGetProperty("data", out JsonElement dataElement))
                     {
 
@@ -134,6 +147,22 @@ namespace VirusTotal
             return results;
         }
 
+        private Error ParseErrorMessage(JsonElement errorMessage)
+        {
+            Error error = new Error();
+            // Message
+            if (errorMessage.TryGetProperty("message", out JsonElement messageElement))
+            {
+                error.Message = messageElement.GetString();
+            }
+            // Code
+            if (errorMessage.TryGetProperty("code", out JsonElement codeElement))
+            {
+                error.Code = codeElement.GetString();
+            }
+            return error;
+        }
+
         private Meta.FileInfo ParseFileInfo(JsonElement fileInfoElement)
         {
             var fileInfo = new Meta.FileInfo();
@@ -161,6 +190,13 @@ namespace VirusTotal
             return fileInfo;
         }
     }
+
+    public class Error
+    {
+        public string? Message { get; set; }
+        public string? Code { get; set; }
+    }
+
     public struct Meta
     {
         public struct FileInfo

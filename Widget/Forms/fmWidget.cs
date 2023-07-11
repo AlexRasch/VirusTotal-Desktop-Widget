@@ -17,7 +17,6 @@ namespace Widget
         // Widget settings
         readonly WidgetSettings widgetSettings = new();
 
-
         public frmWidget()
         {
             InitializeComponent();
@@ -103,6 +102,7 @@ namespace Widget
         {
             using (OpenFileDialog openFileDialog = new())
             {
+                // Check if we have a key
                 if (string.IsNullOrEmpty(widgetSettings.VirusTotalApiKey))
                 {
                     MessageBox.Show("Missing VirusTotal API key", "Error");
@@ -120,6 +120,14 @@ namespace Widget
                     // Scan file
                     ResponseParser vtReponse = new();
                     ResponseParser.VTReport vtScanResponse = vtReponse.ParseReport(await vt.ScanFileAsync(openFileDialog.FileName));
+                    
+                    // Handle API error
+                    if(vtScanResponse.Error.Code != null)
+                    {
+                        MessageBox.Show($"Error:{vtScanResponse.Error.Code}","API issues");
+                        return;
+                    }
+
 #if DEBUG
                     Debug.WriteLine($"Submited file for analyis");
 #endif

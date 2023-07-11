@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Widget": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

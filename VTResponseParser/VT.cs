@@ -15,6 +15,7 @@ namespace VirusTotal
         {
             ApiKey = apiKey;
             httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Add("User-Agent", "VirusTotal Desktop Widget (github.com/AlexRasch/VirusTotal-Desktop-Widget)");
             httpClient.DefaultRequestHeaders.Add("x-apikey", ApiKey);
             httpClient.DefaultRequestHeaders.Add("accept", "application/json");
             httpClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip");
@@ -42,11 +43,15 @@ namespace VirusTotal
                         // Successfully submitted the file for scanning
                         return responseContent;
                     }
+
+                    return responseContent;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred while scanning the file: {ex.Message}");
+#if DEBUG
+                Debug.WriteLine($"An error occurred while scanning the file: {ex.Message}");
+#endif
             }
 
             return null;
@@ -73,12 +78,16 @@ namespace VirusTotal
                 Debug.WriteLine($"Response: {responseContent}");
 #endif
 
+                ResponseParser vtResponse = new();
+
                 if (response.IsSuccessStatusCode)
                 {
                     // Successfully retrieved the report
-                    ResponseParser vtResponse = new();
                     return vtResponse.ParseReport(responseContent);
                 }
+                // Error while  retrieved the report
+                return vtResponse.ParseReport(responseContent);
+
             }
             catch (Exception ex)
             {
