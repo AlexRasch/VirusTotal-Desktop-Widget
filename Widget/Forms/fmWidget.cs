@@ -102,6 +102,7 @@ namespace Widget
         {
             using (OpenFileDialog openFileDialog = new())
             {
+                // Check if we have a key
                 if (string.IsNullOrEmpty(widgetSettings.VirusTotalApiKey))
                 {
                     MessageBox.Show("Missing VirusTotal API key", "Error");

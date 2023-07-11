@@ -12,7 +12,7 @@ namespace VirusTotal
     {
         public class VTReport
         {
-            public VirusTotal.Error Error { get; set; }
+            public VirusTotal.Error? Error { get; set; }
             public Meta.FileInfo FileInfo { get; set; }
             public string Status { get; set; }
             public string Id { get; set; }

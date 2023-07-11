@@ -77,12 +77,16 @@ namespace VirusTotal
                 Debug.WriteLine($"Response: {responseContent}");
 #endif
 
+                ResponseParser vtResponse = new();
+
                 if (response.IsSuccessStatusCode)
                 {
                     // Successfully retrieved the report
-                    ResponseParser vtResponse = new();
                     return vtResponse.ParseReport(responseContent);
                 }
+                // Error while  retrieved the report
+                return vtResponse.ParseReport(responseContent);
+
             }
             catch (Exception ex)
             {
