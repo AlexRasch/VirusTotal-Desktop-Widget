@@ -15,6 +15,7 @@ namespace VirusTotal
         {
             ApiKey = apiKey;
             httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Add("User-Agent", "VirusTotal Desktop Widget (github.com/AlexRasch/VirusTotal-Desktop-Widget)");
             httpClient.DefaultRequestHeaders.Add("x-apikey", ApiKey);
             httpClient.DefaultRequestHeaders.Add("accept", "application/json");
             httpClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip");
