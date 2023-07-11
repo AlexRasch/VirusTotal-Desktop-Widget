@@ -17,7 +17,6 @@ namespace Widget
         // Widget settings
         readonly WidgetSettings widgetSettings = new();
 
-
         public frmWidget()
         {
             InitializeComponent();
@@ -120,6 +119,14 @@ namespace Widget
                     // Scan file
                     ResponseParser vtReponse = new();
                     ResponseParser.VTReport vtScanResponse = vtReponse.ParseReport(await vt.ScanFileAsync(openFileDialog.FileName));
+                    
+                    // Handle API error
+                    if(vtScanResponse.Error.Code != null)
+                    {
+                        MessageBox.Show($"Error:{vtScanResponse.Error.Code}","API issues");
+                        return;
+                    }
+
 #if DEBUG
                     Debug.WriteLine($"Submited file for analyis");
 #endif

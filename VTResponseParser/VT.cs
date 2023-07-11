@@ -42,11 +42,15 @@ namespace VirusTotal
                         // Successfully submitted the file for scanning
                         return responseContent;
                     }
+
+                    return responseContent;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred while scanning the file: {ex.Message}");
+#if DEBUG
+                Debug.WriteLine($"An error occurred while scanning the file: {ex.Message}");
+#endif
             }
 
             return null;
