@@ -8,6 +8,7 @@ VirusTotal Desktop Widget is a simple Windows desktop widget that integrates wit
 
 ![VT-Desktop-Widget](https://github.com/AlexRasch/VT-Desktop-Widget/assets/46262688/bfa0b2b4-4405-404d-81d7-4980bc0c26c2)
 
+Disclaimer: This application/widget is not a substitute for a antivirus software. It only provides an additional layer of security by scanning files with multiple antivirus engines. You should always use a reputable antivirus software on your system and keep it updated.
 
 ## Features
 
