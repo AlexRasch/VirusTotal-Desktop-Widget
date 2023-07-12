@@ -12,10 +12,10 @@ namespace VirusTotalTests
             VT vt = new("ThisKeyIsNotValid");
 
             // Act
-            ResponseParser.VTReport vtScanReport = await vt.GetReportAsync("HitMe");
+            ResponseParser vtScanReport = await vt.GetReportAsync("HitMe");
 
             // Assert
-            Assert.NotNull(vtScanReport.Error);
+            Assert.NotNull(vtScanReport.ErrorCode);
   
         }
     }

@@ -50,13 +50,18 @@ namespace VirusTotal
                     var response = await httpClient.PostAsync(apiUrl, content);
                     string responseContent = await response.Content.ReadAsStringAsync();
 #if DEBUG
-                    Debug.WriteLine($"Response: {responseContent}");
+                    Debug.WriteLine($"Inital response: {responseContent}");
 #endif
                     // Parse initial response
-                    ResponseParser vtResponse = new();
-                    vtResponse.ParseReport(responseContent);
+                    ResponseParser vtResponse = new ResponseParser().ParseReport(responseContent);
 
-                    return await GetNonQueuedReportAsync(vt, vtResponse.Id);
+#if DEBUG
+                    Debug.WriteLine($"Inital report: {vtResponse.Id}");
+#endif
+
+                    // Return final report
+                    vtResponse = await GetNonQueuedReportAsync(vt, vtResponse.Id);
+                    return vtResponse;
 
                 }
             }
@@ -64,10 +69,9 @@ namespace VirusTotal
             {
 #if DEBUG
                 Debug.WriteLine($"An error occurred while scanning the file: {ex.Message}");
+                throw new Exception("An error occurred while scanning the file");
 #endif
             }
-
-            return null;
         }
 
         public async Task<ResponseParser> GetReportAsync(string analysisId)
