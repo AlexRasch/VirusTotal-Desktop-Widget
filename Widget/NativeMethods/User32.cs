@@ -38,6 +38,12 @@ namespace Widget
             }
         }
 
+        /// <summary>
+        /// Changes the opacity of the specified window.
+        /// </summary>
+        /// <param name="hWindow">The handle of the window to apply the fade effect.</param>
+        /// <param name="opacity">The opacity value to set (0-255), where 0 is fully transparent and 255 is fully opaque.</param>
+        /// <returns><c>true</c> if the opacity change was successful; otherwise, <c>false</c>.</returns>
         public static bool FadeOut(IntPtr hWindow, int opacity)
         {
             if (opacity < 0 || opacity > 255)
@@ -56,6 +62,12 @@ namespace Widget
             }
         }
 
+        /// <summary>
+        /// Changes the opacity of the specified window.
+        /// </summary>
+        /// <param name="hWindow">The handle of the window to apply the fade effect.</param>
+        /// <param name="opacity">The opacity value to set (0-255), where 0 is fully transparent and 255 is fully opaque.</param>
+        /// <returns><c>true</c> if the opacity change was successful; otherwise, <c>false</c>.</returns>
         public static bool FadeIn(IntPtr hWindow, int opacity)
         {
             if (opacity < 0 || opacity > 255)
