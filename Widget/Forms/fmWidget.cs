@@ -52,7 +52,6 @@ namespace Widget
             if (widgetSettings.FadeEffect)
                 FadeInForm();
         }
-        // ToDo refactor / rewrite it into one function
 
         private async Task FadeOutForm()
         {

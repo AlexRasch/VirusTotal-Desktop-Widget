@@ -29,7 +29,6 @@ namespace Widget
                     Debug.WriteLine($"WinAPI SetWindowLong: {Marshal.GetLastWin32Error()}");
 #endif
                 }
-
                 return previouseValue;
             }
             catch
@@ -72,7 +71,6 @@ namespace Widget
         {
             if (opacity < 0 || opacity > 255)
                 throw new ArgumentOutOfRangeException(nameof(opacity), "Opacity value must be between 0 and 255.");
-
             try
             {
                 bool result = Fade(hWindow, opacity);
