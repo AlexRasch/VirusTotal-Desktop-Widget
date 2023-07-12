@@ -161,13 +161,13 @@ namespace Widget
                     VT vt = new(widgetSettings.VirusTotalApiKey);
 
                     // Scan file
-                    ResponseParser.VTReport vtReponse = new();
-                    ResponseParser.VTReport vtScanResponse = await vt.ScanFileAsync(vt, openFileDialog.FileName);
+                    ResponseParser vtReponse = new();
+                    ResponseParser vtScanResponse = await vt.ScanFileAsync(vt, openFileDialog.FileName);
 
                     // Handle API error
-                    if (vtScanResponse.Error.Code != null)
+                    if (vtScanResponse.ErrorCode.Code != null)
                     {
-                        MessageBox.Show($"Error:{vtScanResponse.Error.Code}", "API issues");
+                        MessageBox.Show($"Error:{vtScanResponse.ErrorCode.Code}", "API issues");
                         return;
                     }
 
@@ -197,9 +197,9 @@ namespace Widget
                 }
             }
         }
-        private static async Task<ResponseParser.VTReport> GetNonQueuedReportAsync(VT vt, string reportId, int delay = 10)
+        private static async Task<ResponseParser> GetNonQueuedReportAsync(VT vt, string reportId, int delay = 10)
         {
-            ResponseParser.VTReport vtScanReport = await vt.GetReportAsync(reportId);
+            ResponseParser vtScanReport = await vt.GetReportAsync(reportId);
             while (vtScanReport.Status == "queued")
             {
 #if DEBUG

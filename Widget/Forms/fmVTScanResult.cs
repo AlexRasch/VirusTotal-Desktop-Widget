@@ -14,9 +14,9 @@ namespace Widget
     public partial class fmVTScanResult : Form
     {
         // For VT scan result
-        private ResponseParser.VTReport report { get; set; }
+        private ResponseParser report { get; set; }
 
-        public fmVTScanResult(ResponseParser.VTReport report)
+        public fmVTScanResult(ResponseParser report)
         {
             InitializeComponent();
             this.report = report;

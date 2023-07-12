@@ -10,45 +10,53 @@ namespace VirusTotal
 
     public class ResponseParser
     {
-        public class VTReport
+        public ResponseParser.Error? ErrorCode { get; set; }
+        public Meta.FileInfo FileInfo { get; set; }
+        public string Status { get; set; }
+        public string Id { get; set; }
+        public string Type { get; set; }
+        public string SelfLink { get; set; }
+        public Dictionary<string, EngineResult> Results { get; set; } // New property for results
+        public class Error
         {
-            public VirusTotal.Error? Error { get; set; }
-            public Meta.FileInfo FileInfo { get; set; }
-            public string Status { get; set; }
-            public string Id { get; set; }
-            public string Type { get; set; }
-            public string SelfLink { get; set; }
-            
-            public Dictionary<string, EngineResult> Results { get; set; } // New property for results
-
-            public class EngineResult
+            public string? Message { get; set; }
+            public string? Code { get; set; }
+        }
+        public struct Meta
+        {
+            public struct FileInfo
             {
-                public string? Category { get; set; }
-                public string? EngineName { get; set; }
-                public string? EngineVersion { get; set; }
-                public string? Result { get; set; }
-                public string? Method { get; set; }
-                public string? EngineUpdate { get; set; }
+                public string SHA256 { get; set; }
+                public string SHA1 { get; set; }
+                public string MD5 { get; set; }
+                public int Size { get; set; }
             }
-            
-            
+        }
+        public class EngineResult
+        {
+            public string? Category { get; set; }
+            public string? EngineName { get; set; }
+            public string? EngineVersion { get; set; }
+            public string? Result { get; set; }
+            public string? Method { get; set; }
+            public string? EngineUpdate { get; set; }
         }
 
-        public VTReport ParseReport(string? responseContent)
+        public ResponseParser ParseReport(string? responseContent)
         {
-            var report = new VTReport();
+            var report = new ResponseParser();
 
             try
             {
                 using (JsonDocument document = JsonDocument.Parse(responseContent))
                 {
                     // Check for errors
-                    if(document.RootElement.TryGetProperty("error", out JsonElement errorElement))
+                    if (document.RootElement.TryGetProperty("error", out JsonElement errorElement))
                     {
 #if DEBUG
                         Debug.WriteLine("VTResponseParser: Possible error in response");
 #endif
-                        report.Error = ParseErrorMessage(errorElement);
+                        report.ErrorCode = ParseErrorMessage(errorElement);
                     }
 
                     if (document.RootElement.TryGetProperty("data", out JsonElement dataElement))
@@ -84,9 +92,8 @@ namespace VirusTotal
                                 report.SelfLink = selfLinkElement.GetString();
                             }
                         }
-                       
-                    }
 
+                    }
                     // File info
                     if (document.RootElement.TryGetProperty("meta", out JsonElement metaElement))
                     {
@@ -104,16 +111,16 @@ namespace VirusTotal
             return report;
         }
 
-        private Dictionary<string, VTReport.EngineResult> ParseResults(JsonElement resultsElement)
+        private Dictionary<string, EngineResult> ParseResults(JsonElement resultsElement)
         {
-            var results = new Dictionary<string, VTReport.EngineResult>();
+            var results = new Dictionary<string, EngineResult>();
 
             foreach (JsonProperty property in resultsElement.EnumerateObject())
             {
                 string engineName = property.Name;
                 JsonElement engineElement = property.Value;
 
-                var engineResult = new VTReport.EngineResult();
+                var engineResult = new EngineResult();
                 engineResult.EngineName = engineName;
 
                 if (engineElement.TryGetProperty("category", out JsonElement categoryElement))
@@ -140,10 +147,8 @@ namespace VirusTotal
                 {
                     engineResult.EngineUpdate = engineUpdateElement.GetString();
                 }
-
                 results.Add(engineName, engineResult);
             }
-
             return results;
         }
 
@@ -188,23 +193,6 @@ namespace VirusTotal
             }
 
             return fileInfo;
-        }
-    }
-
-    public class Error
-    {
-        public string? Message { get; set; }
-        public string? Code { get; set; }
-    }
-
-    public struct Meta
-    {
-        public struct FileInfo
-        {
-            public string SHA256 { get; set; }
-            public string SHA1 { get; set; }
-            public string MD5 { get; set; }
-            public int Size { get; set; }
         }
     }
 }
