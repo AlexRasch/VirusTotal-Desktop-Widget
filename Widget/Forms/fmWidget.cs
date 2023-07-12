@@ -8,6 +8,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using VirusTotal;
 using static Widget.WidgetConfiguration;
 using System.Threading;
+using System.ComponentModel;
 
 namespace Widget
 {
@@ -48,8 +49,25 @@ namespace Widget
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            if(widgetSettings.FadeEffect)
+            if (widgetSettings.FadeEffect)
                 FadeInForm();
+        }
+        // ToDo refactor / rewrite it into one function
+
+        private async Task FadeOutForm()
+        {
+            // Make windows transparent and set initial opacity to 0
+            WindowsAPI.MakeWindowTransparent(this.Handle);
+            WindowsAPI.FadeIn(this.Handle, 255);
+
+            // Fade out
+            for (int opacity = 255; opacity >= 0; opacity -= 1)
+            {
+                await Task.Delay(8);  // 256 * 8 = 2048
+                this.Invoke((Action)(() => { WindowsAPI.FadeIn(this.Handle, opacity); }));
+            }
+
+            Debug.WriteLine($"FadeOut complete");
         }
 
         private void FadeInForm()
@@ -67,7 +85,7 @@ namespace Widget
                     this.Invoke((Action)(() => { WindowsAPI.FadeIn(this.Handle, opacity); }));
                 }
             });
-            Debug.WriteLine($"Fade done");
+            Debug.WriteLine($"FadeIn Complete");
         }
 
         private void frmWidget_Load(object sender, EventArgs e)
@@ -93,7 +111,7 @@ namespace Widget
         }
 
         /* Widget  */
-        private void lblExit_Click(object sender, EventArgs e)
+        private async void lblExit_Click(object sender, EventArgs e)
         {
             // Cancel running tasks
             try
@@ -103,6 +121,9 @@ namespace Widget
             catch { }
             cancellationTokenSource?.Cancel();
             cancellationTokenSource?.Dispose();
+
+            if (widgetSettings.FadeEffect)
+                await FadeOutForm();
 
             if (System.Windows.Forms.Application.MessageLoop)
             {
