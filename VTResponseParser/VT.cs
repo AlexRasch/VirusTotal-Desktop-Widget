@@ -14,12 +14,18 @@ namespace VirusTotal
         public VT(string apiKey)
         {
             ApiKey = apiKey;
-            httpClient = new HttpClient();
+            httpClient = CreateHttpClient(apiKey);
+        }
+        private static HttpClient CreateHttpClient(string apiKey)
+        {
+            var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Add("User-Agent", "VirusTotal Desktop Widget (github.com/AlexRasch/VirusTotal-Desktop-Widget)");
-            httpClient.DefaultRequestHeaders.Add("x-apikey", ApiKey);
+            httpClient.DefaultRequestHeaders.Add("x-apikey", apiKey);
             httpClient.DefaultRequestHeaders.Add("accept", "application/json");
             httpClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip");
+            return httpClient;
         }
+
 
         private static async Task<ResponseParser> GetNonQueuedReportAsync(VT vt, string reportId, int delay = 10)
         {
@@ -58,7 +64,6 @@ namespace VirusTotal
 #if DEBUG
                     Debug.WriteLine($"Inital report: {vtResponse.Id}");
 #endif
-
                     // Return final report
                     vtResponse = await GetNonQueuedReportAsync(vt, vtResponse.Id);
                     return vtResponse;
