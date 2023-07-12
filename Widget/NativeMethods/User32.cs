@@ -40,6 +40,8 @@ namespace Widget
 
         public static bool FadeOut(IntPtr hWindow, int opacity)
         {
+            if (opacity < 0 || opacity > 255)
+                throw new ArgumentOutOfRangeException(nameof(opacity), "Opacity value must be between 0 and 255.");
             try
             {
                 bool result = Fade(hWindow, opacity);
@@ -56,6 +58,9 @@ namespace Widget
 
         public static bool FadeIn(IntPtr hWindow, int opacity)
         {
+            if (opacity < 0 || opacity > 255)
+                throw new ArgumentOutOfRangeException(nameof(opacity), "Opacity value must be between 0 and 255.");
+
             try
             {
                 bool result = Fade(hWindow, opacity);
