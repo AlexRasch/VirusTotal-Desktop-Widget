@@ -76,7 +76,7 @@ namespace Widget
             public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
             [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-            [DllImport("user32.dll")]
+            [DllImport("user32.dll", SetLastError = true)]
             public static extern bool SetLayeredWindowAttributes(IntPtr hWnd, uint crKey, byte bAlpha, uint dwFlags);
 
             [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
