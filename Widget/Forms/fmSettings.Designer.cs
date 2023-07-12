@@ -33,7 +33,7 @@
             label1 = new Label();
             btnSave = new Button();
             groupBox1 = new GroupBox();
-            label2 = new Label();
+            lblFadeEffect = new Label();
             cbFadeEffect = new CheckBox();
             cbAutostart = new CheckBox();
             lblAutoStart = new Label();
@@ -80,7 +80,7 @@
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(label2);
+            groupBox1.Controls.Add(lblFadeEffect);
             groupBox1.Controls.Add(cbFadeEffect);
             groupBox1.Controls.Add(cbAutostart);
             groupBox1.Controls.Add(lblAutoStart);
@@ -91,14 +91,14 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Widget";
             // 
-            // label2
+            // lblFadeEffect
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(6, 56);
-            label2.Name = "label2";
-            label2.Size = new Size(68, 15);
-            label2.TabIndex = 3;
-            label2.Text = "Fade effect:";
+            lblFadeEffect.AutoSize = true;
+            lblFadeEffect.Location = new Point(6, 56);
+            lblFadeEffect.Name = "lblFadeEffect";
+            lblFadeEffect.Size = new Size(68, 15);
+            lblFadeEffect.TabIndex = 3;
+            lblFadeEffect.Text = "Fade effect:";
             // 
             // cbFadeEffect
             // 
@@ -158,7 +158,7 @@
         private GroupBox groupBox1;
         private Label lblAutoStart;
         private CheckBox cbAutostart;
-        private Label label2;
+        private Label lblFadeEffect;
         private CheckBox cbFadeEffect;
     }
 }
