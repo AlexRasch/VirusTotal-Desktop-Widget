@@ -53,8 +53,8 @@ namespace VirusTotal
                     Debug.WriteLine($"Response: {responseContent}");
 #endif
                     // Parse initial response
-                    ResponseParser.VTReport vtResponse = new ResponseParser.ParseReport(responseContent);
-
+                    ResponseParser.VTReport vtResponse = new();
+                    vtResponse.ParseReport(responseContent);
 
                     return await GetNonQueuedReportAsync(vt, vtResponse.Id);
 
