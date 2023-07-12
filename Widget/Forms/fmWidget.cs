@@ -8,6 +8,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using VirusTotal;
 using static Widget.WidgetConfiguration;
 using System.Threading;
+using System.ComponentModel;
 
 namespace Widget
 {
@@ -45,6 +46,46 @@ namespace Widget
             // Load Widget settings
             widgetSettings = WidgetSettings.LoadSettingsFromConfigFile();
         }
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            if (widgetSettings.FadeEffect)
+                FadeInForm();
+        }
+
+        private async Task FadeOutForm()
+        {
+            // Make windows transparent and set initial opacity to 0
+            WindowsAPI.MakeWindowTransparent(this.Handle);
+            WindowsAPI.FadeIn(this.Handle, 255);
+
+            // Fade out
+            for (int opacity = 255; opacity >= 0; opacity -= 1)
+            {
+                await Task.Delay(8);  // 256 * 8 = 2048
+                this.Invoke((Action)(() => { WindowsAPI.FadeIn(this.Handle, opacity); }));
+            }
+
+            Debug.WriteLine($"FadeOut complete");
+        }
+
+        private void FadeInForm()
+        {
+            // Make windows transparent and set initial opacity to 0
+            WindowsAPI.MakeWindowTransparent(this.Handle);
+            WindowsAPI.FadeIn(this.Handle, 0);
+
+            Task.Run(async () =>
+            {
+                // Fade in
+                for (int opacity = 0; opacity <= 255; opacity += 1)
+                {
+                    await Task.Delay(8);  // 256 * 8 = 2048
+                    this.Invoke((Action)(() => { WindowsAPI.FadeIn(this.Handle, opacity); }));
+                }
+            });
+            Debug.WriteLine($"FadeIn Complete");
+        }
 
         private void frmWidget_Load(object sender, EventArgs e)
         {
@@ -69,7 +110,7 @@ namespace Widget
         }
 
         /* Widget  */
-        private void lblExit_Click(object sender, EventArgs e)
+        private async void lblExit_Click(object sender, EventArgs e)
         {
             // Cancel running tasks
             try
@@ -79,6 +120,9 @@ namespace Widget
             catch { }
             cancellationTokenSource?.Cancel();
             cancellationTokenSource?.Dispose();
+
+            if (widgetSettings.FadeEffect)
+                await FadeOutForm();
 
             if (System.Windows.Forms.Application.MessageLoop)
             {
@@ -94,7 +138,7 @@ namespace Widget
             using (fmSettings fmSettings = new())
             {
                 fmSettings.ShowDialog();
-            }  
+            }
         }
 
         /* VirusTotal */
@@ -120,11 +164,11 @@ namespace Widget
                     // Scan file
                     ResponseParser vtReponse = new();
                     ResponseParser.VTReport vtScanResponse = vtReponse.ParseReport(await vt.ScanFileAsync(openFileDialog.FileName));
-                    
+
                     // Handle API error
-                    if(vtScanResponse.Error.Code != null)
+                    if (vtScanResponse.Error.Code != null)
                     {
-                        MessageBox.Show($"Error:{vtScanResponse.Error.Code}","API issues");
+                        MessageBox.Show($"Error:{vtScanResponse.Error.Code}", "API issues");
                         return;
                     }
 
@@ -173,7 +217,7 @@ namespace Widget
         /// <summary>
         /// Cancle the getCurrentSystemUsage
         /// </summary>
-        private void CancelSystemUsage() =>    cancellationTokenSource?.Cancel();
+        private void CancelSystemUsage() => cancellationTokenSource?.Cancel();
 
         /// <summary>
         /// Retrieves the current system usage, including CPU and RAM usage, and updates the corresponding UI controls.

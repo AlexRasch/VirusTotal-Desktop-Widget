@@ -33,6 +33,8 @@
             label1 = new Label();
             btnSave = new Button();
             groupBox1 = new GroupBox();
+            lblFadeEffect = new Label();
+            cbFadeEffect = new CheckBox();
             cbAutostart = new CheckBox();
             lblAutoStart = new Label();
             gbVirusTotal.SuspendLayout();
@@ -78,6 +80,8 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(lblFadeEffect);
+            groupBox1.Controls.Add(cbFadeEffect);
             groupBox1.Controls.Add(cbAutostart);
             groupBox1.Controls.Add(lblAutoStart);
             groupBox1.Location = new Point(12, 82);
@@ -87,10 +91,28 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Widget";
             // 
+            // lblFadeEffect
+            // 
+            lblFadeEffect.AutoSize = true;
+            lblFadeEffect.Location = new Point(6, 56);
+            lblFadeEffect.Name = "lblFadeEffect";
+            lblFadeEffect.Size = new Size(68, 15);
+            lblFadeEffect.TabIndex = 3;
+            lblFadeEffect.Text = "Fade effect:";
+            // 
+            // cbFadeEffect
+            // 
+            cbFadeEffect.AutoSize = true;
+            cbFadeEffect.Location = new Point(77, 57);
+            cbFadeEffect.Name = "cbFadeEffect";
+            cbFadeEffect.Size = new Size(15, 14);
+            cbFadeEffect.TabIndex = 2;
+            cbFadeEffect.UseVisualStyleBackColor = true;
+            // 
             // cbAutostart
             // 
             cbAutostart.AutoSize = true;
-            cbAutostart.Location = new Point(71, 31);
+            cbAutostart.Location = new Point(77, 31);
             cbAutostart.Name = "cbAutostart";
             cbAutostart.Size = new Size(15, 14);
             cbAutostart.TabIndex = 1;
@@ -136,5 +158,7 @@
         private GroupBox groupBox1;
         private Label lblAutoStart;
         private CheckBox cbAutostart;
+        private Label lblFadeEffect;
+        private CheckBox cbFadeEffect;
     }
 }

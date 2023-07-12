@@ -24,19 +24,24 @@ namespace Widget
             System.Windows.Forms.ToolTip toolTipAutoStart = new System.Windows.Forms.ToolTip();
             toolTipAutoStart.SetToolTip(lblAutoStart, "Enable autostart to launch the widget automatically during Windows startup.");
 
+            System.Windows.Forms.ToolTip toolTipFadeEffect = new System.Windows.Forms.ToolTip();
+            toolTipFadeEffect.SetToolTip(lblFadeEffect, "Enable this option to add a visually appealing fade-in and fade-out effect when the application starts and exits.");
+
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
             string apiKey = txtApiKey.Text;
             bool IsAutoStartEnabled = cbAutostart.CheckState == CheckState.Checked;
+            bool IsFadeEffectEnabled = cbFadeEffect.CheckState == CheckState.Checked;
 
             WidgetSettings settings = new WidgetSettings
             {
                 VirusTotalApiKey = apiKey,
                 LicenseAgreementAccepted = true,
                 AutoStartEnabled = IsAutoStartEnabled,
-                
+                FadeEffect = IsFadeEffectEnabled,
+
             };
 
             string jsonString = JsonSerializer.Serialize(settings);
@@ -49,6 +54,7 @@ namespace Widget
             config = WidgetSettings.LoadSettingsFromConfigFile();
             txtApiKey.Text = config.VirusTotalApiKey;
             cbAutostart.Checked = config.AutoStartEnabled;
+            cbFadeEffect.Checked = config.FadeEffect;
         }
     }
 }
