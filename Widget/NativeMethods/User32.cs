@@ -37,14 +37,53 @@ namespace Widget
                 return 0;
             }
         }
+
+        public static bool FadeOut(IntPtr hWindow, int opacity)
+        {
+            try
+            {
+                bool result = Fade(hWindow, opacity);
+                return result;
+            }
+            catch
+            {
+#if DEBUG
+                Debug.WriteLine($"WinAPI FadeOut:");
+#endif              
+                return false;
+            }
+        }
+
         public static bool FadeIn(IntPtr hWindow, int opacity)
+        {
+            try
+            {
+                bool result = Fade(hWindow, opacity);
+                return result;
+            }
+            catch {
+#if DEBUG
+                Debug.WriteLine($"WinAPI FadeIn: ");
+#endif              
+                return false;
+            }
+        }
+
+        /// <summary>
+        ///  Takes a handle and changes the opacity of the Window.
+        /// </summary>
+        /// <param name="hWindow">Handle of Window (this.Handle)</param>
+        /// <param name="opacity">0 - 255 </param>
+        /// <returns>A bool </returns>
+        private static bool Fade(IntPtr hWindow, int opacity)
         {
             try
             {
                 bool result = NativeMethods.SetLayeredWindowAttributes(hWindow, 0, (byte)opacity, NativeMethods.LWA_ALPHA);
                 return result;
             }
-            catch {
+            catch
+            {
 #if DEBUG
                 Debug.WriteLine($"WinAPI SetLayeredWindowAttributes: {Marshal.GetLastWin32Error()}");
 #endif              
