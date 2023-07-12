@@ -39,8 +39,17 @@ namespace Widget
         }
         public static bool FadeIn(IntPtr hWindow, int opacity)
         {
-            NativeMethods.SetLayeredWindowAttributes(hWindow, 0, (byte)opacity, NativeMethods.LWA_ALPHA);
-            return true;
+            try
+            {
+                bool result = NativeMethods.SetLayeredWindowAttributes(hWindow, 0, (byte)opacity, NativeMethods.LWA_ALPHA);
+                return result;
+            }
+            catch {
+#if DEBUG
+                Debug.WriteLine($"WinAPI SetLayeredWindowAttributes: {Marshal.GetLastWin32Error()}");
+#endif              
+                return false;
+            }
         }
 
         public static void DragWindowsForm(IntPtr formHandle)
@@ -72,7 +81,7 @@ namespace Widget
             public const int FADE_DURATION = 500;
 
             [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-            [DllImport("user32.dll")]
+            [DllImport("user32.dll", SetLastError = true)]
             public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
             [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
