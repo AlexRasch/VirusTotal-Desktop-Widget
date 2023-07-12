@@ -30,13 +30,15 @@ namespace Widget
         {
             string apiKey = txtApiKey.Text;
             bool IsAutoStartEnabled = cbAutostart.CheckState == CheckState.Checked;
+            bool IsFadeEffectEnabled = cbFadeEffect.CheckState == CheckState.Checked;
 
             WidgetSettings settings = new WidgetSettings
             {
                 VirusTotalApiKey = apiKey,
                 LicenseAgreementAccepted = true,
                 AutoStartEnabled = IsAutoStartEnabled,
-                
+                FadeEffect = IsFadeEffectEnabled,
+
             };
 
             string jsonString = JsonSerializer.Serialize(settings);

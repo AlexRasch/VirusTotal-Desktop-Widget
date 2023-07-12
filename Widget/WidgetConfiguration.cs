@@ -29,13 +29,15 @@ namespace Widget
             public string? VirusTotalApiKey { get; set; }
             public bool LicenseAgreementAccepted { get; set; }
             public bool AutoStartEnabled { get; set; }
+            public bool FadeEffect { get; set; }
 
             // Default settings
             private static readonly WidgetSettings DefaultSettings = new()
             {
                 VirusTotalApiKey = null,
                 LicenseAgreementAccepted = false,
-                AutoStartEnabled = false
+                AutoStartEnabled = false,
+                FadeEffect = false,
             };
 
             public static WidgetSettings LoadSettingsFromConfigFile()
