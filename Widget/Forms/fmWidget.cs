@@ -48,7 +48,8 @@ namespace Widget
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            FadeInForm();
+            if(widgetSettings.FadeEffect)
+                FadeInForm();
         }
 
         private void FadeInForm()
