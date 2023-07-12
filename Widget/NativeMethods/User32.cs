@@ -77,6 +77,9 @@ namespace Widget
         /// <returns><c>true</c> if the opacity change was successful; otherwise, <c>false</c>.</returns>
         private static bool Fade(IntPtr hWindow, int opacity)
         {
+            if (opacity < 0 || opacity > 255)
+                throw new ArgumentOutOfRangeException(nameof(opacity), "Opacity value must be between 0 and 255.");
+
             try
             {
                 bool result = NativeMethods.SetLayeredWindowAttributes(hWindow, 0, (byte)opacity, NativeMethods.LWA_ALPHA);
