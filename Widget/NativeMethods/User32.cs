@@ -70,11 +70,11 @@ namespace Widget
         }
 
         /// <summary>
-        ///  Takes a handle and changes the opacity of the Window.
+        /// Changes the opacity of the specified window.
         /// </summary>
-        /// <param name="hWindow">Handle of Window (this.Handle)</param>
-        /// <param name="opacity">0 - 255 </param>
-        /// <returns>A bool </returns>
+        /// <param name="hWindow">The handle of the window to apply the fade effect.</param>
+        /// <param name="opacity">The opacity value to set (0-255), where 0 is fully transparent and 255 is fully opaque.</param>
+        /// <returns><c>true</c> if the opacity change was successful; otherwise, <c>false</c>.</returns>
         private static bool Fade(IntPtr hWindow, int opacity)
         {
             try
