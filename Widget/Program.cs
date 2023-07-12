@@ -14,11 +14,18 @@ namespace Widget
         static void Main(string[] args)
         {
             // If args the app is 99% called from send to context
+            if(args.Length >= 1)
+            {
+                string fileToSubmitPath = args[0];
+                Debug.WriteLine($"File to submit: {fileToSubmitPath}");
+                
+                // Send file and show report
 
-            // Send file and show report
 
-            // Shutdown instance
+                // Shutdown instance
+            }
 
+            // Normal application start
             if (!isFirstInstance)
             {
                 WindowsAPI.BringExistingInstanceToFront();

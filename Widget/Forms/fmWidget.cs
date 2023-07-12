@@ -161,8 +161,8 @@ namespace Widget
                     VT vt = new(widgetSettings.VirusTotalApiKey);
 
                     // Scan file
-                    ResponseParser vtReponse = new();
-                    ResponseParser.VTReport vtScanResponse = vtReponse.ParseReport(await vt.ScanFileAsync(openFileDialog.FileName));
+                    ResponseParser.VTReport vtReponse = new();
+                    ResponseParser.VTReport vtScanResponse = await vt.ScanFileAsync(vt, openFileDialog.FileName);
 
                     // Handle API error
                     if (vtScanResponse.Error.Code != null)
@@ -175,13 +175,13 @@ namespace Widget
                     Debug.WriteLine($"Submited file for analyis");
 #endif
                     // Get report
-                    ResponseParser.VTReport vtScanReport = await GetNonQueuedReportAsync(vt, vtScanResponse.Id);
+                    //ResponseParser.VTReport vtScanReport = await GetNonQueuedReportAsync(vt, vtScanResponse.Id);
 
 #if DEBUG
-                    Debug.WriteLine($"Report status:{vtScanReport.Status}");
+                    Debug.WriteLine($"Report status:{vtScanResponse.Status}");
 #endif
                     // Display report
-                    fmVTScanResult scanResult = new(vtScanReport);
+                    fmVTScanResult scanResult = new(vtScanResponse);
                     scanResult.Show();
                 }
             }

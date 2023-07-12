@@ -2,6 +2,7 @@
   "profiles": {
     "Widget": {
       "commandName": "Project",
+      "commandLineArgs": "C:\\Users\\r00t\\Documents\\MEGA\\Malware\\Sample\\Empty.exe",
       "nativeDebugging": true
     }
   }

@@ -21,7 +21,22 @@ namespace VirusTotal
             httpClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip");
         }
 
-        public async Task<string> ScanFileAsync(string filePath)
+        private static async Task<ResponseParser.VTReport> GetNonQueuedReportAsync(VT vt, string reportId, int delay = 10)
+        {
+            ResponseParser.VTReport vtReport = await vt.GetReportAsync(reportId);
+            while (vtReport.Status == "queued")
+            {
+#if DEBUG
+                Debug.WriteLine($"Report status:queued ");
+#endif
+                await Task.Delay(TimeSpan.FromSeconds(delay));
+                vtReport = await vt.GetReportAsync(reportId);
+            }
+
+            return vtReport;
+        }
+
+        public async Task<ResponseParser.VTReport> ScanFileAsync(VT vt, string filePath)
         {
             string apiUrl = "https://www.virustotal.com/api/v3/files";
 
@@ -37,14 +52,12 @@ namespace VirusTotal
 #if DEBUG
                     Debug.WriteLine($"Response: {responseContent}");
 #endif
+                    // Parse initial response
+                    ResponseParser.VTReport vtResponse = new ResponseParser.ParseReport(responseContent);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        // Successfully submitted the file for scanning
-                        return responseContent;
-                    }
 
-                    return responseContent;
+                    return await GetNonQueuedReportAsync(vt, vtResponse.Id);
+
                 }
             }
             catch (Exception ex)
