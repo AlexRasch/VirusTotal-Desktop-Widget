@@ -58,7 +58,6 @@ namespace Widget
             // Make windows transparent and set initial opacity to 0
             WindowsAPI.MakeWindowTransparent(this.Handle);
             WindowsAPI.FadeIn(this.Handle, 255);
-
             // Fade out
             for (int opacity = 255; opacity >= 0; opacity -= 1)
             {

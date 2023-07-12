@@ -11,8 +11,14 @@ namespace Widget
         private static bool isFirstInstance;
 
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
+            // If args the app is 99% called from send to context
+
+            // Send file and show report
+
+            // Shutdown instance
+
             if (!isFirstInstance)
             {
                 WindowsAPI.BringExistingInstanceToFront();

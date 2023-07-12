@@ -30,6 +30,7 @@ namespace Widget
             public bool LicenseAgreementAccepted { get; set; }
             public bool AutoStartEnabled { get; set; }
             public bool FadeEffect { get; set; }
+            public bool SendTo { get; set; }
 
             // Default settings
             private static readonly WidgetSettings DefaultSettings = new()
@@ -38,6 +39,7 @@ namespace Widget
                 LicenseAgreementAccepted = false,
                 AutoStartEnabled = false,
                 FadeEffect = false,
+                SendTo = false,
             };
 
             public static WidgetSettings LoadSettingsFromConfigFile()
