@@ -16,10 +16,11 @@ namespace Widget
         [STAThread]
         static async Task Main(string[] args)
         {
-            // 
+            // Send to
             if (args.Length >= 1)
             {
                 await HandleCommandLineArguments(args);
+                Environment.Exit(0);
             }
 
             // Normal application start
@@ -49,9 +50,9 @@ namespace Widget
 
         private static async Task HandleCommandLineArguments(string[] args)
         {
-            // If args the app is 99% called from send to context
-            // ToDo this is pretty much a copy paste of the same logic as fmWidget have
-            // A better approach should be possible (thinking about Dont Repeat You're self)
+            // If there are command line arguments, the app is most likely called from the context menu "Send to"
+            // ToDo: This logic is very similar to the one in fmWidget.
+            // Consider finding a better approach to adhere to the "Don't Repeat Yourself" (DRY) principle and avoid code duplication.
 
             string fileToSubmitPath = args[0];
             WidgetSettings widgetSettings = WidgetSettings.LoadSettingsFromConfigFile();
@@ -60,7 +61,7 @@ namespace Widget
             if (widgetSettings.VirusTotalApiKey == null)
             {
                 MessageBox.Show("Missing VirusTotal API key", "Error");
-                Environment.Exit(0);
+                return;
             }
             VT vt = new(widgetSettings.VirusTotalApiKey);
 
@@ -80,7 +81,6 @@ namespace Widget
                 scanResult.ShowDialog();
 
             }
-            Environment.Exit(0);
 
         }
         private static void ShowAlreadyRunningMessage()
