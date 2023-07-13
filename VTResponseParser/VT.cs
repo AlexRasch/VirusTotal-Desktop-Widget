@@ -80,8 +80,8 @@ namespace VirusTotal
             {
 #if DEBUG
                 Debug.WriteLine($"An error occurred while scanning the file: {ex.Message}");
-                throw new Exception("An error occurred while scanning the file", ex);
 #endif
+                throw new Exception("An error occurred while scanning the file", ex);
             }
         }
 
