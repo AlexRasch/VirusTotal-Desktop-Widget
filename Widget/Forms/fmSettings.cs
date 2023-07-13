@@ -42,7 +42,7 @@ namespace Widget
                 LicenseAgreementAccepted = true,
                 AutoStartEnabled = IsAutoStartEnabled,
                 FadeEffect = IsFadeEffectEnabled,
-                SendTo = IsSendToEnabled,
+                SendToEnabled = IsSendToEnabled,
 
             };
 
@@ -58,7 +58,7 @@ namespace Widget
 
             cbAutostart.Checked = config.AutoStartEnabled;
             cbFadeEffect.Checked = config.FadeEffect;
-            cbSendTo.Checked = config.SendTo;
+            cbSendTo.Checked = config.SendToEnabled;
         }
     }
 }

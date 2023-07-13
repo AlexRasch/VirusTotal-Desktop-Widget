@@ -15,8 +15,8 @@ namespace Widget
     {
         // Widget constant
         public const string widgetMutex = "VT-Desktop-Widget";
-        //public const string widgetMutex = "VT-Desktop-Widget-Test";
         public const string appName = "VT-Desktop-Widget";
+        public const string shortcutName = "VT desktop widget";
         private const string AutoStartRegistryKeyPath = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
 
         // Paths
@@ -30,7 +30,7 @@ namespace Widget
             public bool LicenseAgreementAccepted { get; set; }
             public bool AutoStartEnabled { get; set; }
             public bool FadeEffect { get; set; }
-            public bool SendTo { get; set; }
+            public bool SendToEnabled { get; set; }
 
             // Default settings
             private static readonly WidgetSettings DefaultSettings = new()
@@ -39,7 +39,7 @@ namespace Widget
                 LicenseAgreementAccepted = false,
                 AutoStartEnabled = false,
                 FadeEffect = false,
-                SendTo = false,
+                SendToEnabled = false,
             };
 
             public static WidgetSettings LoadSettingsFromConfigFile()
@@ -85,6 +85,7 @@ namespace Widget
                 }
 
                 HandleAutostart(widgetSettings!.AutoStartEnabled);
+                ShortcutManager.HandleSendTo(widgetSettings!.SendToEnabled, shortcutName);
 
                 return widgetSettings;
             }
