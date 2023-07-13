@@ -14,13 +14,13 @@ namespace VirusTotal
         public VT(string apiKey)
         {
             ApiKey = apiKey;
-            httpClient = CreateHttpClient(apiKey);
+            httpClient = CreateHttpClient();
         }
-        private static HttpClient CreateHttpClient(string apiKey)
+        private HttpClient CreateHttpClient()
         {
             var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Add("User-Agent", "VirusTotal Desktop Widget (github.com/AlexRasch/VirusTotal-Desktop-Widget)");
-            httpClient.DefaultRequestHeaders.Add("x-apikey", apiKey);
+            httpClient.DefaultRequestHeaders.Add("x-apikey", ApiKey);
             httpClient.DefaultRequestHeaders.Add("accept", "application/json");
             httpClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip");
             return httpClient;
@@ -101,14 +101,8 @@ namespace VirusTotal
 #endif
 
                 ResponseParser vtResponse = new();
-
-                if (response.IsSuccessStatusCode)
-                {
-                    // Successfully retrieved the report
-                    return vtResponse.ParseReport(responseContent);
-                }
-                // Error while  retrieved the report
                 return vtResponse.ParseReport(responseContent);
+
 
             }
             catch (Exception ex)
@@ -116,9 +110,8 @@ namespace VirusTotal
 #if DEBUG
                 Debug.WriteLine($"VT error while retrieving the report: {ex.Message}");
 #endif
+                throw new Exception("Error while retrieving the report");
             }
-
-            return null;
         }
     }
 }
