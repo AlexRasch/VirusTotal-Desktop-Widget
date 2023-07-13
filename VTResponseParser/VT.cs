@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace VirusTotal
 {
-    public class VT
+    public class VT : IDisposable
     {
         private readonly HttpClient httpClient;
         public string ApiKey { get; set; }
@@ -16,6 +16,12 @@ namespace VirusTotal
             ApiKey = apiKey;
             httpClient = CreateHttpClient();
         }
+
+        public void Dispose()
+        {
+            httpClient.Dispose();
+        }
+
         private HttpClient CreateHttpClient()
         {
             var httpClient = new HttpClient();
@@ -74,7 +80,7 @@ namespace VirusTotal
             {
 #if DEBUG
                 Debug.WriteLine($"An error occurred while scanning the file: {ex.Message}");
-                throw new Exception("An error occurred while scanning the file");
+                throw new Exception("An error occurred while scanning the file", ex);
 #endif
             }
         }
