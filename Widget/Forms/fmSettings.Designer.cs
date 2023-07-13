@@ -33,6 +33,8 @@
             label1 = new Label();
             btnSave = new Button();
             groupBox1 = new GroupBox();
+            lblSendTo = new Label();
+            cbSendTo = new CheckBox();
             lblFadeEffect = new Label();
             cbFadeEffect = new CheckBox();
             cbAutostart = new CheckBox();
@@ -47,7 +49,7 @@
             gbVirusTotal.Controls.Add(label1);
             gbVirusTotal.Location = new Point(12, 12);
             gbVirusTotal.Name = "gbVirusTotal";
-            gbVirusTotal.Size = new Size(651, 64);
+            gbVirusTotal.Size = new Size(570, 64);
             gbVirusTotal.TabIndex = 0;
             gbVirusTotal.TabStop = false;
             gbVirusTotal.Text = "VirusTotal";
@@ -56,7 +58,7 @@
             // 
             txtApiKey.Location = new Point(114, 25);
             txtApiKey.Name = "txtApiKey";
-            txtApiKey.Size = new Size(523, 23);
+            txtApiKey.Size = new Size(386, 23);
             txtApiKey.TabIndex = 1;
             // 
             // label1
@@ -70,7 +72,7 @@
             // 
             // btnSave
             // 
-            btnSave.Location = new Point(554, 407);
+            btnSave.Location = new Point(473, 407);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(109, 31);
             btnSave.TabIndex = 1;
@@ -80,16 +82,36 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(lblSendTo);
+            groupBox1.Controls.Add(cbSendTo);
             groupBox1.Controls.Add(lblFadeEffect);
             groupBox1.Controls.Add(cbFadeEffect);
             groupBox1.Controls.Add(cbAutostart);
             groupBox1.Controls.Add(lblAutoStart);
             groupBox1.Location = new Point(12, 82);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(651, 100);
+            groupBox1.Size = new Size(570, 100);
             groupBox1.TabIndex = 2;
             groupBox1.TabStop = false;
             groupBox1.Text = "Widget";
+            // 
+            // lblSendTo
+            // 
+            lblSendTo.AutoSize = true;
+            lblSendTo.Location = new Point(159, 30);
+            lblSendTo.Name = "lblSendTo";
+            lblSendTo.Size = new Size(50, 15);
+            lblSendTo.TabIndex = 5;
+            lblSendTo.Text = "Send to:";
+            // 
+            // cbSendTo
+            // 
+            cbSendTo.AutoSize = true;
+            cbSendTo.Location = new Point(212, 31);
+            cbSendTo.Name = "cbSendTo";
+            cbSendTo.Size = new Size(15, 14);
+            cbSendTo.TabIndex = 4;
+            cbSendTo.UseVisualStyleBackColor = true;
             // 
             // lblFadeEffect
             // 
@@ -131,7 +153,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(675, 450);
+            ClientSize = new Size(592, 450);
             Controls.Add(groupBox1);
             Controls.Add(btnSave);
             Controls.Add(gbVirusTotal);
@@ -160,5 +182,7 @@
         private CheckBox cbAutostart;
         private Label lblFadeEffect;
         private CheckBox cbFadeEffect;
+        private Label lblSendTo;
+        private CheckBox cbSendTo;
     }
 }
