@@ -1,6 +1,9 @@
 using System.Threading;
 using System;
 using System.Diagnostics;
+using static Widget.WidgetConfiguration;
+using VirusTotal;
+using System.Windows.Forms;
 
 namespace Widget
 {
@@ -11,18 +14,49 @@ namespace Widget
         private static bool isFirstInstance;
 
         [STAThread]
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             // If args the app is 99% called from send to context
-            if(args.Length >= 1)
+            if (args.Length >= 1)
             {
                 string fileToSubmitPath = args[0];
+#if DEBUG
                 Debug.WriteLine($"File to submit: {fileToSubmitPath}");
-                
-                // Send file and show report
+#endif
+                WidgetSettings widgetSettings = WidgetSettings.LoadSettingsFromConfigFile();
+
+                // Do we have a API key?
+                if (widgetSettings.VirusTotalApiKey == null)
+                {
+                    MessageBox.Show("");
+                    Environment.Exit(0);
+                }
+                VT vt = new(widgetSettings.VirusTotalApiKey);
+
+                // Scan file
+
+                ResponseParser vtReponse = new();
+                vtReponse = await vt.ScanFileAsync(vt, fileToSubmitPath);
+                // Handle API error
+                if (vtReponse.ErrorCode != null)
+                {
+                    MessageBox.Show($"Error:{vtReponse.ErrorCode.Code}", "API issues");
+                    return;
+                }
+#if DEBUG
+                Debug.WriteLine($"Submited file for analyis");
+#endif
+                // Display report
+                using (fmVTScanResult scanResult = new(vtReponse))
+                {
+                    scanResult.ShowDialog();
+
+                }
 
 
-                // Shutdown instance
+
+
+                Environment.Exit(0);
             }
 
             // Normal application start
@@ -39,7 +73,7 @@ namespace Widget
                 AppDomain.CurrentDomain.UnhandledException += HandleUnhandledException;
 
                 ApplicationConfiguration.Initialize();
-                frmWidget mainForm = new ();
+                frmWidget mainForm = new();
                 Application.Run(mainForm);
             }
             finally
