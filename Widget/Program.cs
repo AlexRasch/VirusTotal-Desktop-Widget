@@ -16,47 +16,10 @@ namespace Widget
         [STAThread]
         static async Task Main(string[] args)
         {
-            // If args the app is 99% called from send to context
+            // 
             if (args.Length >= 1)
             {
-                string fileToSubmitPath = args[0];
-#if DEBUG
-                Debug.WriteLine($"File to submit: {fileToSubmitPath}");
-#endif
-                WidgetSettings widgetSettings = WidgetSettings.LoadSettingsFromConfigFile();
-
-                // Do we have a API key?
-                if (widgetSettings.VirusTotalApiKey == null)
-                {
-                    MessageBox.Show("");
-                    Environment.Exit(0);
-                }
-                VT vt = new(widgetSettings.VirusTotalApiKey);
-
-                // Scan file
-
-                ResponseParser vtReponse = new();
-                vtReponse = await vt.ScanFileAsync(vt, fileToSubmitPath);
-                // Handle API error
-                if (vtReponse.ErrorCode != null)
-                {
-                    MessageBox.Show($"Error:{vtReponse.ErrorCode.Code}", "API issues");
-                    return;
-                }
-#if DEBUG
-                Debug.WriteLine($"Submited file for analyis");
-#endif
-                // Display report
-                using (fmVTScanResult scanResult = new(vtReponse))
-                {
-                    scanResult.ShowDialog();
-
-                }
-
-
-
-
-                Environment.Exit(0);
+                await HandleCommandLineArguments(args);
             }
 
             // Normal application start
@@ -83,6 +46,43 @@ namespace Widget
             }
         }
 
+
+        private static async Task HandleCommandLineArguments(string[] args)
+        {
+            // If args the app is 99% called from send to context
+            // ToDo this is pretty much a copy paste of the same logic as fmWidget have
+            // A better approach should be possible (thinking about Dont Repeat You're self)
+
+            string fileToSubmitPath = args[0];
+            WidgetSettings widgetSettings = WidgetSettings.LoadSettingsFromConfigFile();
+
+            // Do we have a API key?
+            if (widgetSettings.VirusTotalApiKey == null)
+            {
+                MessageBox.Show("Missing VirusTotal API key", "Error");
+                Environment.Exit(0);
+            }
+            VT vt = new(widgetSettings.VirusTotalApiKey);
+
+            // Scan file
+            ResponseParser vtReponse = new();
+            vtReponse = await vt.ScanFileAsync(vt, fileToSubmitPath);
+            // Handle API error
+            if (vtReponse.ErrorCode != null)
+            {
+                MessageBox.Show($"Error:{vtReponse.ErrorCode.Code}", "API issues");
+                return;
+            }
+
+            // Display report
+            using (fmVTScanResult scanResult = new(vtReponse))
+            {
+                scanResult.ShowDialog();
+
+            }
+            Environment.Exit(0);
+
+        }
         private static void ShowAlreadyRunningMessage()
         {
             MessageBox.Show("Widget is already running.\n\n" +
