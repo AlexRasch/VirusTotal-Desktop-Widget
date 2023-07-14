@@ -77,11 +77,8 @@ namespace Widget
             }
 
             // Display report
-            using (fmVTScanResult scanResult = new(vtReponse))
-            {
-                scanResult.ShowDialog();
-
-            }
+            using fmVTScanResult scanResult = new(vtReponse);
+            scanResult.ShowDialog();
 
         }
         private static void ShowAlreadyRunningMessage()
@@ -95,7 +92,7 @@ namespace Widget
         {
             ShowExceptionMessageBox(e.Exception);
         }
-        private static void HandleUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        private static void HandleUnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs e)
         {
             e.SetObserved();
             ShowExceptionMessageBox(e.Exception);
@@ -103,9 +100,6 @@ namespace Widget
 
         private static void ShowExceptionMessageBox(Exception exception)
         {
-#if DEBUG
-        Debug.WriteLine($"Exception: {exception}");
-#endif
             MessageBox.Show($"{exception}", "Exception");
         }
 

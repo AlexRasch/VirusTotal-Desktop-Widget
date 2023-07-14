@@ -89,9 +89,6 @@ namespace Widget
             System.Windows.Forms.ToolTip toolTipExitWidget = new();
             toolTipExitWidget.SetToolTip(this.lblExit, "Shutdown the widget");
 
-            
-           
-
             GetCurrentSystemUsage();
         }
         private void lblExit_MouseEnter(object sender, EventArgs e) => lblExit.BackColor = Color.DimGray;
@@ -133,45 +130,41 @@ namespace Widget
         }
         private void lblSettings_Click(object sender, EventArgs e)
         {
-            using (fmSettings fmSettings = new())
-            {
-                fmSettings.ShowDialog();
-            }
+            using fmSettings fmSettings = new();
+            fmSettings.ShowDialog();
         }
 
         /* VirusTotal */
         private async void pbSubmit_Click(object sender, EventArgs e)
         {
 
-            using (OpenFileDialog openFileDialog = new())
+            using OpenFileDialog openFileDialog = new();
+            // Check if we have a key
+            if (string.IsNullOrEmpty(widgetSettings.VirusTotalApiKey))
             {
-                // Check if we have a key
-                if (string.IsNullOrEmpty(widgetSettings.VirusTotalApiKey))
+                MessageBox.Show("Missing VirusTotal API key", "Error");
+                return;
+            }
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                VT vt = new(widgetSettings.VirusTotalApiKey);
+
+                // Scan file
+                ResponseParser vtReponse = new();
+                vtReponse = await vt.ScanFileAsync(vt, openFileDialog.FileName);
+                // Handle API error
+                if (vtReponse.ErrorCode != null)
                 {
-                    MessageBox.Show("Missing VirusTotal API key", "Error");
+                    MessageBox.Show($"Error:{vtReponse.ErrorCode.Code}", "API issues");
                     return;
                 }
-
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    VT vt = new(widgetSettings.VirusTotalApiKey);
-
-                    // Scan file
-                    ResponseParser vtReponse = new();
-                    vtReponse = await vt.ScanFileAsync(vt, openFileDialog.FileName);
-                    // Handle API error
-                    if (vtReponse.ErrorCode != null)
-                    {
-                        MessageBox.Show($"Error:{vtReponse.ErrorCode.Code}", "API issues");
-                        return;
-                    }
 #if DEBUG
                         Debug.WriteLine($"Submited file for analyis");
 #endif
-                    // Display report
-                    fmVTScanResult scanResult = new(vtReponse);
-                    scanResult.Show();
-                }
+                // Display report
+                fmVTScanResult scanResult = new(vtReponse);
+                scanResult.Show();
             }
 
         }

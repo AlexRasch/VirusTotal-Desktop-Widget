@@ -54,27 +54,24 @@ namespace VirusTotal
 
             try
             {
-                using (var fileStream = File.OpenRead(filePath))
-                {
-                    var content = new MultipartFormDataContent();
-                    content.Add(new StreamContent(fileStream), "file", Path.GetFileName(filePath));
+                using var fileStream = File.OpenRead(filePath);
+                var content = new MultipartFormDataContent();
+                content.Add(new StreamContent(fileStream), "file", Path.GetFileName(filePath));
 
-                    var response = await httpClient.PostAsync(apiUrl, content);
-                    string responseContent = await response.Content.ReadAsStringAsync();
+                var response = await httpClient.PostAsync(apiUrl, content);
+                string responseContent = await response.Content.ReadAsStringAsync();
 #if DEBUG
                     Debug.WriteLine($"Inital response: {responseContent}");
 #endif
-                    // Parse initial response
-                    ResponseParser vtResponse = new ResponseParser().ParseReport(responseContent);
+                // Parse initial response
+                ResponseParser vtResponse = new ResponseParser().ParseReport(responseContent);
 
 #if DEBUG
                     Debug.WriteLine($"Inital report: {vtResponse.Id}");
 #endif
-                    // Return final report
-                    vtResponse = await GetNonQueuedReportAsync(vt, vtResponse.Id);
-                    return vtResponse;
-
-                }
+                // Return final report
+                vtResponse = await GetNonQueuedReportAsync(vt, vtResponse.Id);
+                return vtResponse;
             }
             catch (Exception ex)
             {

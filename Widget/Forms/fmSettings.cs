@@ -12,25 +12,24 @@ using static Widget.WidgetConfiguration;
 
 namespace Widget
 {
+#pragma warning disable IDE1006
     public partial class fmSettings : Form
     {
-        WidgetSettings config = new WidgetSettings();
+        WidgetSettings config = new();
 
         public fmSettings()
         {
             InitializeComponent();
 
             // UX
-            System.Windows.Forms.ToolTip toolTipAutoStart = new System.Windows.Forms.ToolTip();
+            System.Windows.Forms.ToolTip toolTipAutoStart = new();
             toolTipAutoStart.SetToolTip(lblAutoStart, "Enable autostart to launch the widget automatically during Windows startup.");
 
-            System.Windows.Forms.ToolTip toolTipFadeEffect = new System.Windows.Forms.ToolTip();
+            System.Windows.Forms.ToolTip toolTipFadeEffect = new();
             toolTipFadeEffect.SetToolTip(lblFadeEffect, "Enable this option to add a visually appealing fade-in and fade-out effect when the application starts and exits.");
 
-
-            System.Windows.Forms.ToolTip toolTipSendTo = new System.Windows.Forms.ToolTip();
-            toolTipFadeEffect.SetToolTip(lblSendTo, "Enables 'Send To' shortcut for easy file submission to VirusTotal.");
-
+            System.Windows.Forms.ToolTip toolTipSendTo = new();
+            toolTipSendTo.SetToolTip(lblSendTo, "Enables 'Send To' shortcut for easy file submission to VirusTotal.");
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -40,7 +39,7 @@ namespace Widget
             bool IsFadeEffectEnabled = cbFadeEffect.CheckState == CheckState.Checked;
             bool IsSendToEnabled = cbSendTo.CheckState == CheckState.Checked;
 
-            WidgetSettings settings = new WidgetSettings
+            WidgetSettings settings = new()
             {
                 VirusTotalApiKey = apiKey,
                 LicenseAgreementAccepted = true,

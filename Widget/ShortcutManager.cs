@@ -13,7 +13,7 @@ namespace Widget
 
     public class ShortcutManager
     {
-        private static string ShortcutFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Microsoft\Windows\SendTo");
+        private static readonly string ShortcutFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Microsoft\Windows\SendTo");
 
         public static void HandleSendTo(bool sendTo, string shortcutName)
         {
@@ -54,12 +54,10 @@ namespace Widget
 
         private static void CreateShortcut(string shortcutPath, string targetPath)
         {
-            using (StreamWriter writer = new StreamWriter(shortcutPath))
-            {
-                writer.WriteLine("[InternetShortcut]");
-                writer.WriteLine("URL=file:///" + targetPath.Replace('\\', '/'));
-                writer.Flush();
-            }
+            using StreamWriter writer = new(shortcutPath);
+            writer.WriteLine("[InternetShortcut]");
+            writer.WriteLine("URL=file:///" + targetPath.Replace('\\', '/'));
+            writer.Flush();
         }
 
 
