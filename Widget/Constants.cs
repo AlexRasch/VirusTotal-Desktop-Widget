@@ -10,13 +10,22 @@ namespace Widget
 {
     public class Constants
     {
+        public static string GetApplicationPath()
+        {
 #if DEBUG
-        // In debug mode, use the executing assembly (e.g., MyApp.exe)
-        public static string ApplicationPath = Assembly.GetExecutingAssembly().Location;
+            // In debug mode, use the executing assembly (e.g., MyApp.exe)
+            return Assembly.GetExecutingAssembly().Location;
 #else
-        // In release mode, use the entry assembly (e.g., MyApp.exe)
-        public static string ApplicationPath = Assembly.GetEntryAssembly().Location;
+            // In release mode, use the entry assembly (e.g., MyApp.exe)
+            string path = Assembly.GetEntryAssembly().Location;
+            if (string.IsNullOrEmpty(path))
+            {
+                // Fallback to Process.GetCurrentProcess().MainModule.FileName
+                return Process.GetCurrentProcess().MainModule.FileName;
+            }
+            return path;
 #endif
+        }
 
     }
 }
