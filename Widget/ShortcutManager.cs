@@ -17,24 +17,23 @@ namespace Widget
 
         public static void HandleSendTo(bool sendTo, string shortcutName)
         {
-            string shortcutFileName = ($"{shortcutName}.lnk");
+            string shortcutFullPath = Path.Combine(ShortcutFolderPath, $"{shortcutName}.lnk");
 
             if (sendTo)
-                CreateSendToShortcut(shortcutFileName);
+                CreateSendToShortcut(shortcutFullPath);
             else
-                DeleteSendToShortcut(shortcutFileName);
+                DeleteSendToShortcut(shortcutFullPath);
         }
 
-        private static void CreateSendToShortcut(string shortcutFileName)
+        private static void CreateSendToShortcut(string shortcutFullPath)
         {
-            string shortcutFullPath = Path.Combine(ShortcutFolderPath, shortcutFileName);
-            CreateShortcut(shortcutFullPath, Constants.applicationPath);
+            CreateShortcut(shortcutFullPath, Constants.GetApplicationPath());
         }
 
-        private static void DeleteSendToShortcut(string shortcutFileName)
+        private static void DeleteSendToShortcut(string shortcutFullPath)
         {
-            if (ShortcutExist(shortcutFileName))
-                System.IO.File.Delete(shortcutFileName);
+            if (ShortcutExist(shortcutFullPath))
+                System.IO.File.Delete(shortcutFullPath);
         }
 
         private static bool ShortcutExist(string shortcutName)

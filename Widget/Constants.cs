@@ -12,10 +12,10 @@ namespace Widget
     {
 #if DEBUG
         // In debug mode, use the executing assembly (e.g., MyApp.exe)
-        public static string applicationPath = Assembly.GetExecutingAssembly().Location;
+        public static string ApplicationPath = Assembly.GetExecutingAssembly().Location;
 #else
         // In release mode, use the entry assembly (e.g., MyApp.exe)
-        public static string applicationPath = Assembly.GetEntryAssembly().Location;
+        public static string ApplicationPath = Assembly.GetEntryAssembly().Location;
 #endif
 
     }
