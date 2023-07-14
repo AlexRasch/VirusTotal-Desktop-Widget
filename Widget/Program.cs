@@ -58,7 +58,7 @@ namespace Widget
             WidgetSettings widgetSettings = WidgetSettings.LoadSettingsFromConfigFile();
 
             // Do we have a API key?
-            if (widgetSettings.VirusTotalApiKey == null)
+            if (string.IsNullOrWhiteSpace(widgetSettings.VirusTotalApiKey))
             {
                 MessageBox.Show("Missing VirusTotal API key", "Error");
                 return;

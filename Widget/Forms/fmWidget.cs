@@ -141,38 +141,45 @@ namespace Widget
         }
 
         /* VirusTotal */
-        private async void pbScan_Click(object sender, EventArgs e)
+        private void pbSubmit_Click(object sender, EventArgs e)
         {
-            using (OpenFileDialog openFileDialog = new())
+            Thread thread = new Thread(async () =>
             {
-                // Check if we have a key
-                if (string.IsNullOrEmpty(widgetSettings.VirusTotalApiKey))
-                {
-                    MessageBox.Show("Missing VirusTotal API key", "Error");
-                    return;
-                }
 
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                using (OpenFileDialog openFileDialog = new())
                 {
-                    VT vt = new(widgetSettings.VirusTotalApiKey);
-
-                    // Scan file
-                    ResponseParser vtReponse = new();
-                    vtReponse = await vt.ScanFileAsync(vt, openFileDialog.FileName);
-                    // Handle API error
-                    if (vtReponse.ErrorCode != null)
+                    // Check if we have a key
+                    if (string.IsNullOrEmpty(widgetSettings.VirusTotalApiKey))
                     {
-                        MessageBox.Show($"Error:{vtReponse.ErrorCode.Code}", "API issues");
+                        MessageBox.Show("Missing VirusTotal API key", "Error");
                         return;
                     }
+
+                    if (openFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        VT vt = new(widgetSettings.VirusTotalApiKey);
+
+                        // Scan file
+                        ResponseParser vtReponse = new();
+                        vtReponse = await vt.ScanFileAsync(vt, openFileDialog.FileName);
+                        // Handle API error
+                        if (vtReponse.ErrorCode != null)
+                        {
+                            MessageBox.Show($"Error:{vtReponse.ErrorCode.Code}", "API issues");
+                            return;
+                        }
 #if DEBUG
-                    Debug.WriteLine($"Submited file for analyis");
+                        Debug.WriteLine($"Submited file for analyis");
 #endif
-                    // Display report
-                    fmVTScanResult scanResult = new(vtReponse);
-                    scanResult.Show();
+                        // Display report
+                        fmVTScanResult scanResult = new(vtReponse);
+                        scanResult.Show();
+                    }
                 }
-            }
+            });
+
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
         }
         private void pbScan_DragDrop(object sender, DragEventArgs? e)
         {
@@ -236,5 +243,7 @@ namespace Widget
                 }
             }, cancellationToken);
         }
+
+
     }
 }
