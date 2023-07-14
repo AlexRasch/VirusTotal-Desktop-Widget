@@ -54,7 +54,12 @@ namespace Widget
 
         private static void CreateShortcut(string shortcutPath, string targetPath)
         {
-            WindowsAPI.CreateShortcutEX(shortcutPath, targetPath);
+            using (StreamWriter writer = new StreamWriter(shortcutPath))
+            {
+                writer.WriteLine("[InternetShortcut]");
+                writer.WriteLine("URL=file:///" + targetPath.Replace('\\', '/'));
+                writer.Flush();
+            }
         }
 
 
