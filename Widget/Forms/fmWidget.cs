@@ -21,28 +21,6 @@ namespace Widget
         public frmWidget()
         {
             InitializeComponent();
-
-            // GUI styling
-            foreach (Control control in this.Controls)
-            {
-                if (control is PictureBox || control is Label)
-                    control.BackColor = Color.Transparent;
-            }
-            pbSubmit.AllowDrop = true;
-            Paint += new PaintEventHandler(set_background);
-
-            // UX
-            System.Windows.Forms.ToolTip toolTipScan = new();
-            toolTipScan.SetToolTip(this.pbSubmit, "Submit File for VirusTotal Analysis");
-
-            System.Windows.Forms.ToolTip toolTipSettingsWidget = new();
-            toolTipSettingsWidget.SetToolTip(this.lblSettings, "View and edit settings");
-
-            System.Windows.Forms.ToolTip toolTipExitWidget = new();
-            toolTipExitWidget.SetToolTip(this.lblExit, "Shutdown the widget");
-
-            this.AllowDrop = true;
-
             // Load Widget settings
             widgetSettings = WidgetSettings.LoadSettingsFromConfigFile();
         }
@@ -93,6 +71,27 @@ namespace Widget
             int formY = distanceFromEdge;
             Location = new System.Drawing.Point(formX, formY);
 
+            // GUI styling
+            foreach (Control control in this.Controls)
+            {
+                if (control is PictureBox || control is Label)
+                    control.BackColor = Color.Transparent;
+            }
+            Paint += new PaintEventHandler(set_background);
+
+            // UX
+            System.Windows.Forms.ToolTip toolTipScan = new();
+            toolTipScan.SetToolTip(this.pbSubmit, "Submit File for VirusTotal Analysis");
+
+            System.Windows.Forms.ToolTip toolTipSettingsWidget = new();
+            toolTipSettingsWidget.SetToolTip(this.lblSettings, "View and edit settings");
+
+            System.Windows.Forms.ToolTip toolTipExitWidget = new();
+            toolTipExitWidget.SetToolTip(this.lblExit, "Shutdown the widget");
+
+            
+           
+
             GetCurrentSystemUsage();
         }
         private void lblExit_MouseEnter(object sender, EventArgs e) => lblExit.BackColor = Color.DimGray;
@@ -141,8 +140,9 @@ namespace Widget
         }
 
         /* VirusTotal */
-        private async void pbScan_Click(object sender, EventArgs e)
+        private async void pbSubmit_Click(object sender, EventArgs e)
         {
+
             using (OpenFileDialog openFileDialog = new())
             {
                 // Check if we have a key
@@ -166,25 +166,27 @@ namespace Widget
                         return;
                     }
 #if DEBUG
-                    Debug.WriteLine($"Submited file for analyis");
+                        Debug.WriteLine($"Submited file for analyis");
 #endif
                     // Display report
                     fmVTScanResult scanResult = new(vtReponse);
                     scanResult.Show();
                 }
             }
+
         }
-        private void pbScan_DragDrop(object sender, DragEventArgs? e)
-        {
-            if (e?.Data.GetDataPresent(DataFormats.FileDrop) == true)
-            {
-                string[]? filePaths = e.Data.GetData(DataFormats.FileDrop) as string[];
-                if (filePaths != null && filePaths.Length > 0)
-                {
-                    MessageBox.Show(filePaths[0], "File");
-                }
-            }
-        }
+        //private void pbScan_DragDrop(object sender, DragEventArgs? e)
+        //{
+        //    if (e?.Data.GetDataPresent(DataFormats.FileDrop) == true)
+        //    {
+        //        string[]? filePaths = e.Data.GetData(DataFormats.FileDrop) as string[];
+        //        if (filePaths != null && filePaths.Length > 0)
+        //        {
+        //            MessageBox.Show(filePaths[0], "File");
+        //        }
+        //    }
+        //}
+
         private CancellationTokenSource cancellationTokenSource;
 
         /// <summary>
@@ -236,5 +238,7 @@ namespace Widget
                 }
             }, cancellationToken);
         }
+
+
     }
 }

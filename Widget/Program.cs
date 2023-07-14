@@ -14,12 +14,12 @@ namespace Widget
         private static bool isFirstInstance;
 
         [STAThread]
-        static async Task Main(string[] args)
+        static void Main(string[] args)
         {
             // Send to
             if (args.Length >= 1)
             {
-                await HandleCommandLineArguments(args);
+                Task.Run(() => HandleCommandLineArguments(args)).Wait();
                 Environment.Exit(0);
             }
 
@@ -35,6 +35,7 @@ namespace Widget
                 Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
                 Application.ThreadException += HandleThreadException;
                 AppDomain.CurrentDomain.UnhandledException += HandleUnhandledException;
+                TaskScheduler.UnobservedTaskException += HandleUnobservedTaskException;
 
                 ApplicationConfiguration.Initialize();
                 frmWidget mainForm = new();
@@ -58,7 +59,7 @@ namespace Widget
             WidgetSettings widgetSettings = WidgetSettings.LoadSettingsFromConfigFile();
 
             // Do we have a API key?
-            if (widgetSettings.VirusTotalApiKey == null)
+            if (string.IsNullOrWhiteSpace(widgetSettings.VirusTotalApiKey))
             {
                 MessageBox.Show("Missing VirusTotal API key", "Error");
                 return;
@@ -92,9 +93,20 @@ namespace Widget
 
         private static void HandleThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
+            ShowExceptionMessageBox(e.Exception);
+        }
+        private static void HandleUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+            e.SetObserved();
+            ShowExceptionMessageBox(e.Exception);
+        }
+
+        private static void ShowExceptionMessageBox(Exception exception)
+        {
 #if DEBUG
-            Debug.WriteLine($"ThreadException: {e}");
+        Debug.WriteLine($"Exception: {exception}");
 #endif
+            MessageBox.Show($"{exception}", "Exception");
         }
 
         private static void HandleUnhandledException(object sender, UnhandledExceptionEventArgs e)

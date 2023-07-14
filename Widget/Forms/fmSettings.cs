@@ -29,7 +29,7 @@ namespace Widget
 
 
             System.Windows.Forms.ToolTip toolTipSendTo = new System.Windows.Forms.ToolTip();
-            toolTipFadeEffect.SetToolTip(lblSendTo, "Currently disabled. Working on an alternative solution.");
+            toolTipFadeEffect.SetToolTip(lblSendTo, "Enables 'Send To' shortcut for easy file submission to VirusTotal.");
 
         }
 
@@ -62,8 +62,8 @@ namespace Widget
 
             cbAutostart.Checked = config.AutoStartEnabled;
             cbFadeEffect.Checked = config.FadeEffect;
-            //cbSendTo.Checked = config.SendToEnabled;
-            cbSendTo.Checked = false;
+            cbSendTo.Checked = config.SendToEnabled;
+            //cbSendTo.Checked = false;
         }
     }
 }

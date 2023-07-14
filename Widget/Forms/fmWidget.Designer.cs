@@ -50,8 +50,7 @@
             pbSubmit.SizeMode = PictureBoxSizeMode.StretchImage;
             pbSubmit.TabIndex = 0;
             pbSubmit.TabStop = false;
-            pbSubmit.Click += pbScan_Click;
-            pbSubmit.DragDrop += pbScan_DragDrop;
+            pbSubmit.Click += pbSubmit_Click;
             // 
             // label1
             // 
