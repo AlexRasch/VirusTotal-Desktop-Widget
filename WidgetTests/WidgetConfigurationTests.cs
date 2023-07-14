@@ -18,7 +18,7 @@ namespace WidgetTests
                 "{" +
                 "\"VirusTotalApiKey\": null," +
                 " \"LicenseAgreementAccepted\": true," +
-                " \"AutoStartEnabled\": false" +
+                " \"AutoStartEnabled\": false," +
                 " \"SendToEnabled\": true" +
                 "}";
 
