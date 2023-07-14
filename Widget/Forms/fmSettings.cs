@@ -27,6 +27,10 @@ namespace Widget
             System.Windows.Forms.ToolTip toolTipFadeEffect = new System.Windows.Forms.ToolTip();
             toolTipFadeEffect.SetToolTip(lblFadeEffect, "Enable this option to add a visually appealing fade-in and fade-out effect when the application starts and exits.");
 
+
+            System.Windows.Forms.ToolTip toolTipSendTo = new System.Windows.Forms.ToolTip();
+            toolTipFadeEffect.SetToolTip(lblSendTo, "");
+
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -58,7 +62,8 @@ namespace Widget
 
             cbAutostart.Checked = config.AutoStartEnabled;
             cbFadeEffect.Checked = config.FadeEffect;
-            cbSendTo.Checked = config.SendToEnabled;
+            //cbSendTo.Checked = config.SendToEnabled;
+            cbSendTo.Checked = false;
         }
     }
 }

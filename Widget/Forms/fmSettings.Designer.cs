@@ -107,6 +107,7 @@
             // cbSendTo
             // 
             cbSendTo.AutoSize = true;
+            cbSendTo.Enabled = false;
             cbSendTo.Location = new Point(212, 31);
             cbSendTo.Name = "cbSendTo";
             cbSendTo.Size = new Size(15, 14);
