@@ -85,7 +85,7 @@ namespace Widget
                 }
 
                 HandleAutostart(widgetSettings!.AutoStartEnabled);
-                ShortcutManager.HandleSendTo(widgetSettings!.SendToEnabled, shortcutName);
+                //ShortcutManager.HandleSendTo(widgetSettings!.SendToEnabled, shortcutName);
 
                 return widgetSettings;
             }
@@ -116,7 +116,7 @@ namespace Widget
                     File.WriteAllText(widgetConfigPath, jsonString);
                     // Apply changes 
                     HandleAutostart(widgetSettings!.AutoStartEnabled);
-                    ShortcutManager.HandleSendTo(widgetSettings!.SendToEnabled, shortcutName);
+                    //ShortcutManager.HandleSendTo(widgetSettings!.SendToEnabled, shortcutName);
                 }
             }
             public static bool EnsureConfigFileExists()

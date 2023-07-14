@@ -5,13 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 // Windows Script Host
-using IWshRuntimeLibrary;
+//using IWshRuntimeLibrary;
 using System.Diagnostics.Eventing.Reader;
 
 namespace Widget
 {
+    //This code is commented out because it causes issues with the GitHub Action due to the COM reference.
+    //We are actively working on finding an alternative solution that doesn't rely on the .NET Framework and.
+    //If possible, doesn't require admin privileges....
+
     public class ShortcutManager
     {
+        /*
 
         private static string ShortcutFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Microsoft\Windows\SendTo");
 
@@ -62,6 +67,6 @@ namespace Widget
             shortcut.WorkingDirectory = workingDirectory;
 
             shortcut.Save();
-        }
+        } */
     }
 }
