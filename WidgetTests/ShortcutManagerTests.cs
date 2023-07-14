@@ -22,7 +22,6 @@ namespace WidgetTests
             // Assert
             Assert.True(File.Exists(Path.Combine(shortcutFolderPath, $"{shortcutName}.lnk")));
         }
-    
         [Fact]
         public void ShortcutManager_DeleteShortcut()
         {
