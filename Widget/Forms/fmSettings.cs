@@ -29,7 +29,7 @@ namespace Widget
 
 
             System.Windows.Forms.ToolTip toolTipSendTo = new System.Windows.Forms.ToolTip();
-            toolTipFadeEffect.SetToolTip(lblSendTo, "");
+            toolTipFadeEffect.SetToolTip(lblSendTo, "Currently disabled. Working on an alternative solution.");
 
         }
 
