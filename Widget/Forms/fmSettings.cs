@@ -34,6 +34,7 @@ namespace Widget
             string apiKey = txtApiKey.Text;
             bool IsAutoStartEnabled = cbAutostart.CheckState == CheckState.Checked;
             bool IsFadeEffectEnabled = cbFadeEffect.CheckState == CheckState.Checked;
+            bool IsSendToEnabled = cbSendTo.CheckState == CheckState.Checked;
 
             WidgetSettings settings = new WidgetSettings
             {
@@ -41,6 +42,7 @@ namespace Widget
                 LicenseAgreementAccepted = true,
                 AutoStartEnabled = IsAutoStartEnabled,
                 FadeEffect = IsFadeEffectEnabled,
+                SendToEnabled = IsSendToEnabled,
 
             };
 
@@ -53,8 +55,10 @@ namespace Widget
         {
             config = WidgetSettings.LoadSettingsFromConfigFile();
             txtApiKey.Text = config.VirusTotalApiKey;
+
             cbAutostart.Checked = config.AutoStartEnabled;
             cbFadeEffect.Checked = config.FadeEffect;
+            cbSendTo.Checked = config.SendToEnabled;
         }
     }
 }

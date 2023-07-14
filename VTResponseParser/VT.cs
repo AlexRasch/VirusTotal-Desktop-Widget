@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace VirusTotal
 {
-    public class VT
+    public class VT : IDisposable
     {
         private readonly HttpClient httpClient;
         public string ApiKey { get; set; }
@@ -14,14 +14,41 @@ namespace VirusTotal
         public VT(string apiKey)
         {
             ApiKey = apiKey;
-            httpClient = new HttpClient();
+            httpClient = CreateHttpClient();
+        }
+
+        public void Dispose()
+        {
+            httpClient.Dispose();
+        }
+
+        private HttpClient CreateHttpClient()
+        {
+            var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Add("User-Agent", "VirusTotal Desktop Widget (github.com/AlexRasch/VirusTotal-Desktop-Widget)");
             httpClient.DefaultRequestHeaders.Add("x-apikey", ApiKey);
             httpClient.DefaultRequestHeaders.Add("accept", "application/json");
             httpClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip");
+            return httpClient;
         }
 
-        public async Task<string> ScanFileAsync(string filePath)
+
+        private static async Task<ResponseParser> GetNonQueuedReportAsync(VT vt, string reportId, int delay = 10)
+        {
+            ResponseParser vtReport = await vt.GetReportAsync(reportId);
+            while (vtReport.Status == "queued")
+            {
+#if DEBUG
+                Debug.WriteLine($"Report status:queued ");
+#endif
+                await Task.Delay(TimeSpan.FromSeconds(delay));
+                vtReport = await vt.GetReportAsync(reportId);
+            }
+
+            return vtReport;
+        }
+
+        public async Task<ResponseParser> ScanFileAsync(VT vt, string filePath)
         {
             string apiUrl = "https://www.virustotal.com/api/v3/files";
 
@@ -35,16 +62,18 @@ namespace VirusTotal
                     var response = await httpClient.PostAsync(apiUrl, content);
                     string responseContent = await response.Content.ReadAsStringAsync();
 #if DEBUG
-                    Debug.WriteLine($"Response: {responseContent}");
+                    Debug.WriteLine($"Inital response: {responseContent}");
 #endif
+                    // Parse initial response
+                    ResponseParser vtResponse = new ResponseParser().ParseReport(responseContent);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        // Successfully submitted the file for scanning
-                        return responseContent;
-                    }
+#if DEBUG
+                    Debug.WriteLine($"Inital report: {vtResponse.Id}");
+#endif
+                    // Return final report
+                    vtResponse = await GetNonQueuedReportAsync(vt, vtResponse.Id);
+                    return vtResponse;
 
-                    return responseContent;
                 }
             }
             catch (Exception ex)
@@ -52,12 +81,11 @@ namespace VirusTotal
 #if DEBUG
                 Debug.WriteLine($"An error occurred while scanning the file: {ex.Message}");
 #endif
+                throw new Exception("An error occurred while scanning the file", ex);
             }
-
-            return null;
         }
 
-        public async Task<ResponseParser.VTReport> GetReportAsync(string analysisId)
+        public async Task<ResponseParser> GetReportAsync(string analysisId)
         {
             if (analysisId.Contains("http"))
             {
@@ -79,14 +107,8 @@ namespace VirusTotal
 #endif
 
                 ResponseParser vtResponse = new();
-
-                if (response.IsSuccessStatusCode)
-                {
-                    // Successfully retrieved the report
-                    return vtResponse.ParseReport(responseContent);
-                }
-                // Error while  retrieved the report
                 return vtResponse.ParseReport(responseContent);
+
 
             }
             catch (Exception ex)
@@ -94,9 +116,8 @@ namespace VirusTotal
 #if DEBUG
                 Debug.WriteLine($"VT error while retrieving the report: {ex.Message}");
 #endif
+                throw new Exception("Error while retrieving the report");
             }
-
-            return null;
         }
     }
 }

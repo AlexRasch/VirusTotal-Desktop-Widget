@@ -1,6 +1,9 @@
 using System.Threading;
 using System;
 using System.Diagnostics;
+using static Widget.WidgetConfiguration;
+using VirusTotal;
+using System.Windows.Forms;
 
 namespace Widget
 {
@@ -11,8 +14,16 @@ namespace Widget
         private static bool isFirstInstance;
 
         [STAThread]
-        static void Main()
+        static async Task Main(string[] args)
         {
+            // Send to
+            if (args.Length >= 1)
+            {
+                await HandleCommandLineArguments(args);
+                Environment.Exit(0);
+            }
+
+            // Normal application start
             if (!isFirstInstance)
             {
                 WindowsAPI.BringExistingInstanceToFront();
@@ -26,7 +37,7 @@ namespace Widget
                 AppDomain.CurrentDomain.UnhandledException += HandleUnhandledException;
 
                 ApplicationConfiguration.Initialize();
-                frmWidget mainForm = new ();
+                frmWidget mainForm = new();
                 Application.Run(mainForm);
             }
             finally
@@ -36,6 +47,42 @@ namespace Widget
             }
         }
 
+
+        private static async Task HandleCommandLineArguments(string[] args)
+        {
+            // If there are command line arguments, the app is most likely called from the context menu "Send to"
+            // ToDo: This logic is very similar to the one in fmWidget.
+            // Consider finding a better approach to adhere to the "Don't Repeat Yourself" (DRY) principle and avoid code duplication.
+
+            string fileToSubmitPath = args[0];
+            WidgetSettings widgetSettings = WidgetSettings.LoadSettingsFromConfigFile();
+
+            // Do we have a API key?
+            if (widgetSettings.VirusTotalApiKey == null)
+            {
+                MessageBox.Show("Missing VirusTotal API key", "Error");
+                return;
+            }
+            VT vt = new(widgetSettings.VirusTotalApiKey);
+
+            // Scan file
+            ResponseParser vtReponse = new();
+            vtReponse = await vt.ScanFileAsync(vt, fileToSubmitPath);
+            // Handle API error
+            if (vtReponse.ErrorCode != null)
+            {
+                MessageBox.Show($"Error:{vtReponse.ErrorCode.Code}", "API issues");
+                return;
+            }
+
+            // Display report
+            using (fmVTScanResult scanResult = new(vtReponse))
+            {
+                scanResult.ShowDialog();
+
+            }
+
+        }
         private static void ShowAlreadyRunningMessage()
         {
             MessageBox.Show("Widget is already running.\n\n" +

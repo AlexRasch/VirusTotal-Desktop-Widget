@@ -58,7 +58,6 @@ namespace Widget
             // Make windows transparent and set initial opacity to 0
             WindowsAPI.MakeWindowTransparent(this.Handle);
             WindowsAPI.FadeIn(this.Handle, 255);
-
             // Fade out
             for (int opacity = 255; opacity >= 0; opacity -= 1)
             {
@@ -150,12 +149,8 @@ namespace Widget
                 if (string.IsNullOrEmpty(widgetSettings.VirusTotalApiKey))
                 {
                     MessageBox.Show("Missing VirusTotal API key", "Error");
-#if DEBUG
-                    Debug.WriteLine("fmWidget: Missing virustotal api key");
-#endif
                     return;
                 }
-
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
@@ -163,26 +158,18 @@ namespace Widget
 
                     // Scan file
                     ResponseParser vtReponse = new();
-                    ResponseParser.VTReport vtScanResponse = vtReponse.ParseReport(await vt.ScanFileAsync(openFileDialog.FileName));
-
+                    vtReponse = await vt.ScanFileAsync(vt, openFileDialog.FileName);
                     // Handle API error
-                    if (vtScanResponse.Error.Code != null)
+                    if (vtReponse.ErrorCode != null)
                     {
-                        MessageBox.Show($"Error:{vtScanResponse.Error.Code}", "API issues");
+                        MessageBox.Show($"Error:{vtReponse.ErrorCode.Code}", "API issues");
                         return;
                     }
-
 #if DEBUG
                     Debug.WriteLine($"Submited file for analyis");
 #endif
-                    // Get report
-                    ResponseParser.VTReport vtScanReport = await GetNonQueuedReportAsync(vt, vtScanResponse.Id);
-
-#if DEBUG
-                    Debug.WriteLine($"Report status:{vtScanReport.Status}");
-#endif
                     // Display report
-                    fmVTScanResult scanResult = new(vtScanReport);
+                    fmVTScanResult scanResult = new(vtReponse);
                     scanResult.Show();
                 }
             }
@@ -197,20 +184,6 @@ namespace Widget
                     MessageBox.Show(filePaths[0], "File");
                 }
             }
-        }
-        private static async Task<ResponseParser.VTReport> GetNonQueuedReportAsync(VT vt, string reportId, int delay = 10)
-        {
-            ResponseParser.VTReport vtScanReport = await vt.GetReportAsync(reportId);
-            while (vtScanReport.Status == "queued")
-            {
-#if DEBUG
-                Debug.WriteLine($"Report status:queued ");
-#endif
-                await Task.Delay(TimeSpan.FromSeconds(delay));
-                vtScanReport = await vt.GetReportAsync(reportId);
-            }
-
-            return vtScanReport;
         }
         private CancellationTokenSource cancellationTokenSource;
 

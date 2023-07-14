@@ -18,7 +18,8 @@ namespace WidgetTests
                 "{" +
                 "\"VirusTotalApiKey\": null," +
                 " \"LicenseAgreementAccepted\": true," +
-                " \"AutoStartEnabled\": false" +
+                " \"AutoStartEnabled\": false," +
+                " \"SendToEnabled\": true" +
                 "}";
 
             WidgetSettings.SaveUserData(configData);
@@ -31,6 +32,7 @@ namespace WidgetTests
             Assert.Null(settings.VirusTotalApiKey);
             Assert.True(settings.LicenseAgreementAccepted);
             Assert.False(settings.AutoStartEnabled);
+            Assert.True(settings.SendToEnabled);
         }
     }
 }
