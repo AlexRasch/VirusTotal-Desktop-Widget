@@ -10,14 +10,14 @@ VirusTotal Desktop Widget is a simple Windows desktop widget that integrates wit
 Disclaimer: This application/widget is not a substitute for a antivirus software. It only provides an additional layer of security by scanning files with multiple antivirus engines. You should always use a reputable antivirus software on your system and keep it updated.
 
 ## Features
--Autostart support
--Customizable settings (Work in Progress)
--Display RAM and CPU usage information
--Light-weight application that does not use any third-party libraries
--Perform file scans using the VirusTotal API
--Secure API Key Storage with DPAPI encryption (no plaintext storage)
--User-friendly and minimalistic desktop widget
--"Send To" integration for easy file submission to VirusTotal
+- Autostart support
+- Customizable settings (Work in Progress)
+- Display RAM and CPU usage information
+- Light-weight application that does not use any third-party libraries
+- Perform file scans using the VirusTotal API
+- Secure API Key Storage with DPAPI encryption (no plaintext storage)
+- User-friendly and minimalistic desktop widget
+- "Send To" integration for easy file submission to VirusTotal
 
 ## Requirements
 - Windows 10 or Windows 11
