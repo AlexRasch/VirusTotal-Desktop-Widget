@@ -4,6 +4,7 @@ using System.Diagnostics;
 using static Widget.WidgetConfiguration;
 using VirusTotal;
 using System.Windows.Forms;
+using Widget.Forms;
 
 namespace Widget
 {
@@ -66,8 +67,11 @@ namespace Widget
             }
             VT vt = new(widgetSettings.VirusTotalApiKey);
 
+            // Display toaster
+            ToasterForm toaster = new(Constants.SubmittingFileTitle, Constants.SubmittingFileMessage, 3000, widgetSettings.FadeEffect);
+            toaster.Show();
+
             // Scan file
-            #pragma warning disable IDE0059
             ResponseParser vtReponse = new();
             vtReponse = await vt.ScanFileAsync(vt, fileToSubmitPath);
             // Handle API error
