@@ -156,6 +156,7 @@ namespace Widget
                 // Display report
                 fmVTScanResult scanResult = new(vtReponse);
                 scanResult.Show();
+                vt.Dispose();
             }
 
         }
