@@ -39,6 +39,7 @@ namespace Widget.Forms
         /// <param name="title">The title for the toaster form.</param>
         /// <param name="message">The message for the toaster form.</param>
         /// <param name="displayDuration">The duration (in milliseconds) to display the toaster form.</param>
+        /// <param name="fadeEffect">Define if fade effect should be used</param>
         /// <remarks>
         /// This constructor is used to create a toaster form with the specified title, message, and display duration.
         /// Once created, the toaster form will be displayed for the specified duration and then automatically closed.
