@@ -9,6 +9,7 @@ using VirusTotal;
 using static Widget.WidgetConfiguration;
 using System.Threading;
 using System.ComponentModel;
+using Widget.Forms;
 
 namespace Widget
 {
@@ -31,7 +32,6 @@ namespace Widget
             if (widgetSettings.FadeEffect)
                 FadeInForm();
         }
-
         private async Task FadeOutForm()
         {
             if (widgetSettings.FadeEffect)
@@ -140,9 +140,14 @@ namespace Widget
             {
                 VT vt = new(widgetSettings.VirusTotalApiKey);
 
+                // Toaster
+                ToasterForm toaster = new ToasterForm("Submitting file"," File is now being submited to VirusTotal...",3000);
+                toaster.Show();
+
                 // Scan file
                 ResponseParser vtReponse = new();
                 vtReponse = await vt.ScanFileAsync(vt, openFileDialog.FileName);
+                
                 // Handle API error
                 if (vtReponse.ErrorCode != null)
                 {
@@ -155,6 +160,8 @@ namespace Widget
                 // Display report
                 fmVTScanResult scanResult = new(vtReponse);
                 scanResult.Show();
+                // Dispose
+                toaster.Dispose();
                 vt.Dispose();
             }
 
