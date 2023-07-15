@@ -107,7 +107,7 @@ namespace Widget
             }
             else
             {
-                Debug.WriteLine($"UnhandledException: ({e.ToString()})");
+                Debug.WriteLine($"UnhandledException: ({e})");
             }
 #endif
         }

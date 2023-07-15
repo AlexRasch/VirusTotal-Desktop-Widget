@@ -16,13 +16,14 @@ namespace Widget
     public partial class frmWidget : Form
     {
         // Widget settings
-        readonly WidgetSettings widgetSettings = new();
+        WidgetSettings widgetSettings = new();
 
         public frmWidget()
         {
             InitializeComponent();
             // Load Widget settings
             widgetSettings = WidgetSettings.LoadSettingsFromConfigFile();
+            cancellationTokenSource = new();
         }
         protected override void OnLoad(EventArgs e)
         {
@@ -33,37 +34,39 @@ namespace Widget
 
         private async Task FadeOutForm()
         {
-            // Make windows transparent and set initial opacity to 0
-            WindowsAPI.MakeWindowTransparent(this.Handle);
-            WindowsAPI.FadeIn(this.Handle, 255);
-            // Fade out
-            for (int opacity = 255; opacity >= 0; opacity -= 1)
+            if (widgetSettings.FadeEffect)
             {
-                await Task.Delay(8);  // 256 * 8 = 2048
-                this.Invoke((Action)(() => { WindowsAPI.FadeIn(this.Handle, opacity); }));
-            }
+                // Make windows transparent and set initial opacity to 0
+                WindowsAPI.MakeWindowTransparent(this.Handle);
+                WindowsAPI.FadeIn(this.Handle, 255);
 
-            Debug.WriteLine($"FadeOut complete");
-        }
-
-        private void FadeInForm()
-        {
-            // Make windows transparent and set initial opacity to 0
-            WindowsAPI.MakeWindowTransparent(this.Handle);
-            WindowsAPI.FadeIn(this.Handle, 0);
-
-            Task.Run(async () =>
-            {
-                // Fade in
-                for (int opacity = 0; opacity <= 255; opacity += 1)
+                // Fade out
+                for (int opacity = 255; opacity >= 0; opacity -= 1)
                 {
-                    await Task.Delay(8);  // 256 * 8 = 2048
+                    await Task.Delay(4);  // 256 * 4 = 1024
                     this.Invoke((Action)(() => { WindowsAPI.FadeIn(this.Handle, opacity); }));
                 }
-            });
-            Debug.WriteLine($"FadeIn Complete");
+            }
         }
+        private void FadeInForm()
+        {
+            if (widgetSettings.FadeEffect)
+            {
+                // Make windows transparent and set initial opacity to 0
+                WindowsAPI.MakeWindowTransparent(this.Handle);
+                WindowsAPI.FadeIn(this.Handle, 0);
 
+                Task.Run(async () =>
+                {
+                    // Fade in
+                    for (int opacity = 0; opacity <= 255; opacity += 1)
+                    {
+                        await Task.Delay(4);  // 256 * 4 = 1024
+                        this.Invoke((Action)(() => { WindowsAPI.FadeIn(this.Handle, opacity); }));
+                    }
+                });
+            }
+        }
         private void frmWidget_Load(object sender, EventArgs e)
         {
             int distanceFromEdge = 10;
@@ -71,20 +74,15 @@ namespace Widget
             int formY = distanceFromEdge;
             Location = new System.Drawing.Point(formX, formY);
 
-            // GUI styling
-            foreach (Control control in this.Controls)
-            {
-                if (control is PictureBox || control is Label)
-                    control.BackColor = Color.Transparent;
-            }
-            Paint += new PaintEventHandler(set_background);
+            this.MinimumSize = new Size(Width, Height);
+            this.MaximumSize = this.MinimumSize;
 
             // UX
             System.Windows.Forms.ToolTip toolTipScan = new();
             toolTipScan.SetToolTip(this.pbSubmit, "Submit File for VirusTotal Analysis");
 
             System.Windows.Forms.ToolTip toolTipSettingsWidget = new();
-            toolTipSettingsWidget.SetToolTip(this.lblSettings, "View and edit settings");
+            toolTipSettingsWidget.SetToolTip(this.btnSettings, "View and edit settings");
 
             System.Windows.Forms.ToolTip toolTipExitWidget = new();
             toolTipExitWidget.SetToolTip(this.lblExit, "Shutdown the widget");
@@ -93,16 +91,6 @@ namespace Widget
         }
         private void lblExit_MouseEnter(object sender, EventArgs e) => lblExit.BackColor = Color.DimGray;
         private void lblExit_MouseLeave(object sender, EventArgs e) => lblExit.BackColor = Color.Transparent;
-        private void lblSettings_MouseEnter(object sender, EventArgs e) => lblSettings.BackColor = Color.DimGray;
-        private void lblSettings_MouseLeave(object sender, EventArgs e) => lblSettings.BackColor = Color.Transparent;
-        private void frmWidget_MouseDown(object sender, MouseEventArgs e) => WindowsAPI.DragWindowsForm(this.Handle);
-        private void set_background(Object? sender, PaintEventArgs e)
-        {
-            Graphics graphics = e.Graphics;
-            Rectangle gradient_rectangle = new(0, 0, Width, Height);
-            Brush b = new LinearGradientBrush(gradient_rectangle, Color.FromArgb(32, 33, 35), Color.FromArgb(110, 110, 128), 90f);
-            graphics.FillRectangle(b, gradient_rectangle);
-        }
 
         /* Widget  */
         private async void lblExit_Click(object sender, EventArgs e)
@@ -128,16 +116,19 @@ namespace Widget
                 System.Environment.Exit(1);
             }
         }
-        private void lblSettings_Click(object sender, EventArgs e)
-        {
-            using fmSettings fmSettings = new();
-            fmSettings.ShowDialog();
-        }
 
+        private void btnSettings_Click(object sender, EventArgs e)
+        {
+            using (fmSettings fmSettings = new())
+            {
+                fmSettings.ShowDialog();
+            }
+            //Reload settings
+            widgetSettings = WidgetSettings.LoadSettingsFromConfigFile();
+        }
         /* VirusTotal */
         private async void pbSubmit_Click(object sender, EventArgs e)
         {
-
             using OpenFileDialog openFileDialog = new();
             // Check if we have a key
             if (string.IsNullOrEmpty(widgetSettings.VirusTotalApiKey))
@@ -160,7 +151,7 @@ namespace Widget
                     return;
                 }
 #if DEBUG
-                        Debug.WriteLine($"Submited file for analyis");
+                Debug.WriteLine($"Submited file for analyis");
 #endif
                 // Display report
                 fmVTScanResult scanResult = new(vtReponse);
@@ -192,7 +183,7 @@ namespace Widget
         /// </summary>
         private async void GetCurrentSystemUsage()
         {
-            cancellationTokenSource = new();
+            
             CancellationToken cancellationToken = cancellationTokenSource.Token;
 
             await Task.Run(() =>
