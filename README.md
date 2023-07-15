@@ -24,7 +24,7 @@ Disclaimer: This application/widget is not a substitute for a antivirus software
 - .NET 6.0 runtime
 - VirusTotal API key (optimal)
 
-##Credit
+## Credit
 This project utilizes the following resources from the community:
 - [Theme by aeonhack](https://github.com/aeonhack) - The theme used for the user interface.
 
