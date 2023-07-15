@@ -26,6 +26,10 @@ namespace Widget.Forms
         /// Gets or sets the display duration of the toaster form.
         /// </summary>
         public int? DisplayDuration { get; set; } = 5000;
+        /// <summary>
+        /// Gets or set if fade effect should be used
+        /// </summary>
+        public bool FadeEffect { get; set; }
 
         private readonly System.Windows.Forms.Timer displayTimer;
 
@@ -39,11 +43,12 @@ namespace Widget.Forms
         /// This constructor is used to create a toaster form with the specified title, message, and display duration.
         /// Once created, the toaster form will be displayed for the specified duration and then automatically closed.
         /// </remarks>
-        public ToasterForm(string title, string message, int displayDuration)
+        public ToasterForm(string title, string message, int displayDuration, bool fadeEffect)
         {
             this.Title = title;
             this.Message = message;
             this.DisplayDuration = displayDuration;
+            this.FadeEffect = fadeEffect;
 
             InitializeComponent();
 
@@ -61,6 +66,9 @@ namespace Widget.Forms
 
             this.MinimumSize = new Size(Width, Height);
             this.MaximumSize = this.MinimumSize;
+            
+            if(FadeEffect)
+                FormUtils.FadeInForm(this);
 
             displayTimer.Interval = DisplayDuration.HasValue ? DisplayDuration.Value : 5000;
             displayTimer.Start();
@@ -69,10 +77,17 @@ namespace Widget.Forms
         private void DisplayTimer_Tick(object? sender, EventArgs e)
         {
             displayTimer.Stop();
-            this.Close();
+            displayTimer.Tick -= DisplayTimer_Tick; // Unsubscribve to timer event
+            displayTimer.Dispose();
+
+            if(FadeEffect)
+                Task.Run(() => FormUtils.FadeOutForm(this)).Wait();
+            
+            if(!IsDisposed) // Check if already disposed before closing
+                Close();
         }
 
-        private void btnDismiss_Click(object sender, EventArgs e) => this.Close();
+        private void btnDismiss_Click(object sender, EventArgs e) => Close();
 
 
     }
