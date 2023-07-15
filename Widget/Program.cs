@@ -75,18 +75,12 @@ namespace Widget
                 MessageBox.Show($"Error:{vtReponse.ErrorCode.Code}", "API issues");
                 return;
             }
-
             // Display report
             using fmVTScanResult scanResult = new(vtReponse);
             scanResult.ShowDialog();
 
         }
-        private static void ShowAlreadyRunningMessage()
-        {
-            MessageBox.Show("Widget is already running.\n\n" +
-                            "Please close the existing instance before launching a new one.\n",
-                            "Widget already running");
-        }
+        private static void ShowAlreadyRunningMessage() => MessageBox.Show(Constants.AlreadyRunningMessage, Constants.AlreadyRunningMessageTitle);
 
         private static void HandleThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {

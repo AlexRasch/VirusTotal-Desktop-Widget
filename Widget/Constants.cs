@@ -10,6 +10,10 @@ namespace Widget
 {
     public class Constants
     {
+        public const string AlreadyRunningMessage = "Widget is already running.\n\n Please close the existing instance before launching a new one.";
+        public const string AlreadyRunningMessageTitle = "Widget already running";
+
+
         public static string GetApplicationPath()
         {
 #if DEBUG
