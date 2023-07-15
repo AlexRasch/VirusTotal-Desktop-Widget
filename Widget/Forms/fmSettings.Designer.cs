@@ -28,13 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Forms.Pigment pigment15 = new Forms.Pigment();
-            Forms.Pigment pigment16 = new Forms.Pigment();
-            Forms.Pigment pigment17 = new Forms.Pigment();
-            Forms.Pigment pigment18 = new Forms.Pigment();
-            Forms.Pigment pigment19 = new Forms.Pigment();
-            Forms.Pigment pigment20 = new Forms.Pigment();
-            Forms.Pigment pigment21 = new Forms.Pigment();
+            Forms.Pigment pigment8 = new Forms.Pigment();
+            Forms.Pigment pigment9 = new Forms.Pigment();
+            Forms.Pigment pigment10 = new Forms.Pigment();
+            Forms.Pigment pigment11 = new Forms.Pigment();
+            Forms.Pigment pigment12 = new Forms.Pigment();
+            Forms.Pigment pigment13 = new Forms.Pigment();
+            Forms.Pigment pigment14 = new Forms.Pigment();
             txtApiKey = new TextBox();
             label1 = new Label();
             lblSendTo = new Label();
@@ -44,12 +44,12 @@
             cbAutostart = new CheckBox();
             lblAutoStart = new Label();
             eTheme1 = new Forms.eTheme();
+            eGroupBox2 = new Forms.eGroupBox();
             btnCancel = new Forms.eButton();
             btnSave = new Forms.FButton();
             eGroupBox1 = new Forms.eGroupBox();
             btnView = new Forms.eButton();
             gbWidgetSettings = new Forms.eGroupBox();
-            eGroupBox2 = new Forms.eGroupBox();
             eTheme1.SuspendLayout();
             eGroupBox1.SuspendLayout();
             gbWidgetSettings.SuspendLayout();
@@ -154,6 +154,15 @@
             eTheme1.Text = "Settings";
             eTheme1.TransparencyKey = Color.Empty;
             // 
+            // eGroupBox2
+            // 
+            eGroupBox2.Location = new Point(314, 128);
+            eGroupBox2.Name = "eGroupBox2";
+            eGroupBox2.NoRounding = false;
+            eGroupBox2.Size = new Size(274, 111);
+            eGroupBox2.TabIndex = 9;
+            eGroupBox2.Text = "eGroupBox2";
+            // 
             // btnCancel
             // 
             btnCancel.Image = null;
@@ -167,21 +176,21 @@
             // 
             // btnSave
             // 
-            pigment15.Name = "Border";
-            pigment15.Value = Color.FromArgb(254, 133, 0);
-            pigment16.Name = "Backcolor";
-            pigment16.Value = Color.FromArgb(25, 25, 25);
-            pigment17.Name = "Highlight";
-            pigment17.Value = Color.FromArgb(255, 197, 19);
-            pigment18.Name = "Gradient1";
-            pigment18.Value = Color.FromArgb(255, 175, 12);
-            pigment19.Name = "Gradient2";
-            pigment19.Value = Color.FromArgb(255, 127, 1);
-            pigment20.Name = "Text Color";
-            pigment20.Value = Color.White;
-            pigment21.Name = "Text Shadow";
-            pigment21.Value = Color.FromArgb(30, 0, 0, 0);
-            btnSave.Colors = new Forms.Pigment[] { pigment15, pigment16, pigment17, pigment18, pigment19, pigment20, pigment21 };
+            pigment8.Name = "Border";
+            pigment8.Value = Color.FromArgb(254, 133, 0);
+            pigment9.Name = "Backcolor";
+            pigment9.Value = Color.FromArgb(25, 25, 25);
+            pigment10.Name = "Highlight";
+            pigment10.Value = Color.FromArgb(255, 197, 19);
+            pigment11.Name = "Gradient1";
+            pigment11.Value = Color.FromArgb(255, 175, 12);
+            pigment12.Name = "Gradient2";
+            pigment12.Value = Color.FromArgb(255, 127, 1);
+            pigment13.Name = "Text Color";
+            pigment13.Value = Color.White;
+            pigment14.Name = "Text Shadow";
+            pigment14.Value = Color.FromArgb(30, 0, 0, 0);
+            btnSave.Colors = new Forms.Pigment[] { pigment8, pigment9, pigment10, pigment11, pigment12, pigment13, pigment14 };
             btnSave.Font = new Font("Verdana", 8F, FontStyle.Regular, GraphicsUnit.Point);
             btnSave.Location = new Point(452, 257);
             btnSave.Name = "btnSave";
@@ -229,19 +238,11 @@
             gbWidgetSettings.TabIndex = 5;
             gbWidgetSettings.Text = "eGroupBox1";
             // 
-            // eGroupBox2
-            // 
-            eGroupBox2.Location = new Point(314, 128);
-            eGroupBox2.Name = "eGroupBox2";
-            eGroupBox2.NoRounding = false;
-            eGroupBox2.Size = new Size(274, 111);
-            eGroupBox2.TabIndex = 9;
-            eGroupBox2.Text = "eGroupBox2";
-            // 
             // fmSettings
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
             ClientSize = new Size(600, 300);
             Controls.Add(eTheme1);
             FormBorderStyle = FormBorderStyle.None;
@@ -250,6 +251,7 @@
             Name = "fmSettings";
             ShowIcon = false;
             ShowInTaskbar = false;
+            SizeGripStyle = SizeGripStyle.Hide;
             Text = "Settings";
             Load += fmSettings_Load;
             eTheme1.ResumeLayout(false);

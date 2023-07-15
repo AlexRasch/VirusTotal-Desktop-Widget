@@ -36,6 +36,9 @@ namespace Widget
         }
         private void fmSettings_Load(object sender, EventArgs e)
         {
+            this.MinimumSize = new Size(Width, Height);
+            this.MaximumSize = this.MinimumSize;
+
             config = WidgetSettings.LoadSettingsFromConfigFile();
             currentApiKey = config.VirusTotalApiKey;
             txtApiKey.Text = ToggleAPIKey();
@@ -92,7 +95,6 @@ namespace Widget
             return newKey;
         }
 
-
-
+  
     }
 }
