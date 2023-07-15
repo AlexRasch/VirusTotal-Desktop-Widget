@@ -126,7 +126,6 @@ namespace Widget
                 fmVTScanResult scanResult = new(vtReponse);
                 scanResult.Show();
                 // Dispose
-                toaster.Dispose();
                 vt.Dispose();
             }
 
