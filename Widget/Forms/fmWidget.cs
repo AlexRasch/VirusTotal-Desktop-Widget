@@ -141,7 +141,7 @@ namespace Widget
                 VT vt = new(widgetSettings.VirusTotalApiKey);
 
                 // Toaster
-                ToasterForm toaster = new ToasterForm("Submitting file"," File is now being submited to VirusTotal...",3000);
+                ToasterForm toaster = new(Constants.SubmittingFileTitle, Constants.SubmittingFileMessage,3000);
                 toaster.Show();
 
                 // Scan file

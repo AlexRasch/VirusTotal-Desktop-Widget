@@ -12,15 +12,16 @@ using System.Diagnostics;
 
 namespace Widget.Forms
 {
+#pragma warning disable IDE1006
     public partial class ToasterForm : Form
     {
         [Required(ErrorMessage = "Title is required.")]
-        public string? Title { get; set; }
+        public string Title { get; set; }
         [Required(ErrorMessage = "Message is required.")]
-        public string? Message { get; set; }
+        public string Message { get; set; }
         public int? DisplayDuration { get; set; } = 5000;
 
-        private System.Windows.Forms.Timer displayTimer;
+        private readonly System.Windows.Forms.Timer displayTimer;
 
         public ToasterForm(string title, string message, int displayDuration)
         {
@@ -30,12 +31,8 @@ namespace Widget.Forms
 
             InitializeComponent();
 
-            eTheme1.Text = Title ?? string.Empty;
-            lblMessage.Text = Message ?? string.Empty;
-
             displayTimer = new System.Windows.Forms.Timer();
             displayTimer.Tick += DisplayTimer_Tick;
-
         }
 
         private void ToasterForm_Load(object sender, EventArgs e)
@@ -57,7 +54,6 @@ namespace Widget.Forms
         {
             displayTimer.Stop();
             this.Close();
-            Debug.WriteLine("HitMe");
         }
 
         private void btnDismiss_Click(object sender, EventArgs e) => this.Close();

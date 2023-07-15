@@ -67,6 +67,7 @@ namespace Widget
             VT vt = new(widgetSettings.VirusTotalApiKey);
 
             // Scan file
+            #pragma warning disable IDE0059
             ResponseParser vtReponse = new();
             vtReponse = await vt.ScanFileAsync(vt, fileToSubmitPath);
             // Handle API error
@@ -77,6 +78,7 @@ namespace Widget
             }
             // Display report
             using fmVTScanResult scanResult = new(vtReponse);
+
             scanResult.ShowDialog();
 
         }
