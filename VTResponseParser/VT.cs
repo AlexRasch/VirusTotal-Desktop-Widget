@@ -61,13 +61,23 @@ namespace VirusTotal
                 var response = await httpClient.PostAsync(apiUrl, content);
                 string responseContent = await response.Content.ReadAsStringAsync();
 #if DEBUG
-                    Debug.WriteLine($"Inital response: {responseContent}");
+                Debug.WriteLine($"Inital response: {responseContent}");
 #endif
+                
+
                 // Parse initial response
                 ResponseParser vtResponse = new ResponseParser().ParseReport(responseContent);
+                if(vtResponse.ErrorCode != null)
+                {
+#if DEBUG
+                    Debug.WriteLine($"ScanFileAsync:{vtResponse.ErrorCode.Code}");
+
+#endif
+                    return vtResponse;
+                }
 
 #if DEBUG
-                    Debug.WriteLine($"Inital report: {vtResponse.Id}");
+                Debug.WriteLine($"Inital report: {vtResponse.Id}");
 #endif
                 // Return final report
                 vtResponse = await GetNonQueuedReportAsync(vt, vtResponse.Id);

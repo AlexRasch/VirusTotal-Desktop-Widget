@@ -23,6 +23,7 @@ namespace Widget
             InitializeComponent();
             // Load Widget settings
             widgetSettings = WidgetSettings.LoadSettingsFromConfigFile();
+            cancellationTokenSource = new();
         }
         protected override void OnLoad(EventArgs e)
         {
@@ -38,7 +39,7 @@ namespace Widget
                 // Make windows transparent and set initial opacity to 0
                 WindowsAPI.MakeWindowTransparent(this.Handle);
                 WindowsAPI.FadeIn(this.Handle, 255);
-                
+
                 // Fade out
                 for (int opacity = 255; opacity >= 0; opacity -= 1)
                 {
@@ -73,13 +74,8 @@ namespace Widget
             int formY = distanceFromEdge;
             Location = new System.Drawing.Point(formX, formY);
 
-            // GUI styling
-            foreach (Control control in this.Controls)
-            {
-                if (control is PictureBox || control is Label)
-                    control.BackColor = Color.Transparent;
-            }
-            Paint += new PaintEventHandler(set_background);
+            this.MinimumSize = new Size(Width, Height);
+            this.MaximumSize = this.MinimumSize;
 
             // UX
             System.Windows.Forms.ToolTip toolTipScan = new();
@@ -95,14 +91,6 @@ namespace Widget
         }
         private void lblExit_MouseEnter(object sender, EventArgs e) => lblExit.BackColor = Color.DimGray;
         private void lblExit_MouseLeave(object sender, EventArgs e) => lblExit.BackColor = Color.Transparent;
-        private void frmWidget_MouseDown(object sender, MouseEventArgs e) => WindowsAPI.DragWindowsForm(this.Handle);
-        private void set_background(Object? sender, PaintEventArgs e)
-        {
-            Graphics graphics = e.Graphics;
-            Rectangle gradient_rectangle = new(0, 0, Width, Height);
-            Brush b = new LinearGradientBrush(gradient_rectangle, Color.FromArgb(32, 33, 35), Color.FromArgb(110, 110, 128), 90f);
-            graphics.FillRectangle(b, gradient_rectangle);
-        }
 
         /* Widget  */
         private async void lblExit_Click(object sender, EventArgs e)
@@ -195,7 +183,7 @@ namespace Widget
         /// </summary>
         private async void GetCurrentSystemUsage()
         {
-            cancellationTokenSource = new();
+            
             CancellationToken cancellationToken = cancellationTokenSource.Token;
 
             await Task.Run(() =>

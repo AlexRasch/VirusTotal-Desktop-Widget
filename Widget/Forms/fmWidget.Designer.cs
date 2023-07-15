@@ -165,7 +165,6 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "VirustTotal desktop widget";
             Load += frmWidget_Load;
-            MouseDown += frmWidget_MouseDown;
             ((System.ComponentModel.ISupportInitialize)pbSubmit).EndInit();
             eTheme1.ResumeLayout(false);
             eTheme1.PerformLayout();

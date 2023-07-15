@@ -28,79 +28,153 @@
         /// </summary>
         private void InitializeComponent()
         {
+            Forms.Pigment pigment1 = new Forms.Pigment();
+            Forms.Pigment pigment2 = new Forms.Pigment();
+            Forms.Pigment pigment3 = new Forms.Pigment();
+            Forms.Pigment pigment4 = new Forms.Pigment();
+            Forms.Pigment pigment5 = new Forms.Pigment();
+            Forms.Pigment pigment6 = new Forms.Pigment();
+            Forms.Pigment pigment7 = new Forms.Pigment();
             dgvResult = new DataGridView();
-            mtVTScanResult = new MenuStrip();
-            toolStripMenuItem1 = new ToolStripMenuItem();
-            fileToolStripMenuItem = new ToolStripMenuItem();
-            exportToolStripMenuItem = new ToolStripMenuItem();
+            colAV = new DataGridViewTextBoxColumn();
+            colCategory = new DataGridViewTextBoxColumn();
+            colEngineName = new DataGridViewTextBoxColumn();
+            colEngineVersion = new DataGridViewTextBoxColumn();
+            colResult = new DataGridViewTextBoxColumn();
+            colMethod = new DataGridViewTextBoxColumn();
+            colEngineUpdate = new DataGridViewTextBoxColumn();
+            eTheme1 = new Forms.eTheme();
+            btnClose = new Forms.FButton();
             ((System.ComponentModel.ISupportInitialize)dgvResult).BeginInit();
-            mtVTScanResult.SuspendLayout();
+            eTheme1.SuspendLayout();
             SuspendLayout();
             // 
             // dgvResult
             // 
+            dgvResult.AllowUserToAddRows = false;
+            dgvResult.AllowUserToDeleteRows = false;
+            dgvResult.AllowUserToOrderColumns = true;
+            dgvResult.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             dgvResult.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvResult.Dock = DockStyle.Fill;
-            dgvResult.Location = new Point(0, 24);
+            dgvResult.Columns.AddRange(new DataGridViewColumn[] { colAV, colCategory, colEngineName, colEngineVersion, colResult, colMethod, colEngineUpdate });
+            dgvResult.Location = new Point(3, 32);
             dgvResult.Name = "dgvResult";
+            dgvResult.ReadOnly = true;
             dgvResult.RowHeadersWidth = 51;
             dgvResult.RowTemplate.Height = 25;
-            dgvResult.Size = new Size(690, 426);
+            dgvResult.Size = new Size(770, 492);
             dgvResult.TabIndex = 0;
             // 
-            // mtVTScanResult
+            // colAV
             // 
-            mtVTScanResult.ImageScalingSize = new Size(20, 20);
-            mtVTScanResult.Items.AddRange(new ToolStripItem[] { toolStripMenuItem1, fileToolStripMenuItem });
-            mtVTScanResult.Location = new Point(0, 0);
-            mtVTScanResult.Name = "mtVTScanResult";
-            mtVTScanResult.Size = new Size(690, 24);
-            mtVTScanResult.TabIndex = 1;
-            mtVTScanResult.Text = "menuStrip1";
+            colAV.HeaderText = "AV";
+            colAV.Name = "colAV";
+            colAV.ReadOnly = true;
             // 
-            // toolStripMenuItem1
+            // colCategory
             // 
-            toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(12, 20);
+            colCategory.HeaderText = "Category";
+            colCategory.Name = "colCategory";
+            colCategory.ReadOnly = true;
             // 
-            // fileToolStripMenuItem
+            // colEngineName
             // 
-            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { exportToolStripMenuItem });
-            fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            fileToolStripMenuItem.Size = new Size(37, 20);
-            fileToolStripMenuItem.Text = "File";
+            colEngineName.HeaderText = "Engine";
+            colEngineName.Name = "colEngineName";
+            colEngineName.ReadOnly = true;
             // 
-            // exportToolStripMenuItem
+            // colEngineVersion
             // 
-            exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            exportToolStripMenuItem.Size = new Size(108, 22);
-            exportToolStripMenuItem.Text = "Export";
+            colEngineVersion.HeaderText = "Version";
+            colEngineVersion.Name = "colEngineVersion";
+            colEngineVersion.ReadOnly = true;
+            // 
+            // colResult
+            // 
+            colResult.HeaderText = "Result";
+            colResult.Name = "colResult";
+            colResult.ReadOnly = true;
+            // 
+            // colMethod
+            // 
+            colMethod.HeaderText = "Method";
+            colMethod.Name = "colMethod";
+            colMethod.ReadOnly = true;
+            // 
+            // colEngineUpdate
+            // 
+            colEngineUpdate.HeaderText = "Updated";
+            colEngineUpdate.Name = "colEngineUpdate";
+            colEngineUpdate.ReadOnly = true;
+            // 
+            // eTheme1
+            // 
+            eTheme1.BackColor = Color.FromArgb(53, 53, 53);
+            eTheme1.Controls.Add(btnClose);
+            eTheme1.Controls.Add(dgvResult);
+            eTheme1.Dock = DockStyle.Fill;
+            eTheme1.Image = null;
+            eTheme1.Location = new Point(0, 0);
+            eTheme1.MoveHeight = 30;
+            eTheme1.Name = "eTheme1";
+            eTheme1.Resizable = true;
+            eTheme1.Size = new Size(776, 566);
+            eTheme1.TabIndex = 2;
+            eTheme1.Text = "Scan result:";
+            eTheme1.TransparencyKey = Color.Empty;
+            // 
+            // btnClose
+            // 
+            pigment1.Name = "Border";
+            pigment1.Value = Color.FromArgb(254, 133, 0);
+            pigment2.Name = "Backcolor";
+            pigment2.Value = Color.FromArgb(25, 25, 25);
+            pigment3.Name = "Highlight";
+            pigment3.Value = Color.FromArgb(255, 197, 19);
+            pigment4.Name = "Gradient1";
+            pigment4.Value = Color.FromArgb(255, 175, 12);
+            pigment5.Name = "Gradient2";
+            pigment5.Value = Color.FromArgb(255, 127, 1);
+            pigment6.Name = "Text Color";
+            pigment6.Value = Color.White;
+            pigment7.Name = "Text Shadow";
+            pigment7.Value = Color.FromArgb(30, 0, 0, 0);
+            btnClose.Colors = new Forms.Pigment[] { pigment1, pigment2, pigment3, pigment4, pigment5, pigment6, pigment7 };
+            btnClose.Font = new Font("Verdana", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            btnClose.Location = new Point(651, 530);
+            btnClose.Name = "btnClose";
+            btnClose.Shadow = true;
+            btnClose.Size = new Size(122, 28);
+            btnClose.TabIndex = 1;
+            btnClose.Text = "Close";
+            btnClose.Click += btnClose_Click;
             // 
             // fmVTScanResult
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(690, 450);
-            Controls.Add(dgvResult);
-            Controls.Add(mtVTScanResult);
-            MainMenuStrip = mtVTScanResult;
+            ClientSize = new Size(776, 566);
+            Controls.Add(eTheme1);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "fmVTScanResult";
             Text = "fmVTScanResult";
             Load += fmVTScanResult_Load;
-            Resize += fmVTScanResult_Resize;
             ((System.ComponentModel.ISupportInitialize)dgvResult).EndInit();
-            mtVTScanResult.ResumeLayout(false);
-            mtVTScanResult.PerformLayout();
+            eTheme1.ResumeLayout(false);
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
         private DataGridView dgvResult;
-        private MenuStrip mtVTScanResult;
-        private ToolStripMenuItem toolStripMenuItem1;
-        private ToolStripMenuItem fileToolStripMenuItem;
-        private ToolStripMenuItem exportToolStripMenuItem;
+        private Forms.eTheme eTheme1;
+        private DataGridViewTextBoxColumn colAV;
+        private DataGridViewTextBoxColumn colCategory;
+        private DataGridViewTextBoxColumn colEngineName;
+        private DataGridViewTextBoxColumn colEngineVersion;
+        private DataGridViewTextBoxColumn colResult;
+        private DataGridViewTextBoxColumn colMethod;
+        private DataGridViewTextBoxColumn colEngineUpdate;
+        private Forms.FButton btnClose;
     }
 }

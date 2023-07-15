@@ -23,25 +23,14 @@ namespace Widget
             this.Report = report;
         }
 
-        private void fmVTScanResult_Resize(object sender, EventArgs e)
-        {
-            //dgvResult.Size = new Size(this.ClientSize.Width - dgvResult.Left * 2, this.ClientSize.Height - dgvResult.Top - dgvResult.Left);
-        }
-
+        private void btnClose_Click(object sender, EventArgs e) => this.Close();
+        
         private void fmVTScanResult_Load(object sender, EventArgs e)
         {
-            this.Text = $"Report: {Report.FileInfo.SHA256}";
+            eTheme1.Text = $"Report: {Report.FileInfo.SHA256}";
+            
             // Clear gridview
             dgvResult.Rows.Clear();
-
-            // Cols
-            dgvResult.Columns.Add("colAV", "AV");
-            dgvResult.Columns.Add("colCategory", "Category");
-            dgvResult.Columns.Add("colEngineName", "Engine");
-            dgvResult.Columns.Add("colEngineVersion", "Version");
-            dgvResult.Columns.Add("colResult", "Result");
-            dgvResult.Columns.Add("colMethod", "Method");
-            dgvResult.Columns.Add("colEngineUpdate", "Updated");
 
             // Data
             foreach (var item in Report.Results)
@@ -59,7 +48,6 @@ namespace Widget
             }
 
         }
-
 
     }
 }

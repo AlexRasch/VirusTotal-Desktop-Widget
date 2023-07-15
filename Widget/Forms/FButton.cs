@@ -56,7 +56,6 @@ namespace Widget.Forms
                 Invalidate();
             }
         }
-
         private Pen P1;
         private Pen P2;
         private SolidBrush B1;

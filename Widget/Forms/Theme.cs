@@ -8,11 +8,12 @@ using System.Windows.Forms;
 namespace Widget.Forms
 {
 #pragma warning disable IDE1006
-    //Author:   TheDarky
+    
+
     abstract class Theme : ContainerControl
     {
 
-        #region " Initialization "
+        #region Initialization
 
         protected Graphics G;
         public Theme()
@@ -45,7 +46,7 @@ namespace Widget.Forms
         }
         #endregion
 
-        #region " Sizing and Movement "
+        #region Sizing and Movement
 
         private bool _Resizable = true;
         public bool Resizable
@@ -167,7 +168,7 @@ namespace Widget.Forms
 
         #endregion
 
-        #region " Convienence "
+        #region Convienence
 
         public abstract void PaintHook();
         protected override sealed void OnPaint(PaintEventArgs e)
@@ -289,7 +290,7 @@ namespace Widget.Forms
     abstract class ThemeControl : Control
     {
 
-        #region " Initialization "
+        #region Initialization
 
         protected Graphics G;
         protected Bitmap B;
@@ -317,7 +318,7 @@ namespace Widget.Forms
         }
         #endregion
 
-        #region " Mouse Handling "
+        #region Mouse Handling
 
         protected enum State : byte
         {
@@ -357,7 +358,7 @@ namespace Widget.Forms
 
         #endregion
 
-        #region " Convienence "
+        #region Convienence
 
         public abstract void PaintHook();
         protected override sealed void OnPaint(PaintEventArgs e)
@@ -389,7 +390,6 @@ namespace Widget.Forms
                 Invalidate();
             }
         }
-
         private Image _Image;
         public Image Image
         {
@@ -557,22 +557,22 @@ namespace Widget.Forms
         }
     }
 
-    class eLabel : ThemeControl
-    {
-        public override void PaintHook()
-        {
-            G.Clear(BackColor);
-            DrawText(HorizontalAlignment.Center, Color.Gray, 0);
-        }
-    }
+    //class eLabel : ThemeControl
+    //{
+    //    public override void PaintHook()
+    //    {
+    //        G.Clear(BackColor);
+    //        DrawText(HorizontalAlignment.Center, Color.Gray, 0);
+    //    }
+    //}
 
-    class eSeperator : ThemeControl
-    {
-        public override void PaintHook()
-        {
-            G.Clear(BackColor);
-            G.DrawLine(Pens.Gray, 0, Convert.ToInt32(ClientRectangle.Y / 2), Width, 0);
-        }
-    }
+    //class eSeperator : ThemeControl
+    //{
+    //    public override void PaintHook()
+    //    {
+    //        G.Clear(BackColor);
+    //        G.DrawLine(Pens.Gray, 0, Convert.ToInt32(ClientRectangle.Y / 2), Width, 0);
+    //    }
+    //}
 
 }

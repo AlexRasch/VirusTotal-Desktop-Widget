@@ -28,13 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Forms.Pigment pigment8 = new Forms.Pigment();
-            Forms.Pigment pigment9 = new Forms.Pigment();
-            Forms.Pigment pigment10 = new Forms.Pigment();
-            Forms.Pigment pigment11 = new Forms.Pigment();
-            Forms.Pigment pigment12 = new Forms.Pigment();
-            Forms.Pigment pigment13 = new Forms.Pigment();
-            Forms.Pigment pigment14 = new Forms.Pigment();
+            Forms.Pigment pigment1 = new Forms.Pigment();
+            Forms.Pigment pigment2 = new Forms.Pigment();
+            Forms.Pigment pigment3 = new Forms.Pigment();
+            Forms.Pigment pigment4 = new Forms.Pigment();
+            Forms.Pigment pigment5 = new Forms.Pigment();
+            Forms.Pigment pigment6 = new Forms.Pigment();
+            Forms.Pigment pigment7 = new Forms.Pigment();
             txtApiKey = new TextBox();
             label1 = new Label();
             lblSendTo = new Label();
@@ -176,21 +176,21 @@
             // 
             // btnSave
             // 
-            pigment8.Name = "Border";
-            pigment8.Value = Color.FromArgb(254, 133, 0);
-            pigment9.Name = "Backcolor";
-            pigment9.Value = Color.FromArgb(25, 25, 25);
-            pigment10.Name = "Highlight";
-            pigment10.Value = Color.FromArgb(255, 197, 19);
-            pigment11.Name = "Gradient1";
-            pigment11.Value = Color.FromArgb(255, 175, 12);
-            pigment12.Name = "Gradient2";
-            pigment12.Value = Color.FromArgb(255, 127, 1);
-            pigment13.Name = "Text Color";
-            pigment13.Value = Color.White;
-            pigment14.Name = "Text Shadow";
-            pigment14.Value = Color.FromArgb(30, 0, 0, 0);
-            btnSave.Colors = new Forms.Pigment[] { pigment8, pigment9, pigment10, pigment11, pigment12, pigment13, pigment14 };
+            pigment1.Name = "Border";
+            pigment1.Value = Color.FromArgb(254, 133, 0);
+            pigment2.Name = "Backcolor";
+            pigment2.Value = Color.FromArgb(25, 25, 25);
+            pigment3.Name = "Highlight";
+            pigment3.Value = Color.FromArgb(255, 197, 19);
+            pigment4.Name = "Gradient1";
+            pigment4.Value = Color.FromArgb(255, 175, 12);
+            pigment5.Name = "Gradient2";
+            pigment5.Value = Color.FromArgb(255, 127, 1);
+            pigment6.Name = "Text Color";
+            pigment6.Value = Color.White;
+            pigment7.Name = "Text Shadow";
+            pigment7.Value = Color.FromArgb(30, 0, 0, 0);
+            btnSave.Colors = new Forms.Pigment[] { pigment1, pigment2, pigment3, pigment4, pigment5, pigment6, pigment7 };
             btnSave.Font = new Font("Verdana", 8F, FontStyle.Regular, GraphicsUnit.Point);
             btnSave.Location = new Point(452, 257);
             btnSave.Name = "btnSave";
