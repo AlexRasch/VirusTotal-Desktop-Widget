@@ -28,7 +28,10 @@ namespace Widget
         private void fmVTScanResult_Load(object sender, EventArgs e)
         {
             eTheme1.Text = $"Report: {Report.FileInfo.SHA256}";
-            
+
+            this.MinimumSize = new Size(Width, Height);
+            this.MaximumSize = this.MinimumSize;
+
             // Clear gridview
             dgvResult.Rows.Clear();
 

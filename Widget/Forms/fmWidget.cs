@@ -116,7 +116,6 @@ namespace Widget
                 System.Environment.Exit(1);
             }
         }
-
         private void btnSettings_Click(object sender, EventArgs e)
         {
             using (fmSettings fmSettings = new())
