@@ -17,6 +17,9 @@ namespace Widget
     {
         WidgetSettings config = new();
 
+        private bool ShowAPIKey = true;
+        private string currentApiKey;
+
         public fmSettings()
         {
             InitializeComponent();
@@ -31,17 +34,26 @@ namespace Widget
             System.Windows.Forms.ToolTip toolTipSendTo = new();
             toolTipSendTo.SetToolTip(lblSendTo, "Enables 'Send To' shortcut for easy file submission to VirusTotal.");
         }
+        private void fmSettings_Load(object sender, EventArgs e)
+        {
+            config = WidgetSettings.LoadSettingsFromConfigFile();
+            currentApiKey = config.VirusTotalApiKey;
+            txtApiKey.Text = ToggleAPIKey();
+
+            cbAutostart.Checked = config.AutoStartEnabled;
+            cbFadeEffect.Checked = config.FadeEffect;
+            cbSendTo.Checked = config.SendToEnabled;
+        }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            string apiKey = txtApiKey.Text;
             bool IsAutoStartEnabled = cbAutostart.CheckState == CheckState.Checked;
             bool IsFadeEffectEnabled = cbFadeEffect.CheckState == CheckState.Checked;
             bool IsSendToEnabled = cbSendTo.CheckState == CheckState.Checked;
 
             WidgetSettings settings = new()
             {
-                VirusTotalApiKey = apiKey,
+                VirusTotalApiKey = ValidateAPIKey(currentApiKey, config.VirusTotalApiKey),
                 LicenseAgreementAccepted = true,
                 AutoStartEnabled = IsAutoStartEnabled,
                 FadeEffect = IsFadeEffectEnabled,
@@ -51,18 +63,36 @@ namespace Widget
 
             string jsonString = JsonSerializer.Serialize(settings);
             WidgetSettings.SaveUserData(jsonString);
-
+            this.Close();
         }
 
-        private void fmSettings_Load(object sender, EventArgs e)
+        private void btnCancel_Click(object sender, EventArgs e) => this.Close();
+        private void txtApiKey_TextChanged(object sender, EventArgs e)
         {
-            config = WidgetSettings.LoadSettingsFromConfigFile();
-            txtApiKey.Text = config.VirusTotalApiKey;
-
-            cbAutostart.Checked = config.AutoStartEnabled;
-            cbFadeEffect.Checked = config.FadeEffect;
-            cbSendTo.Checked = config.SendToEnabled;
-            //cbSendTo.Checked = false;
+            if (txtApiKey.Text.Contains('*'))
+                return;
+            currentApiKey = txtApiKey.Text;
         }
+        private void btnView_Click(object sender, EventArgs e) => txtApiKey.Text = ToggleAPIKey();
+
+        private string ToggleAPIKey()
+        {
+            ShowAPIKey = !ShowAPIKey;
+
+            if (ShowAPIKey)
+                return currentApiKey;
+            else
+                return new string('*', 64);
+        }
+
+        private string ValidateAPIKey(string newKey, string oldKey)
+        {
+            if (newKey.Contains('*'))
+                return oldKey;
+            return newKey;
+        }
+
+
+
     }
 }

@@ -11,15 +11,16 @@ using VirusTotal;
 
 namespace Widget
 {
+#pragma warning disable IDE1006
     public partial class fmVTScanResult : Form
     {
         // For VT scan result
-        private ResponseParser report { get; set; }
+        private ResponseParser Report { get; set; }
 
         public fmVTScanResult(ResponseParser report)
         {
             InitializeComponent();
-            this.report = report;
+            this.Report = report;
         }
 
         private void fmVTScanResult_Resize(object sender, EventArgs e)
@@ -29,7 +30,7 @@ namespace Widget
 
         private void fmVTScanResult_Load(object sender, EventArgs e)
         {
-            this.Text = $"Report: {report.FileInfo.SHA256}";
+            this.Text = $"Report: {Report.FileInfo.SHA256}";
             // Clear gridview
             dgvResult.Rows.Clear();
 
@@ -43,7 +44,7 @@ namespace Widget
             dgvResult.Columns.Add("colEngineUpdate", "Updated");
 
             // Data
-            foreach (var item in report.Results)
+            foreach (var item in Report.Results)
             {
                 var engineResult = item.Value;
                 dgvResult.Rows.Add(

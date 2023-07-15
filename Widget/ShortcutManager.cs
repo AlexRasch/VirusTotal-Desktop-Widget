@@ -62,9 +62,6 @@ namespace Widget
 
 
         //This code is commented out because it causes issues with the GitHub Action due to the COM reference.
-        //We are actively working on finding an alternative solution that doesn't rely on the .NET Framework and.
-        //If possible, doesn't require admin privileges...
-
         /*
         private static void CreateShortcut(string shortcutPath, string targetPath, string arguments = null, string workingDirectory = null)
         {

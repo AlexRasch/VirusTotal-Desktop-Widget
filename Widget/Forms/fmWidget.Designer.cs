@@ -34,8 +34,10 @@
             pbRAM = new ProgressBar();
             pbCPU = new ProgressBar();
             lblExit = new Label();
-            lblSettings = new Label();
+            eTheme1 = new Forms.eTheme();
+            btnSettings = new Forms.eButton();
             ((System.ComponentModel.ISupportInitialize)pbSubmit).BeginInit();
+            eTheme1.SuspendLayout();
             SuspendLayout();
             // 
             // pbSubmit
@@ -58,7 +60,7 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
             label1.ForeColor = Color.WhiteSmoke;
-            label1.Location = new Point(15, 26);
+            label1.Location = new Point(21, 44);
             label1.Name = "label1";
             label1.Size = new Size(48, 25);
             label1.TabIndex = 4;
@@ -70,7 +72,7 @@
             lblRAM.BackColor = Color.Transparent;
             lblRAM.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
             lblRAM.ForeColor = Color.WhiteSmoke;
-            lblRAM.Location = new Point(15, 67);
+            lblRAM.Location = new Point(21, 81);
             lblRAM.Name = "lblRAM";
             lblRAM.Size = new Size(52, 25);
             lblRAM.TabIndex = 5;
@@ -78,7 +80,7 @@
             // 
             // pbRAM
             // 
-            pbRAM.Location = new Point(21, 92);
+            pbRAM.Location = new Point(21, 108);
             pbRAM.Margin = new Padding(3, 2, 3, 2);
             pbRAM.Name = "pbRAM";
             pbRAM.Size = new Size(223, 8);
@@ -88,7 +90,7 @@
             // 
             // pbCPU
             // 
-            pbCPU.Location = new Point(21, 52);
+            pbCPU.Location = new Point(21, 71);
             pbCPU.Margin = new Padding(3, 2, 3, 2);
             pbCPU.Name = "pbCPU";
             pbCPU.Size = new Size(223, 8);
@@ -100,31 +102,47 @@
             // 
             lblExit.AutoSize = true;
             lblExit.BackColor = Color.Transparent;
-            lblExit.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
+            lblExit.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
             lblExit.ForeColor = Color.Firebrick;
-            lblExit.Location = new Point(220, 9);
+            lblExit.Location = new Point(217, 0);
             lblExit.Name = "lblExit";
-            lblExit.Size = new Size(24, 25);
+            lblExit.Size = new Size(27, 30);
             lblExit.TabIndex = 8;
             lblExit.Text = "X";
             lblExit.Click += lblExit_Click;
             lblExit.MouseEnter += lblExit_MouseEnter;
             lblExit.MouseLeave += lblExit_MouseLeave;
             // 
-            // lblSettings
+            // eTheme1
             // 
-            lblSettings.AutoSize = true;
-            lblSettings.BackColor = Color.Transparent;
-            lblSettings.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
-            lblSettings.ForeColor = Color.WhiteSmoke;
-            lblSettings.Location = new Point(190, 9);
-            lblSettings.Name = "lblSettings";
-            lblSettings.Size = new Size(23, 25);
-            lblSettings.TabIndex = 9;
-            lblSettings.Text = "S";
-            lblSettings.Click += lblSettings_Click;
-            lblSettings.MouseEnter += lblSettings_MouseEnter;
-            lblSettings.MouseLeave += lblSettings_MouseLeave;
+            eTheme1.BackColor = Color.FromArgb(53, 53, 53);
+            eTheme1.Controls.Add(btnSettings);
+            eTheme1.Controls.Add(pbSubmit);
+            eTheme1.Controls.Add(lblRAM);
+            eTheme1.Controls.Add(pbCPU);
+            eTheme1.Controls.Add(lblExit);
+            eTheme1.Controls.Add(label1);
+            eTheme1.Dock = DockStyle.Fill;
+            eTheme1.Image = null;
+            eTheme1.Location = new Point(0, 0);
+            eTheme1.MoveHeight = 30;
+            eTheme1.Name = "eTheme1";
+            eTheme1.Resizable = false;
+            eTheme1.Size = new Size(260, 300);
+            eTheme1.TabIndex = 10;
+            eTheme1.Text = "VirusTotal Widget";
+            eTheme1.TransparencyKey = Color.Empty;
+            // 
+            // btnSettings
+            // 
+            btnSettings.Image = null;
+            btnSettings.Location = new Point(21, 143);
+            btnSettings.Name = "btnSettings";
+            btnSettings.NoRounding = false;
+            btnSettings.Size = new Size(66, 28);
+            btnSettings.TabIndex = 10;
+            btnSettings.Text = "Settings";
+            btnSettings.Click += btnSettings_Click;
             // 
             // frmWidget
             // 
@@ -134,13 +152,8 @@
             BackColor = Color.DimGray;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(260, 300);
-            Controls.Add(pbSubmit);
-            Controls.Add(lblSettings);
-            Controls.Add(lblExit);
-            Controls.Add(pbCPU);
             Controls.Add(pbRAM);
-            Controls.Add(lblRAM);
-            Controls.Add(label1);
+            Controls.Add(eTheme1);
             DoubleBuffered = true;
             FormBorderStyle = FormBorderStyle.None;
             MaximizeBox = false;
@@ -154,8 +167,9 @@
             Load += frmWidget_Load;
             MouseDown += frmWidget_MouseDown;
             ((System.ComponentModel.ISupportInitialize)pbSubmit).EndInit();
+            eTheme1.ResumeLayout(false);
+            eTheme1.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -166,6 +180,7 @@
         private ProgressBar pbRAM;
         private ProgressBar pbCPU;
         private Label lblExit;
-        private Label lblSettings;
+        private Forms.eTheme eTheme1;
+        private Forms.eButton btnSettings;
     }
 }
