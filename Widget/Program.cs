@@ -4,6 +4,7 @@ using System.Diagnostics;
 using static Widget.WidgetConfiguration;
 using VirusTotal;
 using System.Windows.Forms;
+using Widget.Forms;
 
 namespace Widget
 {
@@ -66,6 +67,10 @@ namespace Widget
             }
             VT vt = new(widgetSettings.VirusTotalApiKey);
 
+            // Display toaster
+            ToasterForm toaster = new(Constants.SubmittingFileTitle, Constants.SubmittingFileMessage, 3000, widgetSettings.FadeEffect);
+            toaster.Show();
+
             // Scan file
             ResponseParser vtReponse = new();
             vtReponse = await vt.ScanFileAsync(vt, fileToSubmitPath);
@@ -77,6 +82,7 @@ namespace Widget
             }
             // Display report
             using fmVTScanResult scanResult = new(vtReponse);
+
             scanResult.ShowDialog();
 
         }

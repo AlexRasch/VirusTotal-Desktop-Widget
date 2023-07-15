@@ -9,6 +9,7 @@ using VirusTotal;
 using static Widget.WidgetConfiguration;
 using System.Threading;
 using System.ComponentModel;
+using Widget.Forms;
 
 namespace Widget
 {
@@ -29,43 +30,7 @@ namespace Widget
         {
             base.OnLoad(e);
             if (widgetSettings.FadeEffect)
-                FadeInForm();
-        }
-
-        private async Task FadeOutForm()
-        {
-            if (widgetSettings.FadeEffect)
-            {
-                // Make windows transparent and set initial opacity to 0
-                WindowsAPI.MakeWindowTransparent(this.Handle);
-                WindowsAPI.FadeIn(this.Handle, 255);
-
-                // Fade out
-                for (int opacity = 255; opacity >= 0; opacity -= 1)
-                {
-                    await Task.Delay(4);  // 256 * 4 = 1024
-                    this.Invoke((Action)(() => { WindowsAPI.FadeIn(this.Handle, opacity); }));
-                }
-            }
-        }
-        private void FadeInForm()
-        {
-            if (widgetSettings.FadeEffect)
-            {
-                // Make windows transparent and set initial opacity to 0
-                WindowsAPI.MakeWindowTransparent(this.Handle);
-                WindowsAPI.FadeIn(this.Handle, 0);
-
-                Task.Run(async () =>
-                {
-                    // Fade in
-                    for (int opacity = 0; opacity <= 255; opacity += 1)
-                    {
-                        await Task.Delay(4);  // 256 * 4 = 1024
-                        this.Invoke((Action)(() => { WindowsAPI.FadeIn(this.Handle, opacity); }));
-                    }
-                });
-            }
+                FormUtils.FadeInForm(this);
         }
         private void frmWidget_Load(object sender, EventArgs e)
         {
@@ -105,7 +70,7 @@ namespace Widget
             cancellationTokenSource?.Dispose();
 
             if (widgetSettings.FadeEffect)
-                await FadeOutForm();
+                await FormUtils.FadeOutForm(this);
 
             if (System.Windows.Forms.Application.MessageLoop)
             {
@@ -140,9 +105,14 @@ namespace Widget
             {
                 VT vt = new(widgetSettings.VirusTotalApiKey);
 
+                // Toaster
+                ToasterForm toaster = new(Constants.SubmittingFileTitle, Constants.SubmittingFileMessage, 3000, widgetSettings.FadeEffect);
+                toaster.Show();
+
                 // Scan file
                 ResponseParser vtReponse = new();
                 vtReponse = await vt.ScanFileAsync(vt, openFileDialog.FileName);
+                
                 // Handle API error
                 if (vtReponse.ErrorCode != null)
                 {
@@ -155,6 +125,8 @@ namespace Widget
                 // Display report
                 fmVTScanResult scanResult = new(vtReponse);
                 scanResult.Show();
+                // Dispose
+                toaster.Dispose();
                 vt.Dispose();
             }
 
