@@ -27,9 +27,6 @@ Disclaimer: This application/widget is not a substitute for a antivirus software
 - .NET 6.0 runtime
 - VirusTotal API key (optimal)
 
-## Credit
-This project utilizes the following resources from the community:
-- [Theme by aeonhack](https://github.com/aeonhack) - The theme used for the user interface.
 
 ## Usage
 1. Clone the repository or download the source code.
@@ -40,7 +37,7 @@ This project utilizes the following resources from the community:
 6. Customize the widget appearance and behavior according to your preferences (Work in Progress).
 7. Enjoy the widget on your Windows desktop!
 
-## Configuration
+### Configuration
 The VT Desktop Widget uses a configuration file (`config.json`) to store user settings. It is located in the application data folder (`%APPDATA%\VT-Desktop-Widget`).
 
 **Secure API Key Storage with DPAPI Encryption**
@@ -63,3 +60,7 @@ Please provide a clear and detailed description of the changes you made in your 
 Before submitting a pull request, make sure to run the tests and verify that they pass successfully. If you're adding new features, consider adding relevant tests as well.
 By contributing to this project, you agree to license your contributions under the [MIT License](LICENSE).
 Thank you for your contribution! Together, we can make VirusTotal desktop widget even better.
+
+## Credit
+This project utilizes the following resources from the community:
+- [Theme by aeonhack](https://github.com/aeonhack) - The theme used for the user interface.
