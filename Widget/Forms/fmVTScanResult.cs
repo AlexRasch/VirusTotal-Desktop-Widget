@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -15,41 +16,82 @@ namespace Widget
     public partial class fmVTScanResult : Form
     {
         // For VT scan result
-        private ResponseParser Report { get; set; }
+        private VT vt;
+        private ResponseParser? Report { get; set; }
 
+        private string? FileToScanPath { get; set; }
+
+        /// <summary>
+        ///  Used when we have a report from virustotal to display
+        /// </summary>
+        /// <param name="report"></param>
         public fmVTScanResult(ResponseParser report)
         {
             InitializeComponent();
             this.Report = report;
         }
 
+        /// <summary>
+        /// When we want to submit a file
+        /// </summary>
+        /// <param name="filePath">Path to the file we want to scan</param>
+        public fmVTScanResult(string filePath, string virusTotalAPIKey)
+        {
+            this.FileToScanPath = filePath;
+            this.vt = new(virusTotalAPIKey);
+            InitializeComponent();
+        }
+
         private void btnClose_Click(object sender, EventArgs e) => this.Close();
         
-        private void fmVTScanResult_Load(object sender, EventArgs e)
+        private async void fmVTScanResult_Load(object sender, EventArgs e)
         {
-            eTheme1.Text = $"Report: {Report.FileInfo.SHA256}";
-
             this.MinimumSize = new Size(Width, Height);
             this.MaximumSize = this.MinimumSize;
 
-            // Clear gridview
-            dgvResult.Rows.Clear();
+            // Parse report
+            if (Report != null)
+                await ParseReport(Report);
 
-            // Data
-            foreach (var item in Report.Results)
+            // Scan file
+            if (!string.IsNullOrEmpty(FileToScanPath))
+                await ScanFileAsync();
+        }
+
+        private async Task ScanFileAsync()
+        {
+            // Scan file
+            ResponseParser vtReponse = new();
+            vtReponse = await vt.ScanFileAsync(vt, FileToScanPath!);
+            // Handle API error
+            if (vtReponse.ErrorCode != null)
             {
-                var engineResult = item.Value;
-                dgvResult.Rows.Add(
-                    item.Key,  // AV (engine name)
-                    engineResult.Category,
-                    engineResult.EngineName,
-                    engineResult.EngineVersion,
-                    engineResult.Result,
-                    engineResult.Method,
-                    engineResult.EngineUpdate
-                );
+                MessageBox.Show($"Error:{vtReponse.ErrorCode.Code}", "API issues");
+                return;
             }
+            // Parse report
+            await ParseReport(vtReponse);
+        }
 
+        private async Task ParseReport(ResponseParser report)
+        {
+            // Data
+            foreach (var item in report.Results)
+            {
+                Invoke(new Action(() =>
+                {
+                    var engineResult = item.Value;
+                    dgvResult.Rows.Add(
+                        item.Key,  // AV (engine name)
+                        engineResult.Category,
+                        engineResult.EngineName,
+                        engineResult.EngineVersion,
+                        engineResult.Result,
+                        engineResult.Method,
+                        engineResult.EngineUpdate
+                    );
+                }));
+            }
         }
 
     }

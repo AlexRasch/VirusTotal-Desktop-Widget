@@ -17,15 +17,9 @@ namespace Widget
         [STAThread]
         static void Main(string[] args)
         {
-            // Send to
-            if (args.Length >= 1)
-            {
-                Task.Run(() => HandleCommandLineArguments(args)).Wait();
-                Environment.Exit(0);
-            }
 
-            // Normal application start
-            if (!isFirstInstance)
+            // Normal application start and no args passed to application
+            if (!isFirstInstance && args.Length == 0)
             {
                 WindowsAPI.BringExistingInstanceToFront();
                 ShowAlreadyRunningMessage();
@@ -37,10 +31,30 @@ namespace Widget
                 Application.ThreadException += HandleThreadException;
                 AppDomain.CurrentDomain.UnhandledException += HandleUnhandledException;
                 TaskScheduler.UnobservedTaskException += HandleUnobservedTaskException;
+                // "Send to" start
+                if(args.Length >= 1)
+                {
+                    WidgetSettings widgetSettings = new();
+                    widgetSettings = WidgetSettings.LoadSettingsFromConfigFile();
 
-                ApplicationConfiguration.Initialize();
-                frmWidget mainForm = new();
-                Application.Run(mainForm);
+                    // Do we have a API key?
+                    if (string.IsNullOrWhiteSpace(widgetSettings.VirusTotalApiKey))
+                    {
+                        MessageBox.Show("Missing VirusTotal API key", "Error");
+                        return;
+                    }
+
+                    ApplicationConfiguration.Initialize();
+                    fmVTScanResult scanForm = new(args[0], widgetSettings.VirusTotalApiKey);
+                    Application.Run(scanForm);
+                }
+                else // Normal start
+                {
+                    ApplicationConfiguration.Initialize();
+                    frmWidget mainForm = new();
+                    Application.Run(mainForm);
+                }
+
             }
             finally
             {
@@ -48,56 +62,7 @@ namespace Widget
                 mutex.Dispose();
             }
         }
-        private static async Task HandleCommandLineArguments(string[] args)
-        {
-            // If there are command line arguments, the app is most likely called from the context menu "Send to"
-            // ToDo: This logic is very similar to the one in fmWidget.
-            // Consider finding a better approach to adhere to the "Don't Repeat Yourself" (DRY) principle and avoid code duplication.
 
-            string fileToSubmitPath = args[0];
-            WidgetSettings widgetSettings = WidgetSettings.LoadSettingsFromConfigFile();
-
-            // Do we have a API key?
-            if (string.IsNullOrWhiteSpace(widgetSettings.VirusTotalApiKey))
-            {
-                MessageBox.Show("Missing VirusTotal API key", "Error");
-                return;
-            }
-            VT vt = new(widgetSettings.VirusTotalApiKey);
-
-            // Display toaster, this breaks the application needs to be looked into....
-            //try
-            //{
-            //    ToasterForm toaster = new(Constants.SubmittingFileTitle, Constants.SubmittingFileMessage, 3000, false);
-            //    toaster.Show();
-            //}catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.ToString(),ex.ToString());
-            //}
-            //ToasterForm toasterForm = new(Constants.SubmittingFileTitle, Constants.SubmittingFileMessage, 3000, widgetSettings.FadeEffect);
-            //toasterForm.ShowDialog();
-
-#if DEBUG
-            //Debug.WriteLine($"Showed toaster");
-#endif
-
-            // Scan file
-            ResponseParser vtReponse = new();
-            vtReponse = await vt.ScanFileAsync(vt, fileToSubmitPath);
-            // Handle API error
-            if (vtReponse.ErrorCode != null)
-            {
-                MessageBox.Show($"Error:{vtReponse.ErrorCode.Code}", "API issues");
-                return;
-            }
-            // Display report
-            using fmVTScanResult scanResult = new(vtReponse);
-#if DEBUG
-            Debug.WriteLine($"Scan result status: {vtReponse.Status}");
-#endif
-            scanResult.ShowDialog();
-
-        }
         private static void ShowAlreadyRunningMessage() => MessageBox.Show(Constants.AlreadyRunningMessage, Constants.AlreadyRunningMessageTitle);
 
         private static void HandleThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
@@ -117,17 +82,17 @@ namespace Widget
 
         private static void HandleUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-#if DEBUG
+
             if (e.ExceptionObject is Exception exception)
             {
                 string exceptionMessage = exception.Message;
-                Debug.WriteLine($"UnhandledException: {exceptionMessage} ({e})");
+                MessageBox.Show($"HandleUnhandledException: {exceptionMessage} ({e})");
             }
             else
             {
-                Debug.WriteLine($"UnhandledException: ({e})");
+                MessageBox.Show($"HandleUnhandledException: ({e})");
             }
-#endif
+
         }
     }
 }
