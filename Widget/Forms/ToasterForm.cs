@@ -76,7 +76,7 @@ namespace Widget.Forms
                 FormUtils.FadeInForm(this);
 
             displayTimer.Interval = DisplayDuration.HasValue ? DisplayDuration.Value : 5000;
-            //displayTimer.Start();
+            displayTimer.Start();
         }
 
         private void DisplayTimer_Tick(object? sender, EventArgs e)

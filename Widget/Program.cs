@@ -65,9 +65,18 @@ namespace Widget
             }
             VT vt = new(widgetSettings.VirusTotalApiKey);
 
-            // Display toaster
-            //ToasterForm toaster = new(Constants.SubmittingFileTitle, Constants.SubmittingFileMessage, 3000, false);
-            //toaster.Show();
+            // Display toaster, this breaks the application needs to be looked into....
+            //try
+            //{
+            //    ToasterForm toaster = new(Constants.SubmittingFileTitle, Constants.SubmittingFileMessage, 3000, false);
+            //    toaster.Show();
+            //}catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.ToString(),ex.ToString());
+            //}
+            //ToasterForm toasterForm = new(Constants.SubmittingFileTitle, Constants.SubmittingFileMessage, 3000, widgetSettings.FadeEffect);
+            //toasterForm.ShowDialog();
+
 #if DEBUG
             //Debug.WriteLine($"Showed toaster");
 #endif
