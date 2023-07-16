@@ -48,8 +48,6 @@ namespace Widget
                 mutex.Dispose();
             }
         }
-
-
         private static async Task HandleCommandLineArguments(string[] args)
         {
             // If there are command line arguments, the app is most likely called from the context menu "Send to"
@@ -68,8 +66,11 @@ namespace Widget
             VT vt = new(widgetSettings.VirusTotalApiKey);
 
             // Display toaster
-            ToasterForm toaster = new(Constants.SubmittingFileTitle, Constants.SubmittingFileMessage, 3000, widgetSettings.FadeEffect);
-            toaster.Show();
+            //ToasterForm toaster = new(Constants.SubmittingFileTitle, Constants.SubmittingFileMessage, 3000, false);
+            //toaster.Show();
+#if DEBUG
+            //Debug.WriteLine($"Showed toaster");
+#endif
 
             // Scan file
             ResponseParser vtReponse = new();
@@ -82,7 +83,9 @@ namespace Widget
             }
             // Display report
             using fmVTScanResult scanResult = new(vtReponse);
-
+#if DEBUG
+            Debug.WriteLine($"Scan result status: {vtReponse.Status}");
+#endif
             scanResult.ShowDialog();
 
         }

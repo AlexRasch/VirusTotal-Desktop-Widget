@@ -68,11 +68,15 @@ namespace Widget.Forms
             this.MinimumSize = new Size(Width, Height);
             this.MaximumSize = this.MinimumSize;
             
+            // Set "content"
+            eTheme1.Text = this.Title;
+            lblMessage.Text = this.Message;
+
             if(FadeEffect)
                 FormUtils.FadeInForm(this);
 
             displayTimer.Interval = DisplayDuration.HasValue ? DisplayDuration.Value : 5000;
-            displayTimer.Start();
+            //displayTimer.Start();
         }
 
         private void DisplayTimer_Tick(object? sender, EventArgs e)
