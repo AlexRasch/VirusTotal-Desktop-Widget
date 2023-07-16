@@ -8,8 +8,15 @@ using System.Reflection;
 
 namespace Widget
 {
+    /// <summary>
+    /// Contains constant values used in the Widget project.
+    /// </summary>
     public class Constants
     {
+        // VirusTotal project have its own Constants
+
+
+        // Mutex Messages
         public const string AlreadyRunningMessage = "Widget is already running.\n\n Please close the existing instance before launching a new one.";
         public const string AlreadyRunningMessageTitle = "Widget already running";
 
