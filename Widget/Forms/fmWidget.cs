@@ -103,33 +103,16 @@ namespace Widget
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                VT vt = new(widgetSettings.VirusTotalApiKey);
 
-                // Toaster
-                ToasterForm toaster = new(Constants.SubmittingFileTitle, Constants.SubmittingFileMessage, 3000, widgetSettings.FadeEffect);
-                toaster.Show();
-
-                // Scan file
-                ResponseParser vtReponse = new();
-                vtReponse = await vt.ScanFileAsync(vt, openFileDialog.FileName);
-                
-                // Handle API error
-                if (vtReponse.ErrorCode != null)
-                {
-                    MessageBox.Show($"Error:{vtReponse.ErrorCode.Code}", "API issues");
-                    return;
-                }
 #if DEBUG
-                Debug.WriteLine($"Submited file for analyis");
+                Debug.WriteLine($"Showing fmVTScanResult");
 #endif
-                // Display report
-                fmVTScanResult scanResult = new(vtReponse);
+                fmVTScanResult scanResult = new(openFileDialog.FileName, widgetSettings.VirusTotalApiKey);
                 scanResult.Show();
-                // Dispose
-                vt.Dispose();
             }
 
         }
+
         //private void pbScan_DragDrop(object sender, DragEventArgs? e)
         //{
         //    if (e?.Data.GetDataPresent(DataFormats.FileDrop) == true)
