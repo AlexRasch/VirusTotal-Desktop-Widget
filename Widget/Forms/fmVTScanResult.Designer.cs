@@ -44,6 +44,7 @@
             colMethod = new DataGridViewTextBoxColumn();
             colEngineUpdate = new DataGridViewTextBoxColumn();
             eTheme1 = new Forms.eTheme();
+            lblFileSize = new Label();
             btnClose = new Forms.FButton();
             ((System.ComponentModel.ISupportInitialize)dgvResult).BeginInit();
             eTheme1.SuspendLayout();
@@ -62,7 +63,7 @@
             dgvResult.ReadOnly = true;
             dgvResult.RowHeadersWidth = 51;
             dgvResult.RowTemplate.Height = 25;
-            dgvResult.Size = new Size(770, 492);
+            dgvResult.Size = new Size(754, 492);
             dgvResult.TabIndex = 0;
             // 
             // colAV
@@ -110,6 +111,7 @@
             // eTheme1
             // 
             eTheme1.BackColor = Color.FromArgb(53, 53, 53);
+            eTheme1.Controls.Add(lblFileSize);
             eTheme1.Controls.Add(btnClose);
             eTheme1.Controls.Add(dgvResult);
             eTheme1.Dock = DockStyle.Fill;
@@ -118,10 +120,20 @@
             eTheme1.MoveHeight = 30;
             eTheme1.Name = "eTheme1";
             eTheme1.Resizable = true;
-            eTheme1.Size = new Size(776, 566);
+            eTheme1.Size = new Size(760, 566);
             eTheme1.TabIndex = 2;
             eTheme1.Text = "Scan result:";
             eTheme1.TransparencyKey = Color.Empty;
+            // 
+            // lblFileSize
+            // 
+            lblFileSize.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
+            lblFileSize.ForeColor = Color.WhiteSmoke;
+            lblFileSize.Location = new Point(12, 530);
+            lblFileSize.Name = "lblFileSize";
+            lblFileSize.Size = new Size(383, 28);
+            lblFileSize.TabIndex = 2;
+            lblFileSize.Text = "File size:";
             // 
             // btnClose
             // 
@@ -141,7 +153,7 @@
             pigment7.Value = Color.FromArgb(30, 0, 0, 0);
             btnClose.Colors = new Forms.Pigment[] { pigment1, pigment2, pigment3, pigment4, pigment5, pigment6, pigment7 };
             btnClose.Font = new Font("Verdana", 8F, FontStyle.Regular, GraphicsUnit.Point);
-            btnClose.Location = new Point(651, 530);
+            btnClose.Location = new Point(635, 530);
             btnClose.Name = "btnClose";
             btnClose.Shadow = true;
             btnClose.Size = new Size(122, 28);
@@ -153,7 +165,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(776, 566);
+            ClientSize = new Size(760, 566);
             Controls.Add(eTheme1);
             FormBorderStyle = FormBorderStyle.None;
             Name = "fmVTScanResult";
@@ -176,5 +188,6 @@
         private DataGridViewTextBoxColumn colMethod;
         private DataGridViewTextBoxColumn colEngineUpdate;
         private Forms.FButton btnClose;
+        private Label lblFileSize;
     }
 }
