@@ -33,6 +33,9 @@ namespace Widget
         /// </summary>
         private bool FadeEffect { get; set; }
 
+        /// <summary>
+        ///  Provides a way to cancel the scanning process by generating cancellation tokens.
+        /// </summary>
         private CancellationTokenSource cancellationTokenSource = new();
 
         /// <summary>
@@ -41,9 +44,10 @@ namespace Widget
         private int dotCount = 0;
 
         /// <summary>
-        ///  Used when we have a report from virustotal to display
+        ///  Initializes a new instance of the fmVTScanResult class when we have a report from VirusTotal to display.
         /// </summary>
-        /// <param name="report"></param>
+        /// <param name="report">The VirusTotal response report to display.</param>
+        /// <param name="fadeEffect">A flag indicating whether the fade effect is enabled (default: false).</param>
         public fmVTScanResult(ResponseParser report, bool fadeEffect = false)
         {
             InitializeComponent();
