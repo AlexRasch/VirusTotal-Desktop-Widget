@@ -53,44 +53,44 @@ namespace Widget.Forms
 
             InitializeComponent();
 
-            displayTimer = new System.Windows.Forms.Timer();
-            displayTimer.Tick += DisplayTimer_Tick;
+            //displayTimer = new System.Windows.Forms.Timer();
+            //displayTimer.Tick += DisplayTimer_Tick;
         }
 
         private void ToasterForm_Load(object sender, EventArgs e)
         {
-            int distanceFromRightEdge = 10;
-            int distanceFromBottomEdge = 80;
-            int formX = Screen.PrimaryScreen.Bounds.Width - Width - distanceFromRightEdge;
-            int formY = Screen.PrimaryScreen.Bounds.Height - (Height + distanceFromBottomEdge);
-            Location = new System.Drawing.Point(formX, formY);
-
-            this.MinimumSize = new Size(Width, Height);
-            this.MaximumSize = this.MinimumSize;
-            
-            // Set "content"
-            eTheme1.Text = this.Title;
-            lblMessage.Text = this.Message;
-
-            if(FadeEffect)
-                FormUtils.FadeInForm(this);
-
-            displayTimer.Interval = DisplayDuration.HasValue ? DisplayDuration.Value : 5000;
-            displayTimer.Start();
+        //    int distanceFromRightEdge = 10;
+        //    int distanceFromBottomEdge = 80;
+        //    int formX = Screen.PrimaryScreen.Bounds.Width - Width - distanceFromRightEdge;
+        //    int formY = Screen.PrimaryScreen.Bounds.Height - (Height + distanceFromBottomEdge);
+        //    Location = new System.Drawing.Point(formX, formY);
+        //
+        //    this.MinimumSize = new Size(Width, Height);
+        //    this.MaximumSize = this.MinimumSize;
+        //    
+        //    // Set "content"
+        //    eTheme1.Text = this.Title;
+        //    lblMessage.Text = this.Message;
+        //
+        //    if(FadeEffect)
+        //        //FormUtils.FadeInForm(this);
+        //
+        //    displayTimer.Interval = DisplayDuration.HasValue ? DisplayDuration.Value : 5000;
+        //    displayTimer.Start();
         }
 
-        private void DisplayTimer_Tick(object? sender, EventArgs e)
-        {
-            displayTimer.Stop();
-            displayTimer.Tick -= DisplayTimer_Tick; // Unsubscribve to timer event
-            displayTimer.Dispose();
-
-            if(FadeEffect)
-                Task.Run(() => FormUtils.FadeOutForm(this)).Wait();
-            
-            if(!IsDisposed) // Check if already disposed before closing
-                Close();
-        }
+        //private void DisplayTimer_Tick(object? sender, EventArgs e)
+        //{
+        //    displayTimer.Stop();
+        //    displayTimer.Tick -= DisplayTimer_Tick; // Unsubscribve to timer event
+        //    displayTimer.Dispose();
+        //
+        //    if(FadeEffect)
+        //        Task.Run(() => FormUtils.FadeOutForm(this)).Wait();
+        //    
+        //    if(!IsDisposed) // Check if already disposed before closing
+        //        Close();
+        //}
 
         private void btnDismiss_Click(object sender, EventArgs e) => Close();
 

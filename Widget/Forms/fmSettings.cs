@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Widget.Forms;
 using static Widget.WidgetConfiguration;
 
 namespace Widget
@@ -46,6 +47,9 @@ namespace Widget
             cbAutostart.Checked = config.AutoStartEnabled;
             cbFadeEffect.Checked = config.FadeEffect;
             cbSendTo.Checked = config.SendToEnabled;
+
+            if (config.FadeEffect)
+                FormUtils.FadeInForm(Handle, 512);
         }
 
         private void btnSave_Click(object sender, EventArgs e)

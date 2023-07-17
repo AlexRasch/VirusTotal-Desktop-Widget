@@ -242,7 +242,6 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            AutoSizeMode = AutoSizeMode.GrowAndShrink;
             ClientSize = new Size(600, 300);
             Controls.Add(eTheme1);
             FormBorderStyle = FormBorderStyle.None;
