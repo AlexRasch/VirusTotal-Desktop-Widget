@@ -8,7 +8,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <StartupObject>Widget.Program</StartupObject>
     <SignAssembly>False</SignAssembly>
-	
+	<ApplicationIcon>..\Assets\hippopotamus.ico</ApplicationIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

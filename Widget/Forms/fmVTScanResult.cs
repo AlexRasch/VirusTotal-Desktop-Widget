@@ -19,7 +19,6 @@ namespace Widget
         // For VT scan result
         private VT vt;
         private ResponseParser? Report { get; set; }
-
         private string? FileToScanPath { get; set; }
         private bool FadeEffect { get; set; }
 
