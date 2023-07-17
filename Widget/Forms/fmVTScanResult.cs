@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using VirusTotal;
+using Widget.Forms;
 
 namespace Widget
 {
@@ -20,30 +21,38 @@ namespace Widget
         private ResponseParser? Report { get; set; }
 
         private string? FileToScanPath { get; set; }
+        private bool FadeEffect { get; set; }
 
         /// <summary>
         ///  Used when we have a report from virustotal to display
         /// </summary>
         /// <param name="report"></param>
-        public fmVTScanResult(ResponseParser report)
+        public fmVTScanResult(ResponseParser report, bool fadeEffect = false)
         {
             InitializeComponent();
             this.Report = report;
+            FadeEffect = fadeEffect;
         }
 
         /// <summary>
         /// When we want to submit a file
         /// </summary>
         /// <param name="filePath">Path to the file we want to scan</param>
-        public fmVTScanResult(string filePath, string virusTotalAPIKey)
+        public fmVTScanResult(string filePath, string virusTotalAPIKey, bool fadeEffect = false)
         {
             this.FileToScanPath = filePath;
             this.vt = new(virusTotalAPIKey);
+
+            FadeEffect = fadeEffect;
+
             InitializeComponent();
         }
-
-        private void btnClose_Click(object sender, EventArgs e) => this.Close();
-        
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            if (FadeEffect)
+                FormUtils.FadeInForm(Handle, 256);
+        }
         private async void fmVTScanResult_Load(object sender, EventArgs e)
         {
             this.MinimumSize = new Size(Width, Height);
@@ -57,7 +66,13 @@ namespace Widget
             if (!string.IsNullOrEmpty(FileToScanPath))
                 await ScanFileAsync();
         }
+        private async void btnClose_Click(object sender, EventArgs e)
+        {
+            if (FadeEffect)
+                await FormUtils.FadeOutForm(Handle, 256);
 
+            this.Close();
+        } 
         private async Task ScanFileAsync()
         {
             // Scan file

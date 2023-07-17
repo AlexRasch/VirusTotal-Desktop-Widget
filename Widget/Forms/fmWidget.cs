@@ -30,7 +30,7 @@ namespace Widget
         {
             base.OnLoad(e);
             if (widgetSettings.FadeEffect)
-                FormUtils.FadeInForm(this);
+                FormUtils.FadeInForm(this.Handle);
         }
         private void frmWidget_Load(object sender, EventArgs e)
         {
@@ -70,7 +70,7 @@ namespace Widget
             cancellationTokenSource?.Dispose();
 
             if (widgetSettings.FadeEffect)
-                await FormUtils.FadeOutForm(this);
+                await FormUtils.FadeOutForm(Handle);
 
             if (System.Windows.Forms.Application.MessageLoop)
             {
@@ -107,7 +107,7 @@ namespace Widget
 #if DEBUG
                 Debug.WriteLine($"Showing fmVTScanResult");
 #endif
-                fmVTScanResult scanResult = new(openFileDialog.FileName, widgetSettings.VirusTotalApiKey);
+                fmVTScanResult scanResult = new(openFileDialog.FileName, widgetSettings.VirusTotalApiKey, widgetSettings.FadeEffect);
                 scanResult.Show();
             }
 
@@ -137,7 +137,7 @@ namespace Widget
         /// </summary>
         private async void GetCurrentSystemUsage()
         {
-            
+
             CancellationToken cancellationToken = cancellationTokenSource.Token;
 
             await Task.Run(() =>
