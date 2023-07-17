@@ -45,7 +45,7 @@ namespace Widget
                     }
 
                     ApplicationConfiguration.Initialize();
-                    fmVTScanResult scanForm = new(args[0], widgetSettings.VirusTotalApiKey);
+                    fmVTScanResult scanForm = new(args[0], widgetSettings.VirusTotalApiKey, widgetSettings.FadeEffect);
                     Application.Run(scanForm);
                 }
                 else // Normal start

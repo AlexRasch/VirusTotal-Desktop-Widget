@@ -70,7 +70,7 @@ namespace Widget
             cancellationTokenSource?.Dispose();
 
             if (widgetSettings.FadeEffect)
-                await FormUtils.FadeOutForm(this.Handle);
+                await FormUtils.FadeOutForm(Handle);
 
             if (System.Windows.Forms.Application.MessageLoop)
             {
@@ -107,7 +107,7 @@ namespace Widget
 #if DEBUG
                 Debug.WriteLine($"Showing fmVTScanResult");
 #endif
-                fmVTScanResult scanResult = new(openFileDialog.FileName, widgetSettings.VirusTotalApiKey);
+                fmVTScanResult scanResult = new(openFileDialog.FileName, widgetSettings.VirusTotalApiKey, widgetSettings.FadeEffect);
                 scanResult.Show();
             }
 

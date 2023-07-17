@@ -35,6 +35,13 @@ namespace Widget
             System.Windows.Forms.ToolTip toolTipSendTo = new();
             toolTipSendTo.SetToolTip(lblSendTo, "Enables 'Send To' shortcut for easy file submission to VirusTotal.");
         }
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            if (config.FadeEffect)
+                FormUtils.FadeInForm(Handle, 256);
+        }
+
         private void fmSettings_Load(object sender, EventArgs e)
         {
             this.MinimumSize = new Size(Width, Height);
@@ -47,12 +54,9 @@ namespace Widget
             cbAutostart.Checked = config.AutoStartEnabled;
             cbFadeEffect.Checked = config.FadeEffect;
             cbSendTo.Checked = config.SendToEnabled;
-
-            if (config.FadeEffect)
-                FormUtils.FadeInForm(Handle, 512);
         }
 
-        private void btnSave_Click(object sender, EventArgs e)
+        private async void btnSave_Click(object sender, EventArgs e)
         {
             bool IsAutoStartEnabled = cbAutostart.CheckState == CheckState.Checked;
             bool IsFadeEffectEnabled = cbFadeEffect.CheckState == CheckState.Checked;
@@ -70,6 +74,10 @@ namespace Widget
 
             string jsonString = JsonSerializer.Serialize(settings);
             WidgetSettings.SaveUserData(jsonString);
+
+            if(config.FadeEffect)
+                await FormUtils.FadeOutForm(Handle, 256);
+
             this.Close();
         }
 
