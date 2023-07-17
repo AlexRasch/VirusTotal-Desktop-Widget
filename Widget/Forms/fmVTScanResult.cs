@@ -23,7 +23,7 @@ namespace Widget
         /// <summary>
         /// Gets or sets the VirusTotal API key used for scanning.
         /// </summary>
-        private string VirusTotalAPIKey { get; set; }
+        private string? VirusTotalAPIKey { get; set; }
         /// <summary>
         /// Gets or sets the file path to scan.
         /// </summary>
@@ -32,6 +32,9 @@ namespace Widget
         /// Gets or sets a value indicating whether the fade effect is enabled.
         /// </summary>
         private bool FadeEffect { get; set; }
+
+        private CancellationTokenSource cancellationTokenSource = new();
+
         /// <summary>
         /// Keeps track of the number of dots to display in the 'Scanning...' text in UpdateTitleStatus method.
         /// </summary>
@@ -65,7 +68,7 @@ namespace Widget
         {
             base.OnLoad(e);
             if (FadeEffect)
-                FormUtils.FadeInForm(Handle, 256);
+                _ = FormUtils.FadeInForm(Handle, 256);
         }
         private async void fmVTScanResult_Load(object sender, EventArgs e)
         {
@@ -82,6 +85,8 @@ namespace Widget
         }
         private async void btnClose_Click(object sender, EventArgs e)
         {
+            cancellationTokenSource.Cancel();
+
             if (FadeEffect)
                 await FormUtils.FadeOutForm(Handle, 256);
 
@@ -89,13 +94,12 @@ namespace Widget
         }
         private async Task ScanFileAsync()
         {
-            ResponseParser scanResponse  = new();
+            ResponseParser scanResponse = new();
             bool isScanning = true;
 
-
-            using (VT vt = new VT(VirusTotalAPIKey))
+            using (VT vt = new VT(VirusTotalAPIKey!))
             {
-                while (isScanning)
+                while (isScanning && !cancellationTokenSource.IsCancellationRequested)
                 {
                     var scanTask = vt.ScanFileAsync(vt, FileToScanPath!);
 
@@ -105,20 +109,20 @@ namespace Widget
                         await Task.Delay(500);
                     }
 
-                    scanResponse  = await scanTask;
+                    scanResponse = await scanTask;
 
-                    if (scanResponse .IsComplete)
+                    if (scanResponse.IsComplete)
                         isScanning = false;
                 }
             }
             // Handle API error
-            if (scanResponse .ErrorCode != null)
+            if (scanResponse.ErrorCode != null)
             {
-                MessageBox.Show($"Error:{scanResponse .ErrorCode.Code}", "API issues");
+                MessageBox.Show($"Error:{scanResponse.ErrorCode.Code}", "API issues");
                 return;
             }
             // Parse report
-            await ParseReport(scanResponse );
+            await ParseReport(scanResponse);
         }
 
         private void UpdateTitleStatus()
