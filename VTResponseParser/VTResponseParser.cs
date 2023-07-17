@@ -42,6 +42,13 @@ namespace VirusTotal
             public string? EngineUpdate { get; set; }
         }
 
+        /// <summary>
+        /// Indicates whether the response parsing is complete.
+        /// Note: This property is not part of the VirusTotal API.
+        /// </summary>
+        public bool IsComplete { get; set; }
+
+
         public ResponseParser ParseReport(string? responseContent)
         {
             var report = new ResponseParser();
@@ -108,6 +115,9 @@ namespace VirusTotal
             {
                 Console.WriteLine($"Error parsing VirusTotal response: {ex.Message}");
             }
+            // Mark it as complete
+            report.IsComplete = true;
+
             return report;
         }
 

@@ -20,6 +20,9 @@ namespace Widget
         public const string AlreadyRunningMessage = "Widget is already running.\n\n Please close the existing instance before launching a new one.";
         public const string AlreadyRunningMessageTitle = "Widget already running";
 
+        // ScanResult Form
+        public const string FileSizeLabel = "File size:";
+
         // Toaster Message & Titles
         public const string SubmittingFileTitle = "Sending file to VirusTotal";
         public const string SubmittingFileMessage = "We are now submitting your file to VirusTotal for scanning...";

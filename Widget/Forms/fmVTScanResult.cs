@@ -16,11 +16,26 @@ namespace Widget
 #pragma warning disable IDE1006
     public partial class fmVTScanResult : Form
     {
-        // For VT scan result
-        private VT vt;
+        /// <summary>
+        /// Gets or sets the report from VirusTotal to display.
+        /// </summary>
         private ResponseParser? Report { get; set; }
+        /// <summary>
+        /// Gets or sets the VirusTotal API key used for scanning.
+        /// </summary>
+        private string VirusTotalAPIKey { get; set; }
+        /// <summary>
+        /// Gets or sets the file path to scan.
+        /// </summary>
         private string? FileToScanPath { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether the fade effect is enabled.
+        /// </summary>
         private bool FadeEffect { get; set; }
+        /// <summary>
+        /// Keeps track of the number of dots to display in the 'Scanning...' text in UpdateTitleStatus method.
+        /// </summary>
+        private int dotCount = 0;
 
         /// <summary>
         ///  Used when we have a report from virustotal to display
@@ -40,7 +55,7 @@ namespace Widget
         public fmVTScanResult(string filePath, string virusTotalAPIKey, bool fadeEffect = false)
         {
             this.FileToScanPath = filePath;
-            this.vt = new(virusTotalAPIKey);
+            this.VirusTotalAPIKey = virusTotalAPIKey;
 
             FadeEffect = fadeEffect;
 
@@ -71,24 +86,53 @@ namespace Widget
                 await FormUtils.FadeOutForm(Handle, 256);
 
             this.Close();
-        } 
+        }
         private async Task ScanFileAsync()
         {
-            // Scan file
-            ResponseParser vtReponse = new();
-            vtReponse = await vt.ScanFileAsync(vt, FileToScanPath!);
-            // Handle API error
-            if (vtReponse.ErrorCode != null)
+            ResponseParser scanResponse  = new();
+            bool isScanning = true;
+
+
+            using (VT vt = new VT(VirusTotalAPIKey))
             {
-                MessageBox.Show($"Error:{vtReponse.ErrorCode.Code}", "API issues");
+                while (isScanning)
+                {
+                    var scanTask = vt.ScanFileAsync(vt, FileToScanPath!);
+
+                    while (!scanTask.IsCompleted)
+                    {
+                        UpdateTitleStatus();
+                        await Task.Delay(500);
+                    }
+
+                    scanResponse  = await scanTask;
+
+                    if (scanResponse .IsComplete)
+                        isScanning = false;
+                }
+            }
+            // Handle API error
+            if (scanResponse .ErrorCode != null)
+            {
+                MessageBox.Show($"Error:{scanResponse .ErrorCode.Code}", "API issues");
                 return;
             }
             // Parse report
-            await ParseReport(vtReponse);
+            await ParseReport(scanResponse );
+        }
+
+        private void UpdateTitleStatus()
+        {
+            dotCount = (dotCount + 1) % 4;
+            eTheme1.Text = $"Scanning{new string('.', dotCount)}";
         }
 
         private async Task ParseReport(ResponseParser report)
         {
+            // Update UI
+            eTheme1.Text = $"Scan result:{report.FileInfo.SHA256}";
+            lblFileSize.Text = $"{Constants.FileSizeLabel}{report.FileInfo.Size}";
+
             // Data
             foreach (var item in report.Results)
             {
@@ -107,6 +151,5 @@ namespace Widget
                 }));
             }
         }
-
     }
 }
