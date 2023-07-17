@@ -54,11 +54,12 @@ namespace Widget
             this.Report = report;
             FadeEffect = fadeEffect;
         }
-
         /// <summary>
-        /// When we want to submit a file
+        /// Initializes a new instance of the fmVTScanResult class when we want to submit a file for scanning.
         /// </summary>
-        /// <param name="filePath">Path to the file we want to scan</param>
+        /// <param name="filePath">The path to the file we want to scan.</param>
+        /// <param name="virusTotalAPIKey">The API key to access the VirusTotal service.</param>
+        /// <param name="fadeEffect">A flag indicating whether the fade effect is enabled (default: false).</param>
         public fmVTScanResult(string filePath, string virusTotalAPIKey, bool fadeEffect = false)
         {
             this.FileToScanPath = filePath;
@@ -85,7 +86,7 @@ namespace Widget
 
             // Scan file
             if (!string.IsNullOrEmpty(FileToScanPath))
-                await ScanFileAsync();
+                await PerformFileScanAsync();
         }
         private async void btnClose_Click(object sender, EventArgs e)
         {
@@ -96,27 +97,42 @@ namespace Widget
 
             this.Close();
         }
-        private async Task ScanFileAsync()
+
+        #region Scanning Methods
+
+        /// <summary>
+        /// Performs a file scanning using the VirusTotal API and passes the result to the ParseReport method.
+        /// </summary>
+        /// <returns>Nothing.</returns>
+        private async Task PerformFileScanAsync()
         {
             ResponseParser scanResponse = new();
             bool isScanning = true;
 
             using (VT vt = new VT(VirusTotalAPIKey!))
             {
-                while (isScanning && !cancellationTokenSource.IsCancellationRequested)
+                try
                 {
-                    var scanTask = vt.ScanFileAsync(vt, FileToScanPath!);
-
-                    while (!scanTask.IsCompleted)
+                    while (isScanning && !cancellationTokenSource.IsCancellationRequested)
                     {
-                        UpdateTitleStatus();
-                        await Task.Delay(500);
+                        var scanTask = vt.ScanFileAsync(vt, FileToScanPath!);
+
+                        while (!scanTask.IsCompleted)
+                        {
+                            UpdateTitleStatus();
+                            await Task.Delay(500);
+                        }
+
+                        scanResponse = await scanTask;
+
+                        if (scanResponse.IsComplete)
+                            isScanning = false;
                     }
-
-                    scanResponse = await scanTask;
-
-                    if (scanResponse.IsComplete)
-                        isScanning = false;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("An error occurred during the scanning process.", "Scanning Error");
+                    return;
                 }
             }
             // Handle API error
@@ -128,36 +144,61 @@ namespace Widget
             // Parse report
             await ParseReport(scanResponse);
         }
+        /// <summary>
+        /// Updates the DataGridView with the report received from VirusTotal.
+        /// </summary>
+        /// <param name="report">The ResponseParser instance containing the scan report.</param>
+        /// <returns>Nothing.</returns>
+        private async Task ParseReport(ResponseParser report)
+        {
+            try
+            {
+                if (report == null)
+                {
+                    MessageBox.Show($"The report appears to be empty.", "Parse issue");
+                    return;
+                }
 
+                // Update UI
+                eTheme1.Text = $"Scan result:{report.FileInfo.SHA256}";
+                lblFileSize.Text = $"{Constants.FileSizeLabel}{report.FileInfo.Size}";
+
+                // Data
+                foreach (var item in report.Results)
+                {
+                    Invoke(new Action(() =>
+                    {
+                        var engineResult = item.Value;
+                        dgvResult.Rows.Add(
+                            item.Key,  // AV (engine name)
+                            engineResult.Category,
+                            engineResult.EngineName,
+                            engineResult.EngineVersion,
+                            engineResult.Result,
+                            engineResult.Method,
+                            engineResult.EngineUpdate
+                        );
+                    }));
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occured while parsing.", "Parse error");
+#if DEBUG
+                Debug.WriteLine("ParseReport: Error { ex.Message}");
+#endif
+            }
+        }
+
+        /// <summary>
+        /// Updates the title of the form to indicate the progress of the scanning process for the user.
+        /// </summary>
         private void UpdateTitleStatus()
         {
             dotCount = (dotCount + 1) % 4;
             eTheme1.Text = $"Scanning{new string('.', dotCount)}";
         }
 
-        private async Task ParseReport(ResponseParser report)
-        {
-            // Update UI
-            eTheme1.Text = $"Scan result:{report.FileInfo.SHA256}";
-            lblFileSize.Text = $"{Constants.FileSizeLabel}{report.FileInfo.Size}";
-
-            // Data
-            foreach (var item in report.Results)
-            {
-                Invoke(new Action(() =>
-                {
-                    var engineResult = item.Value;
-                    dgvResult.Rows.Add(
-                        item.Key,  // AV (engine name)
-                        engineResult.Category,
-                        engineResult.EngineName,
-                        engineResult.EngineVersion,
-                        engineResult.Result,
-                        engineResult.Method,
-                        engineResult.EngineUpdate
-                    );
-                }));
-            }
-        }
+        #endregion
     }
 }
