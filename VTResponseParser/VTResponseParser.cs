@@ -93,6 +93,11 @@ namespace VirusTotal
             return report;
         }
 
+        /// <summary>
+        /// Parses the "results" section of the VirusTotal API response and returns a dictionary of engine results.
+        /// </summary>
+        /// <param name="resultsElement">The JSON element containing the "results" section.</param>
+        /// <returns>A dictionary of engine results, where the key is the engine name and the value is the corresponding EngineResult object.</returns>
         private Dictionary<string, EngineResult> ParseResults(JsonElement resultsElement)
         {
             var results = new Dictionary<string, EngineResult>();
