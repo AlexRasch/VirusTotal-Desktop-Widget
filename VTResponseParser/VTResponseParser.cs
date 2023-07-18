@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Text.Json;
+using static VirusTotal.ResponseParser;
 
 namespace VirusTotal
 {
@@ -8,47 +9,8 @@ namespace VirusTotal
     // It is recommended to refer to the official VirusTotal API documentation for a comprehensive implementation.
     // Instead of using tools like json2csharp.com, I manually created the classes.
 
-    public class ResponseParser
+    public partial class ResponseParser
     {
-        public ResponseParser.Error? ErrorCode { get; set; }
-        public Meta.FileInfo FileInfo { get; set; }
-        public string Status { get; set; }
-        public string Id { get; set; }
-        public string Type { get; set; }
-        public string SelfLink { get; set; }
-        public Dictionary<string, EngineResult> Results { get; set; } // New property for results
-        public class Error
-        {
-            public string? Message { get; set; }
-            public string? Code { get; set; }
-        }
-        public struct Meta
-        {
-            public struct FileInfo
-            {
-                public string SHA256 { get; set; }
-                public string SHA1 { get; set; }
-                public string MD5 { get; set; }
-                public int Size { get; set; }
-            }
-        }
-        public class EngineResult
-        {
-            public string? Category { get; set; }
-            public string? EngineName { get; set; }
-            public string? EngineVersion { get; set; }
-            public string? Result { get; set; }
-            public string? Method { get; set; }
-            public string? EngineUpdate { get; set; }
-        }
-
-        /// <summary>
-        /// Indicates whether the response parsing is complete.
-        /// Note: This property is not part of the VirusTotal API.
-        /// </summary>
-        public bool IsComplete { get; set; }
-
-
         public ResponseParser ParseReport(string? responseContent)
         {
             var report = new ResponseParser();
@@ -66,17 +28,28 @@ namespace VirusTotal
                         report.ErrorCode = ParseErrorMessage(errorElement);
                     }
 
+                    // Data
                     if (document.RootElement.TryGetProperty("data", out JsonElement dataElement))
                     {
 
                         // Attributes
                         if (dataElement.TryGetProperty("attributes", out JsonElement attributesElement))
                         {
+                            // Date
+                            if (attributesElement.TryGetProperty("date", out JsonElement dateElement))
+                            {
+                                report.Date = dateElement.GetInt32();
+                            }
+
                             // Status
                             if (attributesElement.TryGetProperty("status", out JsonElement statusElement) && statusElement.ValueKind == JsonValueKind.String)
                             {
                                 report.Status = statusElement.GetString();
                             }
+
+                            // Stats
+                            if (attributesElement.TryGetProperty("stats", out JsonElement statsElement))
+                                report.Stats = ParseStats(statsElement);
 
                             // Results
                             if (attributesElement.TryGetProperty("results", out JsonElement resultsElement))
@@ -92,15 +65,25 @@ namespace VirusTotal
                             report.Id = idElement.GetString();
                         }
 
+                        // ToDo move this to a function instead
                         if (dataElement.TryGetProperty("links", out JsonElement linksElement))
                         {
-                            if (linksElement.TryGetProperty("self", out JsonElement selfLinkElement) && selfLinkElement.ValueKind == JsonValueKind.String)
-                            {
-                                report.SelfLink = selfLinkElement.GetString();
+                            if (linksElement.TryGetProperty("self", out JsonElement selfLinkElement) && selfLinkElement.ValueKind == JsonValueKind.String &&
+                                linksElement.TryGetProperty("item", out JsonElement itemElement) && itemElement.ValueKind == JsonValueKind.String) {
+                                
+                                string item = itemElement.GetString();
+                                string self = selfLinkElement.GetString();
+                                report.Links = new LinksResponse
+                                {
+                                    Item = item,
+                                    Self = self
+                                };
                             }
+
                         }
 
                     }
+                    
                     // File info
                     if (document.RootElement.TryGetProperty("meta", out JsonElement metaElement))
                     {
@@ -113,7 +96,9 @@ namespace VirusTotal
             }
             catch (JsonException ex)
             {
-                Console.WriteLine($"Error parsing VirusTotal response: {ex.Message}");
+#if DEBUG
+                Debug.WriteLine($"Error parsing VirusTotal response: {ex.Message}");
+#endif
             }
             // Mark it as complete
             report.IsComplete = true;
@@ -121,6 +106,82 @@ namespace VirusTotal
             return report;
         }
 
+        private Meta.FileInfo ParseFileInfo(JsonElement fileInfoElement)
+        {
+            var fileInfo = new Meta.FileInfo();
+
+            if (fileInfoElement.TryGetProperty("sha256", out JsonElement sha256Element) && sha256Element.ValueKind == JsonValueKind.String)
+            {
+                fileInfo.SHA256 = sha256Element.GetString();
+            }
+
+            if (fileInfoElement.TryGetProperty("sha1", out JsonElement sha1Element) && sha1Element.ValueKind == JsonValueKind.String)
+            {
+                fileInfo.SHA1 = sha1Element.GetString();
+            }
+
+            if (fileInfoElement.TryGetProperty("md5", out JsonElement md5Element) && md5Element.ValueKind == JsonValueKind.String)
+            {
+                fileInfo.MD5 = md5Element.GetString();
+            }
+
+            if (fileInfoElement.TryGetProperty("size", out JsonElement sizeElement) && sizeElement.ValueKind == JsonValueKind.Number)
+            {
+                fileInfo.Size = sizeElement.GetInt32();
+            }
+
+            return fileInfo;
+        }
+
+        /// <summary>
+        /// Parses the JSON element containing the 'stats' of the VirusTotal analysis results.
+        /// </summary>
+        /// <param name="dataStatsElement">The JSON element representing the 'stats' field.</param>
+        /// <returns>The parsed DataStats object containing the 'stats'.</returns>
+        private DataStats ParseStats(JsonElement dataStatsElement)
+        {
+            var stats = new DataStats();
+            if (dataStatsElement.TryGetProperty("harmless", out JsonElement harmlessElement))
+            {
+                stats.Harmless = harmlessElement.GetInt32();
+            }
+            if (dataStatsElement.TryGetProperty("type-unsupported", out JsonElement typeUnsupportedElement))
+            {
+                stats.TypeUnsupported = typeUnsupportedElement.GetInt32();
+            }
+            if (dataStatsElement.TryGetProperty("suspicious", out JsonElement suspiciousElement))
+            {
+                stats.Suspicious = suspiciousElement.GetInt32();
+            }
+            if (dataStatsElement.TryGetProperty("confirmed-timeout", out JsonElement confirmedTimeoutElement))
+            {
+                stats.ConfirmedTimeout = confirmedTimeoutElement.GetInt32();
+            }
+            if (dataStatsElement.TryGetProperty("timeout", out JsonElement timeoutElement))
+            {
+                stats.Timeout = timeoutElement.GetInt32();
+            }
+            if (dataStatsElement.TryGetProperty("failure", out JsonElement failureElement))
+            {
+                stats.Failure = failureElement.GetInt32();
+            }
+            if (dataStatsElement.TryGetProperty("malicious", out JsonElement maliciousElement))
+            {
+                stats.Malicious = maliciousElement.GetInt32();
+            }
+            if (dataStatsElement.TryGetProperty("undetected", out JsonElement undetectedElement))
+            {
+                stats.Undetected = undetectedElement.GetInt32();
+            }
+
+            return stats;
+        }
+
+        /// <summary>
+        /// Parses the "results" section of the VirusTotal API response and returns a dictionary of engine results.
+        /// </summary>
+        /// <param name="resultsElement">The JSON element containing the "results" section.</param>
+        /// <returns>A dictionary of engine results, where the key is the engine name and the value is the corresponding EngineResult object.</returns>
         private Dictionary<string, EngineResult> ParseResults(JsonElement resultsElement)
         {
             var results = new Dictionary<string, EngineResult>();
@@ -178,31 +239,6 @@ namespace VirusTotal
             return error;
         }
 
-        private Meta.FileInfo ParseFileInfo(JsonElement fileInfoElement)
-        {
-            var fileInfo = new Meta.FileInfo();
 
-            if (fileInfoElement.TryGetProperty("sha256", out JsonElement sha256Element) && sha256Element.ValueKind == JsonValueKind.String)
-            {
-                fileInfo.SHA256 = sha256Element.GetString();
-            }
-
-            if (fileInfoElement.TryGetProperty("sha1", out JsonElement sha1Element) && sha1Element.ValueKind == JsonValueKind.String)
-            {
-                fileInfo.SHA1 = sha1Element.GetString();
-            }
-
-            if (fileInfoElement.TryGetProperty("md5", out JsonElement md5Element) && md5Element.ValueKind == JsonValueKind.String)
-            {
-                fileInfo.MD5 = md5Element.GetString();
-            }
-
-            if (fileInfoElement.TryGetProperty("size", out JsonElement sizeElement) && sizeElement.ValueKind == JsonValueKind.Number)
-            {
-                fileInfo.Size = sizeElement.GetInt32();
-            }
-
-            return fileInfo;
-        }
     }
 }

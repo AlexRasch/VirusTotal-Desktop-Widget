@@ -114,7 +114,7 @@ namespace VirusTotal
                 var response = await httpClient.GetAsync(apiUrl);
                 string responseContent = await response.Content.ReadAsStringAsync();
 #if DEBUG
-                Debug.WriteLine($"Response: {responseContent}");
+                Debug.WriteLine($"VirusTotal Response: {responseContent}");
 #endif
 
                 ResponseParser vtResponse = new();
