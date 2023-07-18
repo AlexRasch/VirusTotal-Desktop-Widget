@@ -12,10 +12,10 @@ namespace VirusTotal
     {
         public ResponseParser.Error? ErrorCode { get; set; }
         public Meta.FileInfo FileInfo { get; set; }
+        public LinksResponse Links { get; set; }
         public string Status { get; set; }
         public string Id { get; set; }
         public string Type { get; set; }
-        public string SelfLink { get; set; }
         public Dictionary<string, EngineResult> Results { get; set; } // New property for results
         public class Error
         {
@@ -42,6 +42,11 @@ namespace VirusTotal
             public string? EngineUpdate { get; set; }
         }
 
+        public struct LinksResponse
+        {
+            public string Item { get; set; }
+            public string Self { get; set; }
+        }
         /// <summary>
         /// Indicates whether the response parsing is complete.
         /// Note: This property is not part of the VirusTotal API.
@@ -95,10 +100,19 @@ namespace VirusTotal
 
                         if (dataElement.TryGetProperty("links", out JsonElement linksElement))
                         {
-                            if (linksElement.TryGetProperty("self", out JsonElement selfLinkElement) && selfLinkElement.ValueKind == JsonValueKind.String)
-                            {
-                                report.SelfLink = selfLinkElement.GetString();
+                            if (linksElement.TryGetProperty("self", out JsonElement selfLinkElement) && selfLinkElement.ValueKind == JsonValueKind.String &&
+                                linksElement.TryGetProperty("item", out JsonElement itemElement) && itemElement.ValueKind == JsonValueKind.String) {
+                                
+                                string item = itemElement.GetString();
+                                string self = selfLinkElement.GetString();
+                                report.Links = new LinksResponse
+                                {
+                                    Item = item,
+                                    Self = self
+                                };
                             }
+
+                            
                         }
 
                     }
