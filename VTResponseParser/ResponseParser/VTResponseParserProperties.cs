@@ -34,15 +34,42 @@ namespace VirusTotal
                 public int Size { get; set; }
             }
         }
+        /// <summary>
+        /// Represents the result of an antivirus engine in the VirusTotal API response.
+        /// </summary>
         public class EngineResult
         {
+            /// <summary>
+            /// Gets or sets the category of the engine result.
+            /// </summary>
             public string? Category { get; set; }
+
+            /// <summary>
+            /// Gets or sets the name of the antivirus engine.
+            /// </summary>
             public string? EngineName { get; set; }
+
+            /// <summary>
+            /// Gets or sets the version of the antivirus engine.
+            /// </summary>
             public string? EngineVersion { get; set; }
+
+            /// <summary>
+            /// Gets or sets the result of the antivirus scan.
+            /// </summary>
             public string? Result { get; set; }
+
+            /// <summary>
+            /// Gets or sets the method used for the scan.
+            /// </summary>
             public string? Method { get; set; }
+
+            /// <summary>
+            /// Gets or sets the last update date of the antivirus engine.
+            /// </summary>
             public string? EngineUpdate { get; set; }
         }
+
 
         /// <summary>
         /// Represents the links associated with the VirusTotal API response.
