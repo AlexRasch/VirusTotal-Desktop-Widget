@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             Forms.Pigment pigment1 = new Forms.Pigment();
             Forms.Pigment pigment2 = new Forms.Pigment();
             Forms.Pigment pigment3 = new Forms.Pigment();
@@ -39,6 +40,7 @@
             eTheme1 = new Forms.eTheme();
             lblFileSize = new Label();
             btnClose = new Forms.FButton();
+            responseParserBindingSource = new BindingSource(components);
             colAV = new DataGridViewTextBoxColumn();
             colCategory = new DataGridViewTextBoxColumn();
             colEngineName = new DataGridViewTextBoxColumn();
@@ -48,6 +50,7 @@
             colEngineUpdate = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvResult).BeginInit();
             eTheme1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)responseParserBindingSource).BeginInit();
             SuspendLayout();
             // 
             // dgvResult
@@ -56,8 +59,10 @@
             dgvResult.AllowUserToDeleteRows = false;
             dgvResult.AllowUserToOrderColumns = true;
             dgvResult.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            dgvResult.AutoGenerateColumns = false;
             dgvResult.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvResult.Columns.AddRange(new DataGridViewColumn[] { colAV, colCategory, colEngineName, colEngineVersion, colResult, colMethod, colEngineUpdate });
+            dgvResult.DataSource = responseParserBindingSource;
             dgvResult.Location = new Point(3, 32);
             dgvResult.Name = "dgvResult";
             dgvResult.ReadOnly = true;
@@ -65,6 +70,7 @@
             dgvResult.RowTemplate.Height = 25;
             dgvResult.Size = new Size(754, 492);
             dgvResult.TabIndex = 0;
+            dgvResult.CellFormatting += dgvResult_CellFormatting;
             // 
             // eTheme1
             // 
@@ -118,6 +124,10 @@
             btnClose.TabIndex = 1;
             btnClose.Text = "Close";
             btnClose.Click += btnClose_Click;
+            // 
+            // responseParserBindingSource
+            // 
+            responseParserBindingSource.DataSource = typeof(VirusTotal.ResponseParser);
             // 
             // colAV
             // 
@@ -175,6 +185,7 @@
             Load += fmVTScanResult_Load;
             ((System.ComponentModel.ISupportInitialize)dgvResult).EndInit();
             eTheme1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)responseParserBindingSource).EndInit();
             ResumeLayout(false);
         }
 
@@ -191,5 +202,6 @@
         private DataGridViewTextBoxColumn colResult;
         private DataGridViewTextBoxColumn colMethod;
         private DataGridViewTextBoxColumn colEngineUpdate;
+        private BindingSource responseParserBindingSource;
     }
 }
