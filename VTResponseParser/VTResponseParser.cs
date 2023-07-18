@@ -101,6 +101,7 @@ namespace VirusTotal
                         }
 
                     }
+                    
                     // File info
                     if (document.RootElement.TryGetProperty("meta", out JsonElement metaElement))
                     {
