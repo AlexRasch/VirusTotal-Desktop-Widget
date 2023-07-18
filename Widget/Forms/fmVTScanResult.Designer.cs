@@ -36,9 +36,6 @@
             Forms.Pigment pigment6 = new Forms.Pigment();
             Forms.Pigment pigment7 = new Forms.Pigment();
             dgvResult = new DataGridView();
-            eTheme1 = new Forms.eTheme();
-            lblFileSize = new Label();
-            btnClose = new Forms.FButton();
             colAV = new DataGridViewTextBoxColumn();
             colCategory = new DataGridViewTextBoxColumn();
             colEngineName = new DataGridViewTextBoxColumn();
@@ -46,6 +43,9 @@
             colResult = new DataGridViewTextBoxColumn();
             colMethod = new DataGridViewTextBoxColumn();
             colEngineUpdate = new DataGridViewTextBoxColumn();
+            eTheme1 = new Forms.eTheme();
+            lblFileSize = new Label();
+            btnClose = new Forms.FButton();
             ((System.ComponentModel.ISupportInitialize)dgvResult).BeginInit();
             eTheme1.SuspendLayout();
             SuspendLayout();
@@ -65,6 +65,51 @@
             dgvResult.RowTemplate.Height = 25;
             dgvResult.Size = new Size(754, 492);
             dgvResult.TabIndex = 0;
+            dgvResult.CellFormatting += dgvResult_CellFormatting;
+            // 
+            // colAV
+            // 
+            colAV.HeaderText = "AV";
+            colAV.Name = "colAV";
+            colAV.ReadOnly = true;
+            // 
+            // colCategory
+            // 
+            colCategory.HeaderText = "Category";
+            colCategory.Name = "colCategory";
+            colCategory.ReadOnly = true;
+            // 
+            // colEngineName
+            // 
+            colEngineName.HeaderText = "Engine";
+            colEngineName.Name = "colEngineName";
+            colEngineName.ReadOnly = true;
+            // 
+            // colEngineVersion
+            // 
+            colEngineVersion.HeaderText = "Version";
+            colEngineVersion.Name = "colEngineVersion";
+            colEngineVersion.ReadOnly = true;
+            // 
+            // colResult
+            // 
+            colResult.HeaderText = "Result";
+            colResult.Name = "colResult";
+            colResult.ReadOnly = true;
+            // 
+            // colMethod
+            // 
+            colMethod.HeaderText = "Method";
+            colMethod.Name = "colMethod";
+            colMethod.ReadOnly = true;
+            // 
+            // colEngineUpdate
+            // 
+            colEngineUpdate.HeaderText = "Updated";
+            colEngineUpdate.MaxInputLength = 30;
+            colEngineUpdate.Name = "colEngineUpdate";
+            colEngineUpdate.ReadOnly = true;
+            colEngineUpdate.Width = 80;
             // 
             // eTheme1
             // 
@@ -118,50 +163,6 @@
             btnClose.TabIndex = 1;
             btnClose.Text = "Close";
             btnClose.Click += btnClose_Click;
-            // 
-            // colAV
-            // 
-            colAV.HeaderText = "AV";
-            colAV.Name = "colAV";
-            colAV.ReadOnly = true;
-            // 
-            // colCategory
-            // 
-            colCategory.HeaderText = "Category";
-            colCategory.Name = "colCategory";
-            colCategory.ReadOnly = true;
-            // 
-            // colEngineName
-            // 
-            colEngineName.HeaderText = "Engine";
-            colEngineName.Name = "colEngineName";
-            colEngineName.ReadOnly = true;
-            // 
-            // colEngineVersion
-            // 
-            colEngineVersion.HeaderText = "Version";
-            colEngineVersion.Name = "colEngineVersion";
-            colEngineVersion.ReadOnly = true;
-            // 
-            // colResult
-            // 
-            colResult.HeaderText = "Result";
-            colResult.Name = "colResult";
-            colResult.ReadOnly = true;
-            // 
-            // colMethod
-            // 
-            colMethod.HeaderText = "Method";
-            colMethod.Name = "colMethod";
-            colMethod.ReadOnly = true;
-            // 
-            // colEngineUpdate
-            // 
-            colEngineUpdate.HeaderText = "Updated";
-            colEngineUpdate.MaxInputLength = 30;
-            colEngineUpdate.Name = "colEngineUpdate";
-            colEngineUpdate.ReadOnly = true;
-            colEngineUpdate.Width = 80;
             // 
             // fmVTScanResult
             // 

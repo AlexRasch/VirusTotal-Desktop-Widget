@@ -168,32 +168,14 @@ namespace Widget
 
                 // DataBinding
                 dgvResult.DataSource = report.Results.Values.ToList();
-                dgvResult.Columns["colAV"].DataPropertyName = "EngineName";
-                dgvResult.Columns["colCategory"].DataPropertyName = "Category";
-                dgvResult.Columns["colEngineName"].DataPropertyName = "EngineName";
-                dgvResult.Columns["colEngineVersion"].DataPropertyName = "EngineVersion";
-                dgvResult.Columns["colResult"].DataPropertyName = "Result";
-                dgvResult.Columns["colMethod"].DataPropertyName = "Method";
-                dgvResult.Columns["colEngineUpdate"].DataPropertyName = "EngineUpdate";
+                //dgvResult.Columns["colAV"].DataPropertyName = "EngineName";
+                //dgvResult.Columns["colCategory"].DataPropertyName = "Category";
+                //dgvResult.Columns["colEngineName"].DataPropertyName = "EngineName";
+                //dgvResult.Columns["colEngineVersion"].DataPropertyName = "EngineVersion";
+                //dgvResult.Columns["colResult"].DataPropertyName = "Result";
+                //dgvResult.Columns["colMethod"].DataPropertyName = "Method";
+                //dgvResult.Columns["colEngineUpdate"].DataPropertyName = "EngineUpdate";
 
-
-                // Data
-                //foreach (var item in report.Results)
-                //{
-                //    Invoke(new Action(() =>
-                //    {
-                //        var engineResult = item.Value;
-                //        dgvResult.Rows.Add(
-                //            item.Key,  // AV (engine name)
-                //            engineResult.Category,
-                //            engineResult.EngineName,
-                //            engineResult.EngineVersion,
-                //            engineResult.Result,
-                //            engineResult.Method,
-                //            engineResult.EngineUpdate
-                //        );
-                //    }));
-                //}
             }
             catch (Exception ex)
             {
@@ -203,6 +185,40 @@ namespace Widget
 #endif
             }
         }
+
+        private void dgvResult_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.ColumnIndex == dgvResult.Columns["colCategory"].Index)
+            {
+                if (e.Value == null)
+                    return;
+
+                string category = e.Value.ToString();
+
+                switch (category)
+                {
+                    case "harmless":
+                        e.CellStyle.ForeColor = Color.White;
+                        e.CellStyle.BackColor = Color.Green;
+                        break;
+
+                    case "suspicious":
+                        e.CellStyle.ForeColor = Color.White;
+                        e.CellStyle.BackColor = Color.Orange;
+                        break;
+
+                    case "malicious":
+                        e.CellStyle.ForeColor = Color.White;
+                        e.CellStyle.BackColor = Color.Red;
+                        break;
+
+                    default:
+                        break;
+                }
+                e.FormattingApplied = true;
+            }
+        }
+
 
         /// <summary>
         /// Updates the title of the form to indicate the progress of the scanning process for the user.
