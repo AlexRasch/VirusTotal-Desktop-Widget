@@ -99,7 +99,6 @@ namespace VirusTotalTests
             // Assert
             Assert.Equal("https://www.virustotal.com/api/v3/files/b5ee37e8e6cfe7ad9e4fda2cc71209556eb7681c08d4e2079d97637668257263", parser.Links.Item);
             Assert.Equal("https://www.virustotal.com/api/v3/analyses/OTdjMzlmNzk2NzhmMTc1NGRmMWRkZWVjYjhiYmM1MmQ6MTY4OTY0MzM4MA==", parser.Links.Self);
-
         }
 
     }

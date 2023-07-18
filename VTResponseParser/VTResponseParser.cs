@@ -12,6 +12,9 @@ namespace VirusTotal
     {
         public ResponseParser.Error? ErrorCode { get; set; }
         public Meta.FileInfo FileInfo { get; set; }
+        /// <summary>
+        /// Represents the links associated with the VirusTotal API response.
+        /// </summary>
         public LinksResponse Links { get; set; }
         public string Status { get; set; }
         public string Id { get; set; }
@@ -42,9 +45,18 @@ namespace VirusTotal
             public string? EngineUpdate { get; set; }
         }
 
+        /// <summary>
+        /// Represents the links associated with the VirusTotal API response.
+        /// </summary>
         public struct LinksResponse
         {
+            /// <summary>
+            /// Gets or sets the link to the item related to the analysis.
+            /// </summary>
             public string Item { get; set; }
+            /// <summary>
+            /// Gets or sets the link to the self-analysis result.
+            /// </summary>
             public string Self { get; set; }
         }
         /// <summary>
