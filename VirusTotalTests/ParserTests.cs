@@ -40,7 +40,21 @@ namespace VirusTotalTests
         [Fact]
         public void ParseDate_ValidJson()
         {
+            // Arrange
+            ResponseParser parser = new();
+            string VirusTotalJsonResponse = @"
+            {
+                ""data"": {
+                    ""attributes"": {
+                        ""date"": 1689643380
+                    }
+                }
+            }";
+            // Act
+            parser = parser.ParseReport(VirusTotalJsonResponse);
 
+            // Assert
+            Assert.Equal(1689643380, parser.Date);
         }
 
         [Fact]

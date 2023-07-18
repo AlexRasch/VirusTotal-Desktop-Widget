@@ -36,7 +36,7 @@ namespace VirusTotal
                         if (dataElement.TryGetProperty("attributes", out JsonElement attributesElement))
                         {
                             // Date
-                            if (attributesElement.TryGetProperty("date", out JsonElement dateElement) && dateElement.ValueKind == JsonValueKind.String)
+                            if (attributesElement.TryGetProperty("date", out JsonElement dateElement))
                             {
                                 report.Date = dateElement.GetInt32();
                             }
