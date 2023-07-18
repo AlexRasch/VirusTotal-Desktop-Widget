@@ -42,7 +42,19 @@ namespace VirusTotalTests
         {
             // Arrange
             ResponseParser parser = new();
-            string VirusTotalJsonResponse = "";
+            string VirusTotalJsonResponse = @"
+                {
+                   ""data"": {
+                    ""type"": ""analysis""
+                    }
+                }
+            ";
+
+            // Act
+            parser = parser.ParseReport(VirusTotalJsonResponse);
+
+            // Assert
+            Assert.Equal("analysis", parser.Type);
         }
 
     }

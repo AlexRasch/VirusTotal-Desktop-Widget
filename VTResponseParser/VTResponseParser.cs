@@ -66,6 +66,7 @@ namespace VirusTotal
                         report.ErrorCode = ParseErrorMessage(errorElement);
                     }
 
+                    // Data
                     if (document.RootElement.TryGetProperty("data", out JsonElement dataElement))
                     {
 
