@@ -38,6 +38,51 @@ namespace VirusTotalTests
         }
 
         [Fact]
+        public void ParseResults_ValidJson()
+        {
+            // Arrange
+            ResponseParser parser = new();
+            string VirusTotalJsonResponse = @"
+            {
+                ""data"": {
+                    ""attributes"": {
+                        ""results"": {
+                            ""Bkav"": {
+                                ""category"": ""undetected"",
+                                ""engine_name"": ""Bkav"",
+                                ""engine_version"": ""2.0.0.1"",
+                                ""result"": null,
+                                ""method"": ""blacklist"",
+                                ""engine_update"": ""20230717""
+                            },
+                            ""AVG"": {
+                                ""category"": ""malicious"",
+                                ""engine_name"": ""AVG"",
+                                ""engine_version"": ""22.11.7701.0"",
+                                ""result"": ""EICAR Test-NOT virus!!!"",
+                                ""method"": ""blacklist"",
+                                ""engine_update"": ""20230718""
+                            }
+                        }
+                    }
+                }
+            }";
+            // Act
+            parser = parser.ParseReport(VirusTotalJsonResponse);
+
+            // Assert
+            Assert.Equal("undetected", parser.Results["Bkav"].Category);
+            Assert.Equal("Bkav", parser.Results["Bkav"].EngineName);
+            Assert.Equal("2.0.0.1", parser.Results["Bkav"].EngineVersion);
+            Assert.Null(parser.Results["Bkav"].Result);
+            Assert.Equal("blacklist", parser.Results["Bkav"].Method);
+            Assert.Equal("20230717", parser.Results["Bkav"].EngineUpdate);
+
+            Assert.Equal("EICAR Test-NOT virus!!!", parser.Results["AVG"].Result);
+
+        }
+
+        [Fact]
         public void ParseType_ValidJson()
         {
             // Arrange
