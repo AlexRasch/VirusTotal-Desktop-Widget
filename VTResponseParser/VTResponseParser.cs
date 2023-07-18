@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Text.Json;
+using static VirusTotal.ResponseParser;
 
 namespace VirusTotal
 {
@@ -39,6 +40,10 @@ namespace VirusTotal
                             {
                                 report.Status = statusElement.GetString();
                             }
+
+                            // Stats
+                            if (attributesElement.TryGetProperty("stats", out JsonElement statsElement))
+                                report.Stats = ParseStats(statsElement);
 
                             // Results
                             if (attributesElement.TryGetProperty("results", out JsonElement resultsElement))
@@ -85,12 +90,85 @@ namespace VirusTotal
             }
             catch (JsonException ex)
             {
-                Console.WriteLine($"Error parsing VirusTotal response: {ex.Message}");
+#if DEBUG
+                Debug.WriteLine($"Error parsing VirusTotal response: {ex.Message}");
+#endif
             }
             // Mark it as complete
             report.IsComplete = true;
 
             return report;
+        }
+
+        private Meta.FileInfo ParseFileInfo(JsonElement fileInfoElement)
+        {
+            var fileInfo = new Meta.FileInfo();
+
+            if (fileInfoElement.TryGetProperty("sha256", out JsonElement sha256Element) && sha256Element.ValueKind == JsonValueKind.String)
+            {
+                fileInfo.SHA256 = sha256Element.GetString();
+            }
+
+            if (fileInfoElement.TryGetProperty("sha1", out JsonElement sha1Element) && sha1Element.ValueKind == JsonValueKind.String)
+            {
+                fileInfo.SHA1 = sha1Element.GetString();
+            }
+
+            if (fileInfoElement.TryGetProperty("md5", out JsonElement md5Element) && md5Element.ValueKind == JsonValueKind.String)
+            {
+                fileInfo.MD5 = md5Element.GetString();
+            }
+
+            if (fileInfoElement.TryGetProperty("size", out JsonElement sizeElement) && sizeElement.ValueKind == JsonValueKind.Number)
+            {
+                fileInfo.Size = sizeElement.GetInt32();
+            }
+
+            return fileInfo;
+        }
+
+        /// <summary>
+        /// Parses the JSON element containing the 'stats' of the VirusTotal analysis results.
+        /// </summary>
+        /// <param name="dataStatsElement">The JSON element representing the 'stats' field.</param>
+        /// <returns>The parsed DataStats object containing the 'stats'.</returns>
+        private DataStats ParseStats(JsonElement dataStatsElement)
+        {
+            var stats = new DataStats();
+            if (dataStatsElement.TryGetProperty("harmless", out JsonElement harmlessElement))
+            {
+                stats.Harmless = harmlessElement.GetInt32();
+            }
+            if (dataStatsElement.TryGetProperty("type-unsupported", out JsonElement typeUnsupportedElement))
+            {
+                stats.TypeUnsupported = typeUnsupportedElement.GetInt32();
+            }
+            if (dataStatsElement.TryGetProperty("suspicious", out JsonElement suspiciousElement))
+            {
+                stats.Suspicious = suspiciousElement.GetInt32();
+            }
+            if (dataStatsElement.TryGetProperty("confirmed-timeout", out JsonElement confirmedTimeoutElement))
+            {
+                stats.ConfirmedTimeout = confirmedTimeoutElement.GetInt32();
+            }
+            if (dataStatsElement.TryGetProperty("timeout", out JsonElement timeoutElement))
+            {
+                stats.Timeout = timeoutElement.GetInt32();
+            }
+            if (dataStatsElement.TryGetProperty("failure", out JsonElement failureElement))
+            {
+                stats.Failure = failureElement.GetInt32();
+            }
+            if (dataStatsElement.TryGetProperty("malicious", out JsonElement maliciousElement))
+            {
+                stats.Malicious = maliciousElement.GetInt32();
+            }
+            if (dataStatsElement.TryGetProperty("undetected", out JsonElement undetectedElement))
+            {
+                stats.Undetected = undetectedElement.GetInt32();
+            }
+
+            return stats;
         }
 
         /// <summary>
@@ -155,31 +233,6 @@ namespace VirusTotal
             return error;
         }
 
-        private Meta.FileInfo ParseFileInfo(JsonElement fileInfoElement)
-        {
-            var fileInfo = new Meta.FileInfo();
 
-            if (fileInfoElement.TryGetProperty("sha256", out JsonElement sha256Element) && sha256Element.ValueKind == JsonValueKind.String)
-            {
-                fileInfo.SHA256 = sha256Element.GetString();
-            }
-
-            if (fileInfoElement.TryGetProperty("sha1", out JsonElement sha1Element) && sha1Element.ValueKind == JsonValueKind.String)
-            {
-                fileInfo.SHA1 = sha1Element.GetString();
-            }
-
-            if (fileInfoElement.TryGetProperty("md5", out JsonElement md5Element) && md5Element.ValueKind == JsonValueKind.String)
-            {
-                fileInfo.MD5 = md5Element.GetString();
-            }
-
-            if (fileInfoElement.TryGetProperty("size", out JsonElement sizeElement) && sizeElement.ValueKind == JsonValueKind.Number)
-            {
-                fileInfo.Size = sizeElement.GetInt32();
-            }
-
-            return fileInfo;
-        }
     }
 }

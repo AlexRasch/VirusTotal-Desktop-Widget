@@ -12,6 +12,10 @@ namespace VirusTotal
         public ResponseParser.Error? ErrorCode { get; set; }
         public Meta.FileInfo FileInfo { get; set; }
         /// <summary>
+        /// Summary of the results field.
+        /// </summary>
+        public DataStats Stats { get; set; }
+        /// <summary>
         /// Represents the links associated with the VirusTotal API response.
         /// </summary>
         public LinksResponse Links { get; set; }
@@ -37,6 +41,46 @@ namespace VirusTotal
                 public int Size { get; set; }
             }
         }
+
+        /// <summary>
+        /// Represents the summary of the results field.
+        /// </summary>
+        public struct DataStats
+        {
+            /// <summary>
+            /// Gets or sets the number of AV engines that reach a timeout when analyzing the file.
+            /// </summary>
+            public int ConfirmedTimeout { get; set; }
+            /// <summary>
+            /// Gets or sets the number of AV engines that fail when analysing that file.
+            /// </summary>
+            public int Failure { get; set; }
+            /// <summary>
+            /// Gets or sets the number of reports saying that is harmless.
+            /// </summary>
+            public int Harmless { get; set; }
+            /// <summary>
+            ///  Gets or sets the number of reports saying that is malicious.
+            /// </summary>
+            public int Malicious { get; set; }
+            /// <summary>
+            /// Gets or sets the number of reports saying that is suspicious.
+            /// </summary>
+            public int Suspicious { get; set; }
+            /// <summary>
+            /// Gets or sets the number of timeouts when analysing this URL/file.
+            /// </summary>
+            public int Timeout { get; set; }
+            /// <summary>
+            ///  Gets or sets the number of AV engines that don't support that type of file.
+            /// </summary>
+            public int TypeUnsupported { get; set; }
+            /// <summary>
+            /// Gets or sets the number of reports saying that is undetected.
+            /// </summary>
+            public int Undetected { get; set; }
+        }
+
         /// <summary>
         /// Represents the result of an antivirus engine in the VirusTotal API response.
         /// </summary>
