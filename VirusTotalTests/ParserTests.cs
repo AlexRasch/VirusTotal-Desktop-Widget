@@ -37,6 +37,31 @@ namespace VirusTotalTests
             Assert.Equal(388862, parser.FileInfo.Size);
         }
 
+        [Fact]
+        public void ParseDate_ValidJson()
+        {
+
+        }
+
+        [Fact]
+        public void ParseStatus_ValidJson()
+        {
+            // Arrange
+            ResponseParser parser = new();
+            string VirusTotalJsonResponse = @"
+            {
+                ""data"": {
+                    ""attributes"": {
+                        ""status"": ""completed""
+                    }
+                }
+            }";
+            // Act
+            parser = parser.ParseReport(VirusTotalJsonResponse);
+
+            // Assert
+            Assert.Equal("completed", parser.Status);
+        }
 
         [Fact]
         public void ParseStats_ValidJson()

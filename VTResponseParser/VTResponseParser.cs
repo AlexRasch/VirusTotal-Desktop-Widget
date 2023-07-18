@@ -35,6 +35,12 @@ namespace VirusTotal
                         // Attributes
                         if (dataElement.TryGetProperty("attributes", out JsonElement attributesElement))
                         {
+                            // Date
+                            if (attributesElement.TryGetProperty("date", out JsonElement dateElement) && dateElement.ValueKind == JsonValueKind.String)
+                            {
+                                report.Date = dateElement.GetInt32();
+                            }
+
                             // Status
                             if (attributesElement.TryGetProperty("status", out JsonElement statusElement) && statusElement.ValueKind == JsonValueKind.String)
                             {
@@ -59,6 +65,7 @@ namespace VirusTotal
                             report.Id = idElement.GetString();
                         }
 
+                        // ToDo move this to a function instead
                         if (dataElement.TryGetProperty("links", out JsonElement linksElement))
                         {
                             if (linksElement.TryGetProperty("self", out JsonElement selfLinkElement) && selfLinkElement.ValueKind == JsonValueKind.String &&
@@ -73,7 +80,6 @@ namespace VirusTotal
                                 };
                             }
 
-                            
                         }
 
                     }

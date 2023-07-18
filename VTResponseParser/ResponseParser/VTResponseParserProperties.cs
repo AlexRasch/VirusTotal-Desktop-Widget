@@ -11,21 +11,40 @@ namespace VirusTotal
     {
         public ResponseParser.Error? ErrorCode { get; set; }
         public Meta.FileInfo FileInfo { get; set; }
+        #region Data
+        #region Attributes
+        /// <summary>
+        /// Get or set Unix epoch UTC time (seconds).
+        /// </summary>
+        public int Date { get; set; }
+        public string Status { get; set; }
         /// <summary>
         /// Summary of the results field.
         /// </summary>
         public DataStats Stats { get; set; }
         /// <summary>
-        /// Represents the links associated with the VirusTotal API response.
-        /// </summary>
-        public LinksResponse Links { get; set; }
-        public string Status { get; set; }
-        public string Id { get; set; }
-        public string Type { get; set; }
-        /// <summary>
         /// Represents the result of an antivirus engine in the VirusTotal API response.
         /// </summary>
         public Dictionary<string, EngineResult> Results { get; set; }
+        #endregion
+
+        /// <summary>
+        /// Represents the links associated with the VirusTotal API response.
+        /// </summary>
+
+        public string Type { get; set; }
+        public string Id { get; set; }
+        public LinksResponse Links { get; set; }
+        #endregion
+
+        #region Extra (not part of the VirusTotal API)
+        /// <summary>
+        /// Indicates whether the response parsing is complete.
+        /// Note: This property is not part of the VirusTotal API.
+        /// </summary>
+        public bool IsComplete { get; set; }
+        #endregion
+
         public class Error
         {
             public string? Message { get; set; }
@@ -117,7 +136,6 @@ namespace VirusTotal
             public string? EngineUpdate { get; set; }
         }
 
-
         /// <summary>
         /// Represents the links associated with the VirusTotal API response.
         /// </summary>
@@ -132,10 +150,7 @@ namespace VirusTotal
             /// </summary>
             public string Self { get; set; }
         }
-        /// <summary>
-        /// Indicates whether the response parsing is complete.
-        /// Note: This property is not part of the VirusTotal API.
-        /// </summary>
-        public bool IsComplete { get; set; }
+
+
     }
 }
