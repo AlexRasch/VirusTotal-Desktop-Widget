@@ -168,13 +168,13 @@ namespace Widget
 
                 // DataBinding
                 dgvResult.DataSource = report.Results.Values.ToList();
-                //dgvResult.Columns["colAV"].DataPropertyName = "EngineName";
-                //dgvResult.Columns["colCategory"].DataPropertyName = "Category";
-                //dgvResult.Columns["colEngineName"].DataPropertyName = "EngineName";
-                //dgvResult.Columns["colEngineVersion"].DataPropertyName = "EngineVersion";
-                //dgvResult.Columns["colResult"].DataPropertyName = "Result";
-                //dgvResult.Columns["colMethod"].DataPropertyName = "Method";
-                //dgvResult.Columns["colEngineUpdate"].DataPropertyName = "EngineUpdate";
+                dgvResult.Columns["colAV"].DataPropertyName = "EngineName";
+                dgvResult.Columns["colCategory"].DataPropertyName = "Category";
+                dgvResult.Columns["colEngineName"].DataPropertyName = "EngineName";
+                dgvResult.Columns["colEngineVersion"].DataPropertyName = "EngineVersion";
+                dgvResult.Columns["colResult"].DataPropertyName = "Result";
+                dgvResult.Columns["colMethod"].DataPropertyName = "Method";
+                dgvResult.Columns["colEngineUpdate"].DataPropertyName = "EngineUpdate";
 
             }
             catch (Exception ex)
