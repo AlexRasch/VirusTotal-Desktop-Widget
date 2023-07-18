@@ -132,6 +132,9 @@ namespace Widget
                 catch (Exception ex)
                 {
                     MessageBox.Show("An error occurred during the scanning process.", "Scanning Error");
+#if DEBUG
+                    Debug.WriteLine("PerformFileScanAsync: Error { ex.Message}");
+#endif
                     return;
                 }
             }
@@ -163,23 +166,34 @@ namespace Widget
                 eTheme1.Text = $"Scan result:{report.FileInfo.SHA256}";
                 lblFileSize.Text = $"{Constants.FileSizeLabel}{report.FileInfo.Size}";
 
+                // DataBinding
+                dgvResult.DataSource = report.Results.Values.ToList();
+                dgvResult.Columns["colAV"].DataPropertyName = "EngineName";
+                dgvResult.Columns["colCategory"].DataPropertyName = "Category";
+                dgvResult.Columns["colEngineName"].DataPropertyName = "EngineName";
+                dgvResult.Columns["colEngineVersion"].DataPropertyName = "EngineVersion";
+                dgvResult.Columns["colResult"].DataPropertyName = "Result";
+                dgvResult.Columns["colMethod"].DataPropertyName = "Method";
+                dgvResult.Columns["colEngineUpdate"].DataPropertyName = "EngineUpdate";
+
+
                 // Data
-                foreach (var item in report.Results)
-                {
-                    Invoke(new Action(() =>
-                    {
-                        var engineResult = item.Value;
-                        dgvResult.Rows.Add(
-                            item.Key,  // AV (engine name)
-                            engineResult.Category,
-                            engineResult.EngineName,
-                            engineResult.EngineVersion,
-                            engineResult.Result,
-                            engineResult.Method,
-                            engineResult.EngineUpdate
-                        );
-                    }));
-                }
+                //foreach (var item in report.Results)
+                //{
+                //    Invoke(new Action(() =>
+                //    {
+                //        var engineResult = item.Value;
+                //        dgvResult.Rows.Add(
+                //            item.Key,  // AV (engine name)
+                //            engineResult.Category,
+                //            engineResult.EngineName,
+                //            engineResult.EngineVersion,
+                //            engineResult.Result,
+                //            engineResult.Method,
+                //            engineResult.EngineUpdate
+                //        );
+                //    }));
+                //}
             }
             catch (Exception ex)
             {
