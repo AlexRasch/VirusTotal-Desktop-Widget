@@ -18,6 +18,9 @@ namespace VirusTotal
         public string Status { get; set; }
         public string Id { get; set; }
         public string Type { get; set; }
+        /// <summary>
+        /// Represents the result of an antivirus engine in the VirusTotal API response.
+        /// </summary>
         public Dictionary<string, EngineResult> Results { get; set; }
         public class Error
         {
