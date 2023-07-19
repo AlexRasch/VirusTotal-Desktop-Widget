@@ -138,7 +138,8 @@ namespace Widget
             {
                 Name = name,
                 HeaderText = headerText,
-                DataPropertyName = name
+                DataPropertyName = name,
+                SortMode = DataGridViewColumnSortMode.Automatic
             };
         }
 
