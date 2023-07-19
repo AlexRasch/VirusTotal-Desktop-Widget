@@ -57,13 +57,11 @@
             responseParserBindingSource = new BindingSource(components);
             eTheme1 = new Forms.eTheme();
             eButton1 = new Forms.eButton();
-            flowLayoutPanel1 = new FlowLayoutPanel();
             lblFileSize = new Label();
             btnClose = new Forms.FButton();
             ((System.ComponentModel.ISupportInitialize)dgvResult).BeginInit();
             ((System.ComponentModel.ISupportInitialize)responseParserBindingSource).BeginInit();
             eTheme1.SuspendLayout();
-            flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
             // dgvResult
@@ -78,7 +76,7 @@
             dgvResult.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvResult.Columns.AddRange(new DataGridViewColumn[] { colAV, colCategory, colEngineName, colEngineVersion, colResult, colMethod, colEngineUpdate, errorCodeDataGridViewTextBoxColumn, fileInfoDataGridViewTextBoxColumn, dateDataGridViewTextBoxColumn, statusDataGridViewTextBoxColumn, statsDataGridViewTextBoxColumn, resultsDataGridViewTextBoxColumn, typeDataGridViewTextBoxColumn, idDataGridViewTextBoxColumn, linksDataGridViewTextBoxColumn, isCompleteDataGridViewCheckBoxColumn });
             dgvResult.DataSource = responseParserBindingSource;
-            dgvResult.Location = new Point(3, 3);
+            dgvResult.Location = new Point(2, 91);
             dgvResult.Name = "dgvResult";
             dgvResult.ReadOnly = true;
             dgvResult.RowHeadersVisible = false;
@@ -215,8 +213,8 @@
             // eTheme1
             // 
             eTheme1.BackColor = Color.FromArgb(53, 53, 53);
+            eTheme1.Controls.Add(dgvResult);
             eTheme1.Controls.Add(eButton1);
-            eTheme1.Controls.Add(flowLayoutPanel1);
             eTheme1.Controls.Add(lblFileSize);
             eTheme1.Controls.Add(btnClose);
             eTheme1.Dock = DockStyle.Fill;
@@ -240,15 +238,6 @@
             eButton1.Size = new Size(103, 47);
             eButton1.TabIndex = 4;
             eButton1.Text = "Export";
-            // 
-            // flowLayoutPanel1
-            // 
-            flowLayoutPanel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
-            flowLayoutPanel1.Controls.Add(dgvResult);
-            flowLayoutPanel1.Location = new Point(-1, 92);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(920, 450);
-            flowLayoutPanel1.TabIndex = 3;
             // 
             // lblFileSize
             // 
@@ -300,7 +289,6 @@
             ((System.ComponentModel.ISupportInitialize)dgvResult).EndInit();
             ((System.ComponentModel.ISupportInitialize)responseParserBindingSource).EndInit();
             eTheme1.ResumeLayout(false);
-            flowLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -328,7 +316,6 @@
         private DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn linksDataGridViewTextBoxColumn;
         private DataGridViewCheckBoxColumn isCompleteDataGridViewCheckBoxColumn;
-        private FlowLayoutPanel flowLayoutPanel1;
         private Forms.eButton eButton1;
     }
 }
