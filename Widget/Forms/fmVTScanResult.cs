@@ -80,6 +80,9 @@ namespace Widget
             this.MinimumSize = new Size(Width, Height);
             this.MaximumSize = this.MinimumSize;
 
+            // This fixes the issues related to databinding adding cols we dont need
+            SetupDataGridView();
+
             // Parse report
             if (Report != null)
                 await ParseReport(Report);
@@ -97,7 +100,49 @@ namespace Widget
 
             this.Close();
         }
+        #region DataGrid and Binding fix
 
+        /// <summary>
+        /// Sets up the DataGridView control by configuring its properties and columns.
+        /// </summary>
+        /// <remarks>
+        /// This method includes a workaround to remove the extra column that is added automatically due to the way data binding works.
+        /// </remarks>
+        private void SetupDataGridView()
+        {
+            // Disable auto-generated columns
+            dgvResult.AutoGenerateColumns = false;
+
+            // Clear all cols
+            dgvResult.Columns.Clear();
+
+            // Add and configure the desired columns
+            dgvResult.Columns.Add(CreateColumn("colAV", "AV"));
+            dgvResult.Columns.Add(CreateColumn("colCategory", "Category"));
+            dgvResult.Columns.Add(CreateColumn("colEngineName", "Name"));
+            dgvResult.Columns.Add(CreateColumn("colEngineVersion", "Version"));
+            dgvResult.Columns.Add(CreateColumn("colResult", "Result"));
+            dgvResult.Columns.Add(CreateColumn("colMethod", "Method"));
+            dgvResult.Columns.Add(CreateColumn("colEngineUpdate", "Updated"));
+        }
+
+        /// <summary>
+        /// Creates a DataGridViewColumn with the specified name and header text.
+        /// </summary>
+        /// <param name="name">The name of the column.</param>
+        /// <param name="headerText">The header text displayed in the column's header.</param>
+        /// <returns>The created DataGridViewColumn.</returns>
+        private DataGridViewColumn CreateColumn(string name, string headerText)
+        {
+            return new DataGridViewTextBoxColumn
+            {
+                Name = name,
+                HeaderText = headerText,
+                DataPropertyName = name
+            };
+        }
+
+        #endregion
         #region Scanning Methods
 
         /// <summary>

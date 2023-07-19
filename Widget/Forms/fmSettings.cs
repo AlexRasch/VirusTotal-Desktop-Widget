@@ -75,7 +75,7 @@ namespace Widget
             string jsonString = JsonSerializer.Serialize(settings);
             WidgetSettings.SaveUserData(jsonString);
 
-            if(config.FadeEffect)
+            if (config.FadeEffect)
                 await FormUtils.FadeOutForm(Handle, 256);
 
             this.Close();
