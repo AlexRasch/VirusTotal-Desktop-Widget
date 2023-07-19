@@ -17,6 +17,9 @@ namespace VirusTotal
 
             try
             {
+                // Add the RAW response
+                report.RawResponse =  responseContent ?? "Response was empty";
+
                 using (JsonDocument document = JsonDocument.Parse(responseContent))
                 {
                     // Check for errors
