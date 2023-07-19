@@ -14,12 +14,11 @@ jobs:
       matrix:
         configuration: [Release]
 
-    runs-on: windows-latest  # For a list of available runner types, refer to
-                             # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
+    runs-on: windows-latest
 
     env:
-      Solution_Name: Widget.sln                         # Replace with your solution name, i.e. MyWpfApp.sln.
-      Test_Project_Path: WidgetTests\WidgetTests.csproj               # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
+      Solution_Name: Widget.sln
+      Test_Project_Path: WidgetTests\WidgetTests.csproj
 
     steps:
     - name: Checkout
@@ -47,26 +46,39 @@ jobs:
       env:
         Configuration: ${{ matrix.configuration }}
         
-    # Attempt to build   
-    - name: Build (.NET x64)
-      run: dotnet build -c Release  --output bin/Publish/win-x64 -p:PublishSingleFile=true
+    # Attempt to build Self contained
+    - name: Build .NET x64 (Self contained)
+      run: dotnet publish -p:PublishSingleFile=true -r win-x64 -c Release --output bin/Publish/win-x64-sc/ --self-contained true
       working-directory: widget
     
-    # Create zip archive
-    - name: Create .zip file
+    - name: Create .zip file (Self contained)
       shell: pwsh
       working-directory: widget
       run: |
-       $outputPath = "./bin/Publish/win-x64"
-       $zipPath = "./bin/Publish/win-x64.zip"
+       $outputPath = "./bin/Publish/win-x64-sc/*"
+       $zipPath = "C:/VirusTotal-Desktop-Widget-Self-Contained.zip"
+       Compress-Archive -Path $outputPath -DestinationPath $zipPath        
+        
+    # Attempt to build Framework Dependent
+    - name: Build .NET x64 (Framework dependent)
+      run: dotnet publish -p:PublishSingleFile=true -r win-x64 -c Release --output bin/Publish/win-x64/ --self-contained false
+      working-directory: widget
+    
+    - name: Create .zip file (Framework dependent)
+      shell: pwsh
+      working-directory: widget
+      run: |
+       $outputPath = "./bin/Publish/win-x64/*"
+       $zipPath = "C:/VirusTotal-Desktop-Widget-Framework-Dependent.zip"
        Compress-Archive -Path $outputPath -DestinationPath $zipPath
       
     - name: Create a new GitHub release if a new tag is pushed
       uses: softprops/action-gh-release@v1 #
       if: startsWith(github.ref, 'refs/tags/')
       with:
-        files: widget/bin/Publish/win-x64.zip
-        #body: New version
+        files: |
+         C:/VirusTotal-Desktop-Widget-Self-Contained.zip
+         C:/VirusTotal-Desktop-Widget-Framework-Dependent.zip
       env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       
@@ -74,5 +86,5 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: win-x64.zip
-        path: widget/bin/Publish/win-x64.zip
+        path: widget/bin/Publish/win-x64/*
           
