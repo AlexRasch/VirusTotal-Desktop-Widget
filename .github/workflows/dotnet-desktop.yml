@@ -85,6 +85,6 @@ jobs:
     - name: Archive artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: win-x64.zip
+        name: win-x64
         path: widget/bin/Publish/win-x64/*
           
