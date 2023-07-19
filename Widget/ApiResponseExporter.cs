@@ -36,6 +36,7 @@ namespace Widget
         /// <param name="exportFileName"></param>
         public ApiResponseExporter(string apiResponseRaw, string exportFullPath)
         {
+            ValidatePath(exportFullPath);
 
             ApiResponseRaw = apiResponseRaw;
             ExportFullPath = exportFullPath;
@@ -56,9 +57,29 @@ namespace Widget
                 return false;
             }
             catch {
-                MessageBox.Show("","");
                 return false;
             }
+        }
+
+        /// <summary>
+        ///  Validates a path
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public bool ValidatePath(string path)
+        {
+            try
+            {
+                System.IO.FileInfo fileInfo = new System.IO.FileInfo(path);
+                return true;
+            }
+            catch (System.IO.PathTooLongException) {
+                return false;
+            }
+            catch {
+            
+            }
+            return false;
         }
 
     }

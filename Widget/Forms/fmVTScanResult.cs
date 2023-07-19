@@ -125,7 +125,11 @@ namespace Widget
                 if(saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     ApiResponseExporter exporter = new ApiResponseExporter(Report!.RawResponse, saveFileDialog.FileName);
-                    exporter.SaveFile();
+                    // Check if any error occured
+                    if (!exporter.SaveFile())
+                    {
+
+                    }
                 }
             }
         }
