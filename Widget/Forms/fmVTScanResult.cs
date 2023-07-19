@@ -101,11 +101,18 @@ namespace Widget
             this.Close();
         }
         #region DataGrid and Binding fix
+
+        /// <summary>
+        /// Sets up the DataGridView control by configuring its properties and columns.
+        /// </summary>
+        /// <remarks>
+        /// This method includes a workaround to remove the extra column that is added automatically due to the way data binding works.
+        /// </remarks>
         private void SetupDataGridView()
         {
             // Disable auto-generated columns
             dgvResult.AutoGenerateColumns = false;
-            
+
             // Clear all cols
             dgvResult.Columns.Clear();
 
@@ -117,25 +124,25 @@ namespace Widget
             dgvResult.Columns.Add(CreateColumn("colResult", "Result"));
             dgvResult.Columns.Add(CreateColumn("colMethod", "Method"));
             dgvResult.Columns.Add(CreateColumn("colEngineUpdate", "Updated"));
-
-            // Enable sorting
-            foreach (DataGridViewColumn column in dgvResult.Columns)
-            {
-                column.SortMode = DataGridViewColumnSortMode.Automatic;
-            }
         }
 
+        /// <summary>
+        /// Creates a DataGridViewColumn with the specified name and header text.
+        /// </summary>
+        /// <param name="name">The name of the column.</param>
+        /// <param name="headerText">The header text displayed in the column's header.</param>
+        /// <returns>The created DataGridViewColumn.</returns>
         private DataGridViewColumn CreateColumn(string name, string headerText)
         {
             return new DataGridViewTextBoxColumn
             {
                 Name = name,
                 HeaderText = headerText,
-                DataPropertyName = name // Make sure to set the DataPropertyName to the same as the name
+                DataPropertyName = name
             };
         }
-        #endregion
 
+        #endregion
         #region Scanning Methods
 
         /// <summary>
