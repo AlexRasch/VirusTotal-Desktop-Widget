@@ -37,11 +37,6 @@
             Forms.Pigment pigment13 = new Forms.Pigment();
             Forms.Pigment pigment14 = new Forms.Pigment();
             dgvResult = new DataGridView();
-            responseParserBindingSource = new BindingSource(components);
-            eTheme1 = new Forms.eTheme();
-            eButton1 = new Forms.eButton();
-            lblFileSize = new Label();
-            btnClose = new Forms.FButton();
             errorCodeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             fileInfoDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             dateDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
@@ -52,6 +47,11 @@
             idDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             linksDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             isCompleteDataGridViewCheckBoxColumn = new DataGridViewCheckBoxColumn();
+            responseParserBindingSource = new BindingSource(components);
+            eTheme1 = new Forms.eTheme();
+            btnExport = new Forms.eButton();
+            lblFileSize = new Label();
+            btnClose = new Forms.FButton();
             ((System.ComponentModel.ISupportInitialize)dgvResult).BeginInit();
             ((System.ComponentModel.ISupportInitialize)responseParserBindingSource).BeginInit();
             eTheme1.SuspendLayout();
@@ -78,74 +78,6 @@
             dgvResult.Size = new Size(920, 450);
             dgvResult.TabIndex = 0;
             dgvResult.CellFormatting += dgvResult_CellFormatting;
-            // 
-            // responseParserBindingSource
-            // 
-            responseParserBindingSource.DataSource = typeof(VirusTotal.ResponseParser);
-            // 
-            // eTheme1
-            // 
-            eTheme1.BackColor = Color.FromArgb(53, 53, 53);
-            eTheme1.Controls.Add(eButton1);
-            eTheme1.Controls.Add(dgvResult);
-            eTheme1.Controls.Add(lblFileSize);
-            eTheme1.Controls.Add(btnClose);
-            eTheme1.Dock = DockStyle.Fill;
-            eTheme1.Image = null;
-            eTheme1.Location = new Point(0, 0);
-            eTheme1.MoveHeight = 30;
-            eTheme1.Name = "eTheme1";
-            eTheme1.Resizable = true;
-            eTheme1.Size = new Size(921, 600);
-            eTheme1.TabIndex = 2;
-            eTheme1.Text = "Scan result:";
-            eTheme1.TransparencyKey = Color.Empty;
-            // 
-            // eButton1
-            // 
-            eButton1.Image = null;
-            eButton1.Location = new Point(12, 43);
-            eButton1.Name = "eButton1";
-            eButton1.NoRounding = false;
-            eButton1.Size = new Size(97, 32);
-            eButton1.TabIndex = 4;
-            eButton1.Text = "Export";
-            // 
-            // lblFileSize
-            // 
-            lblFileSize.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
-            lblFileSize.ForeColor = Color.WhiteSmoke;
-            lblFileSize.Location = new Point(12, 560);
-            lblFileSize.Name = "lblFileSize";
-            lblFileSize.Size = new Size(383, 28);
-            lblFileSize.TabIndex = 2;
-            lblFileSize.Text = "File size:";
-            // 
-            // btnClose
-            // 
-            pigment8.Name = "Border";
-            pigment8.Value = Color.FromArgb(254, 133, 0);
-            pigment9.Name = "Backcolor";
-            pigment9.Value = Color.FromArgb(25, 25, 25);
-            pigment10.Name = "Highlight";
-            pigment10.Value = Color.FromArgb(255, 197, 19);
-            pigment11.Name = "Gradient1";
-            pigment11.Value = Color.FromArgb(255, 175, 12);
-            pigment12.Name = "Gradient2";
-            pigment12.Value = Color.FromArgb(255, 127, 1);
-            pigment13.Name = "Text Color";
-            pigment13.Value = Color.White;
-            pigment14.Name = "Text Shadow";
-            pigment14.Value = Color.FromArgb(30, 0, 0, 0);
-            btnClose.Colors = new Forms.Pigment[] { pigment8, pigment9, pigment10, pigment11, pigment12, pigment13, pigment14 };
-            btnClose.Font = new Font("Verdana", 8F, FontStyle.Regular, GraphicsUnit.Point);
-            btnClose.Location = new Point(787, 560);
-            btnClose.Name = "btnClose";
-            btnClose.Shadow = true;
-            btnClose.Size = new Size(122, 28);
-            btnClose.TabIndex = 1;
-            btnClose.Text = "Close";
-            btnClose.Click += btnClose_Click;
             // 
             // errorCodeDataGridViewTextBoxColumn
             // 
@@ -217,6 +149,75 @@
             isCompleteDataGridViewCheckBoxColumn.Name = "isCompleteDataGridViewCheckBoxColumn";
             isCompleteDataGridViewCheckBoxColumn.ReadOnly = true;
             // 
+            // responseParserBindingSource
+            // 
+            responseParserBindingSource.DataSource = typeof(VirusTotal.ResponseParser);
+            // 
+            // eTheme1
+            // 
+            eTheme1.BackColor = Color.FromArgb(53, 53, 53);
+            eTheme1.Controls.Add(btnExport);
+            eTheme1.Controls.Add(dgvResult);
+            eTheme1.Controls.Add(lblFileSize);
+            eTheme1.Controls.Add(btnClose);
+            eTheme1.Dock = DockStyle.Fill;
+            eTheme1.Image = null;
+            eTheme1.Location = new Point(0, 0);
+            eTheme1.MoveHeight = 30;
+            eTheme1.Name = "eTheme1";
+            eTheme1.Resizable = true;
+            eTheme1.Size = new Size(921, 600);
+            eTheme1.TabIndex = 2;
+            eTheme1.Text = "Scan result:";
+            eTheme1.TransparencyKey = Color.Empty;
+            // 
+            // btnExport
+            // 
+            btnExport.Image = null;
+            btnExport.Location = new Point(12, 43);
+            btnExport.Name = "btnExport";
+            btnExport.NoRounding = false;
+            btnExport.Size = new Size(97, 32);
+            btnExport.TabIndex = 4;
+            btnExport.Text = "Export";
+            btnExport.Click += btnExport_Click;
+            // 
+            // lblFileSize
+            // 
+            lblFileSize.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
+            lblFileSize.ForeColor = Color.WhiteSmoke;
+            lblFileSize.Location = new Point(12, 560);
+            lblFileSize.Name = "lblFileSize";
+            lblFileSize.Size = new Size(383, 28);
+            lblFileSize.TabIndex = 2;
+            lblFileSize.Text = "File size:";
+            // 
+            // btnClose
+            // 
+            pigment8.Name = "Border";
+            pigment8.Value = Color.FromArgb(254, 133, 0);
+            pigment9.Name = "Backcolor";
+            pigment9.Value = Color.FromArgb(25, 25, 25);
+            pigment10.Name = "Highlight";
+            pigment10.Value = Color.FromArgb(255, 197, 19);
+            pigment11.Name = "Gradient1";
+            pigment11.Value = Color.FromArgb(255, 175, 12);
+            pigment12.Name = "Gradient2";
+            pigment12.Value = Color.FromArgb(255, 127, 1);
+            pigment13.Name = "Text Color";
+            pigment13.Value = Color.White;
+            pigment14.Name = "Text Shadow";
+            pigment14.Value = Color.FromArgb(30, 0, 0, 0);
+            btnClose.Colors = new Forms.Pigment[] { pigment8, pigment9, pigment10, pigment11, pigment12, pigment13, pigment14 };
+            btnClose.Font = new Font("Verdana", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            btnClose.Location = new Point(787, 560);
+            btnClose.Name = "btnClose";
+            btnClose.Shadow = true;
+            btnClose.Size = new Size(122, 28);
+            btnClose.TabIndex = 1;
+            btnClose.Text = "Close";
+            btnClose.Click += btnClose_Click;
+            // 
             // fmVTScanResult
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -241,7 +242,7 @@
         private Forms.FButton btnClose;
         private Label lblFileSize;
         private BindingSource responseParserBindingSource;
-        private Forms.eButton eButton1;
+        private Forms.eButton btnExport;
         private DataGridViewTextBoxColumn errorCodeDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn fileInfoDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn dateDataGridViewTextBoxColumn;

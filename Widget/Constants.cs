@@ -22,6 +22,16 @@ namespace Widget
 
         // ScanResult Form
         public const string FileSizeLabel = "File size:";
+        public const string SafeFileDialogTitle = "Export scan respons";
+        public const string SafeFileDialogNothingToExport = "todo";
+        public const string SafeFileDialogNothingToExportTitle = "todo";
+
+
+        // ApiResponseExporter
+        public const string SaveFileError = "todo";
+        public const string SaveFileErrorTitle = "todo";
+
+
 
         // Toaster Message & Titles
         public const string SubmittingFileTitle = "Sending file to VirusTotal";

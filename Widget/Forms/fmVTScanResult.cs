@@ -20,14 +20,17 @@ namespace Widget
         /// Gets or sets the report from VirusTotal to display.
         /// </summary>
         private ResponseParser? Report { get; set; }
+        
         /// <summary>
         /// Gets or sets the VirusTotal API key used for scanning.
         /// </summary>
         private string? VirusTotalAPIKey { get; set; }
+        
         /// <summary>
         /// Gets or sets the file path to scan.
         /// </summary>
         private string? FileToScanPath { get; set; }
+        
         /// <summary>
         /// Gets or sets a value indicating whether the fade effect is enabled.
         /// </summary>
@@ -100,6 +103,33 @@ namespace Widget
 
             this.Close();
         }
+        #region Export - UI
+        /// <summary>
+        ///  Handles the logic for export a scan
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            if(Report == null)
+            {
+                MessageBox.Show(Constants.SafeFileDialogNothingToExport, Constants.SafeFileDialogNothingToExportTitle);
+                return;
+            }
+
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.Title = "Export scan respons";
+                saveFileDialog.Filter = "JSON|*.json";
+
+                if(saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    ApiResponseExporter exporter = new ApiResponseExporter(Report!.RawResponse, saveFileDialog.FileName);
+                    exporter.SaveFile();
+                }
+            }
+        }
+        #endregion
         #region DataGrid and Binding fix
 
         /// <summary>
@@ -190,6 +220,8 @@ namespace Widget
                 MessageBox.Show($"Error:{scanResponse.ErrorCode.Code}", "API issues");
                 return;
             }
+            // Store it incase user wants to export it
+            Report = scanResponse;
             // Parse report
             await ParseReport(scanResponse);
         }
@@ -276,5 +308,7 @@ namespace Widget
         }
 
         #endregion
+
+
     }
 }
