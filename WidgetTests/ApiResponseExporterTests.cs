@@ -41,7 +41,7 @@ namespace WidgetTests
         }
 
         [Fact]
-        public void ExporterInvalidPath_ThrowsException()
+        public void ExporterDataIsEmpty_ThrowsException()
         {
             // Arrange
             string APIResponseRaw = "Hello World";
