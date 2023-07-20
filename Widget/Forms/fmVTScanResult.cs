@@ -202,6 +202,13 @@ namespace Widget
 
         #endregion
         #region Import Report
+        
+        /// <summary>
+        /// Reads and parses the VirusTotal report from the specified file path.
+        /// </summary>
+        /// <param name="pathToReport">The full file path to the VirusTotal report file.</param>
+        /// <param name="report">An optional existing <see cref="ResponseParser"/> instance to store the parsed report. If not provided, a new instance will be created.</param>
+        /// <returns>A <see cref="ResponseParser"/> containing the parsed report data, or null if an error occurred during file reading or parsing.</returns>
         private async Task<ResponseParser> ReadReportAsync(string pathToReport, ResponseParser report)
         {
             try
