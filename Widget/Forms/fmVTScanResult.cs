@@ -123,10 +123,20 @@ namespace Widget
                 if(saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     FileIOManager exporter = new FileIOManager(Report!.RawResponse, saveFileDialog.FileName);
+                    
                     // Check if any error occured
-                    if (!exporter.SaveFile())
+                    if (!exporter.WriteFile())
                     {
-                        MessageBox.Show(Constants.SaveFileDialogExportError, Constants.SaveFileDialogExportErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        // We have a error message
+                        if (exporter.HasError)
+                        {
+                            string errorMessage = Constants.SaveFileDialogExportError + Environment.NewLine + exporter.ErrorMessage;
+                            MessageBox.Show(errorMessage, Constants.SaveFileDialogExportErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        else
+                        {
+                            MessageBox.Show(Constants.SaveFileDialogExportError, Constants.SaveFileDialogExportErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
                 }
             }

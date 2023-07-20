@@ -19,7 +19,7 @@ namespace WidgetTests
             FileIOManager exporter = new (APIResponseRaw, FullFilePath);
 
             // Act
-            bool SavedFile = exporter.SaveFile();
+            bool SavedFile = exporter.WriteFile();
             bool FileExist = File.Exists(FullFilePath);
 
             // Assert
@@ -37,7 +37,7 @@ namespace WidgetTests
             FileIOManager exporter = new(APIResponseRaw, PathToLong);
 
             // Act & Assert
-            Assert.Null(Record.Exception(() => exporter.SaveFile()));
+            Assert.Null(Record.Exception(() => exporter.WriteFile()));
         }
 
         [Fact]
@@ -49,7 +49,7 @@ namespace WidgetTests
             FileIOManager exporter = new(APIResponseRaw, InvalidPath);
 
             // Act & Assert
-            Assert.Null(Record.Exception(() => exporter.SaveFile()));
+            Assert.Null(Record.Exception(() => exporter.WriteFile()));
         }
 
     }

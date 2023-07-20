@@ -6,81 +6,100 @@ using System.Threading.Tasks;
 
 namespace Widget
 {
+    /// <summary>
+    /// Handles file input and output operations, providing methods to read and write files.
+    /// </summary>
     public class FileIOManager
     {
         /// <summary>
-        ///  Contains the RAW response from VirusTotal
+        /// Contains the content of the file to be saved or read.
         /// </summary>
-        public string ApiResponseRaw { get; set; }
+        public string FileContent  { get; set; }
 
         /// <summary>
-        ///  The directory where the API response will be exported as a file
+        /// The full path of the file for writing or reading.
         /// </summary>
-        //public string ExportDirectory { get; set; }
+        public string FileFullPath { get; set; }
 
         /// <summary>
-        ///  Filename of the exported respons
+        /// Gets a value indicating whether an error occurred during the operation.
         /// </summary>
-        //public string ExportFileName { get; set; }
+        public bool HasError { get; private set; }
 
         /// <summary>
-        ///  The full path where the file will be exported to
+        ///  Gets the value of the error message.
         /// </summary>
-        public string ExportFullPath { get; set; }
+        public string ErrorMessage { get; private set; }
 
         /// <summary>
-        /// Takes the raw API response, the export directory and the export file name as parameters
+        /// Initializes a new instance of the FileIOManager class with the file content and file path.
         /// </summary>
-        /// <param name="apiResponseRaw"></param>
-        /// <param name="exportDirectory"></param>
-        /// <param name="exportFileName"></param>
-        public FileIOManager(string apiResponseRaw, string exportFullPath)
+        /// <param name="fileContent">The content of the file to be saved or read.</param>
+        /// <param name="fileFullPath">The full path of the file for writing or reading.</param>
+        public FileIOManager(string fileContent, string fileFullPath)
         {
-            ValidatePath(exportFullPath);
+            ValidatePath(fileFullPath);
 
-            ApiResponseRaw = apiResponseRaw;
-            ExportFullPath = exportFullPath;
+            FileContent  = fileContent;
+            FileFullPath = fileFullPath;
+
+            HasError = false;
         }
 
         /// <summary>
-        ///  Saves a file
+        /// Saves the file content to the specified file.
         /// </summary>
-        /// <returns></returns>
-        public bool SaveFile()
+        /// <returns>True if the file was successfully saved, false otherwise.</returns>
+        public bool WriteFile()
         {
             try
             {
-                File.WriteAllText(ExportFullPath, ApiResponseRaw);
+                File.WriteAllText(FileFullPath, FileContent );
 
-                if(File.Exists(ExportFullPath))
-                    return true;
-                return false;
+                return File.Exists(FileFullPath);
+   
             }
-            catch {
+            catch (Exception ex) {
+                OnError(ex.Message);
                 return false;
             }
         }
 
         /// <summary>
-        ///  Validates a path
+        /// Reads the content of the specified file.
         /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
+        /// <returns>The content of the file as a string, or null if an error occurred.</returns>
+        public string ReadFile()
+        {
+            throw new NotImplementedException();
+            //return null;
+        }
+
+        /// <summary>
+        /// Validates the provided file path and checks if it's a valid path.
+        /// </summary>
+        /// <param name="filePath">The file path to validate.</param>
+        /// <returns>True if the file path is valid, false otherwise.</returns>
         public bool ValidatePath(string path)
         {
             try
             {
-                System.IO.FileInfo fileInfo = new System.IO.FileInfo(path);
+                System.IO.FileInfo fileInfo = new (path);
                 return true;
             }
-            catch (System.IO.PathTooLongException) {
-                return false;
+            catch (System.IO.PathTooLongException ex) {
+                OnError($"ValidatePat PathTooLong:{ex.Message}");
             }
-            catch {
-            
+            catch(Exception ex) {
+                OnError($"ValidatePath:{ex.Message}");
             }
             return false;
         }
 
+        private void OnError(string errorMessage)
+        {
+            HasError = true;
+            ErrorMessage = errorMessage;
+        }
     }
 }
