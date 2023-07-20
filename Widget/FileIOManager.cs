@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Widget
 {
-    public class ApiResponseExporter
+    public class FileIOManager
     {
         /// <summary>
         ///  Contains the RAW response from VirusTotal
@@ -34,7 +34,7 @@ namespace Widget
         /// <param name="apiResponseRaw"></param>
         /// <param name="exportDirectory"></param>
         /// <param name="exportFileName"></param>
-        public ApiResponseExporter(string apiResponseRaw, string exportFullPath)
+        public FileIOManager(string apiResponseRaw, string exportFullPath)
         {
             ValidatePath(exportFullPath);
 

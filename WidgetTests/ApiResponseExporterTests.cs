@@ -16,7 +16,7 @@ namespace WidgetTests
             // Arrange
             string APIResponseRaw = "Hello World";
             string FullFilePath = Path.Combine(Path.GetTempPath(), "CreateFileTest.txt");
-            ApiResponseExporter exporter = new (APIResponseRaw, FullFilePath);
+            FileIOManager exporter = new (APIResponseRaw, FullFilePath);
 
             // Act
             bool SavedFile = exporter.SaveFile();
@@ -34,7 +34,7 @@ namespace WidgetTests
             // Arrange
             string APIResponseRaw = "Hello World";
             string PathToLong = new string('a', 600); // The maximum path length limit in Windows is 260 characters
-            ApiResponseExporter exporter = new(APIResponseRaw, PathToLong);
+            FileIOManager exporter = new(APIResponseRaw, PathToLong);
 
             // Act & Assert
             Assert.Null(Record.Exception(() => exporter.SaveFile()));
@@ -46,7 +46,7 @@ namespace WidgetTests
             // Arrange
             string APIResponseRaw = "Hello World";
             string InvalidPath = new string('a', 16); // The maximum path length limit in Windows is 260 characters
-            ApiResponseExporter exporter = new(APIResponseRaw, InvalidPath);
+            FileIOManager exporter = new(APIResponseRaw, InvalidPath);
 
             // Act & Assert
             Assert.Null(Record.Exception(() => exporter.SaveFile()));

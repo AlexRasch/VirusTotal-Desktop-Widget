@@ -122,7 +122,7 @@ namespace Widget
 
                 if(saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    ApiResponseExporter exporter = new ApiResponseExporter(Report!.RawResponse, saveFileDialog.FileName);
+                    FileIOManager exporter = new FileIOManager(Report!.RawResponse, saveFileDialog.FileName);
                     // Check if any error occured
                     if (!exporter.SaveFile())
                     {
