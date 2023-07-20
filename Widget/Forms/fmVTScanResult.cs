@@ -30,7 +30,13 @@ namespace Widget
         /// Gets or sets the file path to scan.
         /// </summary>
         private string? FileToScanPath { get; set; }
-        
+
+        /// <summary>
+        /// Gets or sets the path to the report VirusTotal to import
+        /// </summary>
+        private string? ReportFilePath { get; set; }
+
+
         /// <summary>
         /// Gets or sets a value indicating whether the fade effect is enabled.
         /// </summary>
@@ -51,11 +57,18 @@ namespace Widget
         /// </summary>
         /// <param name="report">The VirusTotal response report to display.</param>
         /// <param name="fadeEffect">A flag indicating whether the fade effect is enabled (default: false).</param>
-        public fmVTScanResult(ResponseParser report, bool fadeEffect = false)
+        public fmVTScanResult(string reportFilePath, bool fadeEffect = false)
         {
-            InitializeComponent();
-            this.Report = report;
+            if (string.IsNullOrEmpty(reportFilePath))
+            {
+                MessageBox.Show(Constants.ReportPathIsEmpty, Constants.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+                return;
+            }
+
+            ReportFilePath = reportFilePath;
             FadeEffect = fadeEffect;
+            InitializeComponent();
         }
         /// <summary>
         /// Initializes a new instance of the fmVTScanResult class when we want to submit a file for scanning.
@@ -65,11 +78,9 @@ namespace Widget
         /// <param name="fadeEffect">A flag indicating whether the fade effect is enabled (default: false).</param>
         public fmVTScanResult(string filePath, string virusTotalAPIKey, bool fadeEffect = false)
         {
-            this.FileToScanPath = filePath;
-            this.VirusTotalAPIKey = virusTotalAPIKey;
-
+            FileToScanPath = filePath;
+            VirusTotalAPIKey = virusTotalAPIKey;
             FadeEffect = fadeEffect;
-
             InitializeComponent();
         }
         protected override void OnLoad(EventArgs e)
@@ -85,6 +96,10 @@ namespace Widget
 
             // This fixes the issues related to databinding adding cols we dont need
             SetupDataGridView();
+
+            // Should we read a existing report?
+            if(!string.IsNullOrEmpty(ReportFilePath))
+                Report = await ReadReportAsync(ReportFilePath, Report);
 
             // Parse report
             if (Report != null)
@@ -186,6 +201,42 @@ namespace Widget
         }
 
         #endregion
+        #region Import Report
+        
+        /// <summary>
+        /// Reads and parses the VirusTotal report from the specified file path.
+        /// </summary>
+        /// <param name="pathToReport">The full file path to the VirusTotal report file.</param>
+        /// <param name="report">An optional existing <see cref="ResponseParser"/> instance to store the parsed report. If not provided, a new instance will be created.</param>
+        /// <returns>A <see cref="ResponseParser"/> containing the parsed report data, or null if an error occurred during file reading or parsing.</returns>
+        private async Task<ResponseParser> ReadReportAsync(string pathToReport, ResponseParser report)
+        {
+            try
+            {
+                // Read it
+                FileIOManager importer = new(ReportFilePath!);
+                string fileContent;
+                if(importer.ReadFile(out fileContent))
+                {
+                    // Parse it
+                    report = new ResponseParser();
+                    return report.ParseReport(fileContent);
+                }
+                else
+                {
+                    return null;
+                }
+
+            }catch (Exception ex)
+            {
+#if DEBUG
+                Debug.WriteLine($"ReadReportAsync: {ex.Message}");
+#endif
+                return null;
+            }
+        }
+
+        #endregion
         #region Scanning Methods
 
         /// <summary>
@@ -251,6 +302,7 @@ namespace Widget
                     MessageBox.Show($"The report appears to be empty.", "Parse issue");
                     return;
                 }
+                
 
                 // Update UI
                 eTheme1.Text = $"Scan result:{report.FileInfo.SHA256}";

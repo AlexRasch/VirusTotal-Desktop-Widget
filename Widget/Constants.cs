@@ -20,6 +20,10 @@ namespace Widget
         public const string AlreadyRunningMessage = "Widget is already running.\n\n Please close the existing instance before launching a new one.";
         public const string AlreadyRunningMessageTitle = "Widget already running";
 
+        #region Widget Form
+        public const string OpenFileDialogTitle = "Import scan response";
+        #endregion
+
         #region ScanResult Form
         // GUI
         public const string FileSizeLabel = "File size:";
@@ -35,11 +39,9 @@ namespace Widget
         public const string SaveFileDialogExportErrorTitle = "Export Error";
         #endregion
 
-        // ApiResponseExporter
-        public const string SaveFileError = "todo";
-        public const string SaveFileErrorTitle = "todo";
-
-
+        // Generic
+        public const string ReportPathIsEmpty = "Invalid report file path.";
+        public const string Error = "Error";
 
         // Toaster Message & Titles
         public const string SubmittingFileTitle = "Sending file to VirusTotal";

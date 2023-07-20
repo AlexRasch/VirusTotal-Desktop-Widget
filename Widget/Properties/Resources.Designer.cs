@@ -63,9 +63,19 @@ namespace Widget.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap square_targeting {
+        internal static System.Drawing.Bitmap import_report {
             get {
-                object obj = ResourceManager.GetObject("square-targeting", resourceCulture);
+                object obj = ResourceManager.GetObject("import-report", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap submit {
+            get {
+                object obj = ResourceManager.GetObject("submit", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -11,6 +11,7 @@ namespace VirusTotal
 
     public partial class ResponseParser
     {
+
         public ResponseParser ParseReport(string? responseContent)
         {
             var report = new ResponseParser();
