@@ -22,9 +22,12 @@ namespace Widget
 
         // ScanResult Form
         public const string FileSizeLabel = "File size:";
-        public const string SafeFileDialogTitle = "Export scan respons";
-        public const string SafeFileDialogNothingToExport = "todo";
-        public const string SafeFileDialogNothingToExportTitle = "todo";
+        
+        public const string SaveFileDialogTitle = "Export scan response";
+        public const string SaveFileDialogNothingToExport = "There is no scan result to export.";
+        public const string SaveFileDialogNothingToExportTitle = "Nothing to Export";
+        public const string SaveFileDialogExportError = "An error occurred while exporting the scan results.";
+        public const string SaveFileDialogExportErrorTitle = "Export Error";
 
 
         // ApiResponseExporter

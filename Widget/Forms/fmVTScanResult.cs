@@ -105,21 +105,19 @@ namespace Widget
         }
         #region Export - UI
         /// <summary>
-        ///  Handles the logic for export a scan
+        ///  Handles the export of the VirusTotal scan results to a file.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void btnExport_Click(object sender, EventArgs e)
         {
-            if(Report == null)
+            if(Report?.RawResponse == null)
             {
-                MessageBox.Show(Constants.SafeFileDialogNothingToExport, Constants.SafeFileDialogNothingToExportTitle);
+                MessageBox.Show(Constants.SaveFileDialogNothingToExport, Constants.SaveFileDialogNothingToExportTitle);
                 return;
             }
 
             using (SaveFileDialog saveFileDialog = new SaveFileDialog())
             {
-                saveFileDialog.Title = "Export scan respons";
+                saveFileDialog.Title = Constants.SaveFileDialogTitle;
                 saveFileDialog.Filter = "JSON|*.json";
 
                 if(saveFileDialog.ShowDialog() == DialogResult.OK)
@@ -128,7 +126,7 @@ namespace Widget
                     // Check if any error occured
                     if (!exporter.SaveFile())
                     {
-
+                        MessageBox.Show(Constants.SaveFileDialogExportError, Constants.SaveFileDialogExportErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
