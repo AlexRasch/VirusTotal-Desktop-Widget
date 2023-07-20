@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -88,7 +89,11 @@ namespace Widget
             {
                 OnError("Path to long");
                 throw new PathTooLongException();
-                
+            }
+            if (!path.Contains('.'))
+            {
+                OnError("Invalid path");
+                throw new Exception("The path is not valid");
             }
                 
             return true;

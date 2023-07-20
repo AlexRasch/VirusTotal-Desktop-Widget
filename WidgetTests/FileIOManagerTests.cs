@@ -40,7 +40,7 @@ namespace WidgetTests
             // Act
             Exception exception = Record.Exception(() => exporter.WriteFile());
             
-            // Act & Assert
+            // Assert
             Assert.NotNull(exception);
             Assert.True(exporter.HasError);
         }
@@ -50,11 +50,14 @@ namespace WidgetTests
         {
             // Arrange
             string APIResponseRaw = "Hello World";
-            string InvalidPath = new string('a', 16); // The maximum path length limit in Windows is 260 characters
+            string InvalidPath = new string('a', 16);
             FileIOManager exporter = new(APIResponseRaw, InvalidPath);
 
-            // Act & Assert
-            Assert.Null(Record.Exception(() => exporter.WriteFile()));
+            // Act
+            Exception exception = Record.Exception(() => exporter.WriteFile());
+
+            // Assert
+            Assert.NotNull(exception);
             Assert.True(exporter.HasError);
         }
 
