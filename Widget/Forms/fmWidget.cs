@@ -91,6 +91,22 @@ namespace Widget
             widgetSettings = WidgetSettings.LoadSettingsFromConfigFile();
         }
         /* VirusTotal */
+        private void pbImportReport_Click(object sender, EventArgs e)
+        {
+            using OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = Constants.OpenFileDialogTitle;
+            openFileDialog.Filter = "JSON|*.json";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+#if DEBUG
+                Debug.WriteLine($"Showing fmVTScanResult");
+#endif
+                fmVTScanResult scanResult = new(openFileDialog.FileName, widgetSettings.FadeEffect);
+                scanResult.Show();
+            }
+        }
+
         private async void pbSubmit_Click(object sender, EventArgs e)
         {
             using OpenFileDialog openFileDialog = new();
@@ -176,7 +192,6 @@ namespace Widget
                 }
             }, cancellationToken);
         }
-
 
     }
 }

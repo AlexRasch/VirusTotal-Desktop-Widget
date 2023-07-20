@@ -35,9 +35,11 @@
             pbCPU = new ProgressBar();
             lblExit = new Label();
             eTheme1 = new Forms.eTheme();
+            pbImportReport = new PictureBox();
             btnSettings = new Forms.eButton();
             ((System.ComponentModel.ISupportInitialize)pbSubmit).BeginInit();
             eTheme1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbImportReport).BeginInit();
             SuspendLayout();
             // 
             // pbSubmit
@@ -45,10 +47,10 @@
             pbSubmit.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             pbSubmit.BackColor = Color.Transparent;
             pbSubmit.BackgroundImageLayout = ImageLayout.Stretch;
-            pbSubmit.Image = Properties.Resources.square_targeting;
-            pbSubmit.Location = new Point(21, 196);
+            pbSubmit.Image = Properties.Resources.submit;
+            pbSubmit.Location = new Point(20, 196);
             pbSubmit.Name = "pbSubmit";
-            pbSubmit.Size = new Size(223, 92);
+            pbSubmit.Size = new Size(100, 92);
             pbSubmit.SizeMode = PictureBoxSizeMode.StretchImage;
             pbSubmit.TabIndex = 0;
             pbSubmit.TabStop = false;
@@ -116,6 +118,7 @@
             // eTheme1
             // 
             eTheme1.BackColor = Color.FromArgb(53, 53, 53);
+            eTheme1.Controls.Add(pbImportReport);
             eTheme1.Controls.Add(btnSettings);
             eTheme1.Controls.Add(pbSubmit);
             eTheme1.Controls.Add(lblRAM);
@@ -132,6 +135,20 @@
             eTheme1.TabIndex = 10;
             eTheme1.Text = "VirusTotal Widget";
             eTheme1.TransparencyKey = Color.Empty;
+            // 
+            // pbImportReport
+            // 
+            pbImportReport.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            pbImportReport.BackColor = Color.Transparent;
+            pbImportReport.BackgroundImageLayout = ImageLayout.Stretch;
+            pbImportReport.Image = Properties.Resources.import_report;
+            pbImportReport.Location = new Point(144, 196);
+            pbImportReport.Name = "pbImportReport";
+            pbImportReport.Size = new Size(100, 92);
+            pbImportReport.SizeMode = PictureBoxSizeMode.StretchImage;
+            pbImportReport.TabIndex = 11;
+            pbImportReport.TabStop = false;
+            pbImportReport.Click += pbImportReport_Click;
             // 
             // btnSettings
             // 
@@ -168,6 +185,7 @@
             ((System.ComponentModel.ISupportInitialize)pbSubmit).EndInit();
             eTheme1.ResumeLayout(false);
             eTheme1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbImportReport).EndInit();
             ResumeLayout(false);
         }
 
@@ -181,5 +199,6 @@
         private Label lblExit;
         private Forms.eTheme eTheme1;
         private Forms.eButton btnSettings;
+        private PictureBox pbImportReport;
     }
 }

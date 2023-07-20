@@ -45,6 +45,12 @@ namespace Widget
 
         }
 
+
+        public FileIOManager(string fileFullPath)
+        {
+            FileFullPath = fileFullPath;
+        }
+
         /// <summary>
         /// Saves the file content to the specified file.
         /// </summary>
@@ -72,10 +78,24 @@ namespace Widget
         /// Reads the content of the specified file.
         /// </summary>
         /// <returns>The content of the file as a string, or null if an error occurred.</returns>
-        public string ReadFile()
+        public bool ReadFile(out string fileContent)
         {
-            throw new NotImplementedException();
-            //return null;
+            if (!ValidatePath(FileFullPath))
+            {
+                fileContent = string.Empty;
+                return false;
+            }
+            try
+            {
+                fileContent = File.ReadAllText(FileFullPath);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                OnError(ex.Message);
+                fileContent = string.Empty;
+                return false;
+            }
         }
 
         /// <summary>
