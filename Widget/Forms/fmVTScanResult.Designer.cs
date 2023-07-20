@@ -37,13 +37,6 @@
             Forms.Pigment pigment13 = new Forms.Pigment();
             Forms.Pigment pigment14 = new Forms.Pigment();
             dgvResult = new DataGridView();
-            colAV = new DataGridViewTextBoxColumn();
-            colCategory = new DataGridViewTextBoxColumn();
-            colEngineName = new DataGridViewTextBoxColumn();
-            colEngineVersion = new DataGridViewTextBoxColumn();
-            colResult = new DataGridViewTextBoxColumn();
-            colMethod = new DataGridViewTextBoxColumn();
-            colEngineUpdate = new DataGridViewTextBoxColumn();
             errorCodeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             fileInfoDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             dateDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
@@ -56,7 +49,7 @@
             isCompleteDataGridViewCheckBoxColumn = new DataGridViewCheckBoxColumn();
             responseParserBindingSource = new BindingSource(components);
             eTheme1 = new Forms.eTheme();
-            eButton1 = new Forms.eButton();
+            btnExport = new Forms.eButton();
             lblFileSize = new Label();
             btnClose = new Forms.FButton();
             ((System.ComponentModel.ISupportInitialize)dgvResult).BeginInit();
@@ -74,7 +67,7 @@
             dgvResult.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dgvResult.BorderStyle = BorderStyle.None;
             dgvResult.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvResult.Columns.AddRange(new DataGridViewColumn[] { colAV, colCategory, colEngineName, colEngineVersion, colResult, colMethod, colEngineUpdate, errorCodeDataGridViewTextBoxColumn, fileInfoDataGridViewTextBoxColumn, dateDataGridViewTextBoxColumn, statusDataGridViewTextBoxColumn, statsDataGridViewTextBoxColumn, resultsDataGridViewTextBoxColumn, typeDataGridViewTextBoxColumn, idDataGridViewTextBoxColumn, linksDataGridViewTextBoxColumn, isCompleteDataGridViewCheckBoxColumn });
+            dgvResult.Columns.AddRange(new DataGridViewColumn[] { errorCodeDataGridViewTextBoxColumn, fileInfoDataGridViewTextBoxColumn, dateDataGridViewTextBoxColumn, statusDataGridViewTextBoxColumn, statsDataGridViewTextBoxColumn, resultsDataGridViewTextBoxColumn, typeDataGridViewTextBoxColumn, idDataGridViewTextBoxColumn, linksDataGridViewTextBoxColumn, isCompleteDataGridViewCheckBoxColumn });
             dgvResult.DataSource = responseParserBindingSource;
             dgvResult.Location = new Point(2, 91);
             dgvResult.Name = "dgvResult";
@@ -85,56 +78,6 @@
             dgvResult.Size = new Size(920, 450);
             dgvResult.TabIndex = 0;
             dgvResult.CellFormatting += dgvResult_CellFormatting;
-            // 
-            // colAV
-            // 
-            colAV.HeaderText = "AV";
-            colAV.MinimumWidth = 6;
-            colAV.Name = "colAV";
-            colAV.ReadOnly = true;
-            // 
-            // colCategory
-            // 
-            colCategory.HeaderText = "Category";
-            colCategory.MinimumWidth = 6;
-            colCategory.Name = "colCategory";
-            colCategory.ReadOnly = true;
-            // 
-            // colEngineName
-            // 
-            colEngineName.HeaderText = "Engine";
-            colEngineName.MinimumWidth = 6;
-            colEngineName.Name = "colEngineName";
-            colEngineName.ReadOnly = true;
-            // 
-            // colEngineVersion
-            // 
-            colEngineVersion.HeaderText = "Version";
-            colEngineVersion.MinimumWidth = 6;
-            colEngineVersion.Name = "colEngineVersion";
-            colEngineVersion.ReadOnly = true;
-            // 
-            // colResult
-            // 
-            colResult.HeaderText = "Result";
-            colResult.MinimumWidth = 6;
-            colResult.Name = "colResult";
-            colResult.ReadOnly = true;
-            // 
-            // colMethod
-            // 
-            colMethod.HeaderText = "Method";
-            colMethod.MinimumWidth = 6;
-            colMethod.Name = "colMethod";
-            colMethod.ReadOnly = true;
-            // 
-            // colEngineUpdate
-            // 
-            colEngineUpdate.HeaderText = "Updated";
-            colEngineUpdate.MaxInputLength = 30;
-            colEngineUpdate.MinimumWidth = 6;
-            colEngineUpdate.Name = "colEngineUpdate";
-            colEngineUpdate.ReadOnly = true;
             // 
             // errorCodeDataGridViewTextBoxColumn
             // 
@@ -213,7 +156,7 @@
             // eTheme1
             // 
             eTheme1.BackColor = Color.FromArgb(53, 53, 53);
-            eTheme1.Controls.Add(eButton1);
+            eTheme1.Controls.Add(btnExport);
             eTheme1.Controls.Add(dgvResult);
             eTheme1.Controls.Add(lblFileSize);
             eTheme1.Controls.Add(btnClose);
@@ -228,16 +171,16 @@
             eTheme1.Text = "Scan result:";
             eTheme1.TransparencyKey = Color.Empty;
             // 
-            // eButton1
+            // btnExport
             // 
-            eButton1.Enabled = false;
-            eButton1.Image = null;
-            eButton1.Location = new Point(12, 43);
-            eButton1.Name = "eButton1";
-            eButton1.NoRounding = false;
-            eButton1.Size = new Size(97, 32);
-            eButton1.TabIndex = 4;
-            eButton1.Text = "Export";
+            btnExport.Image = null;
+            btnExport.Location = new Point(12, 43);
+            btnExport.Name = "btnExport";
+            btnExport.NoRounding = false;
+            btnExport.Size = new Size(97, 32);
+            btnExport.TabIndex = 4;
+            btnExport.Text = "Export";
+            btnExport.Click += btnExport_Click;
             // 
             // lblFileSize
             // 
@@ -299,13 +242,7 @@
         private Forms.FButton btnClose;
         private Label lblFileSize;
         private BindingSource responseParserBindingSource;
-        private DataGridViewTextBoxColumn colAV;
-        private DataGridViewTextBoxColumn colCategory;
-        private DataGridViewTextBoxColumn colEngineName;
-        private DataGridViewTextBoxColumn colEngineVersion;
-        private DataGridViewTextBoxColumn colResult;
-        private DataGridViewTextBoxColumn colMethod;
-        private DataGridViewTextBoxColumn colEngineUpdate;
+        private Forms.eButton btnExport;
         private DataGridViewTextBoxColumn errorCodeDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn fileInfoDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn dateDataGridViewTextBoxColumn;
@@ -316,6 +253,5 @@
         private DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn linksDataGridViewTextBoxColumn;
         private DataGridViewCheckBoxColumn isCompleteDataGridViewCheckBoxColumn;
-        private Forms.eButton eButton1;
     }
 }

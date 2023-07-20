@@ -38,11 +38,18 @@ namespace VirusTotal
         #endregion
 
         #region Extra (not part of the VirusTotal API)
+
         /// <summary>
         /// Indicates whether the response parsing is complete.
         /// Note: This property is not part of the VirusTotal API.
         /// </summary>
         public bool IsComplete { get; set; }
+        
+        /// <summary>
+        /// Contains the RAW response from VirusTotal API
+        /// </summary>
+        public string RawResponse { get; set; }
+        
         #endregion
 
         public class Error

@@ -20,14 +20,17 @@ namespace Widget
         /// Gets or sets the report from VirusTotal to display.
         /// </summary>
         private ResponseParser? Report { get; set; }
+        
         /// <summary>
         /// Gets or sets the VirusTotal API key used for scanning.
         /// </summary>
         private string? VirusTotalAPIKey { get; set; }
+        
         /// <summary>
         /// Gets or sets the file path to scan.
         /// </summary>
         private string? FileToScanPath { get; set; }
+        
         /// <summary>
         /// Gets or sets a value indicating whether the fade effect is enabled.
         /// </summary>
@@ -100,6 +103,45 @@ namespace Widget
 
             this.Close();
         }
+        #region Export - UI
+        /// <summary>
+        ///  Handles the export of the VirusTotal scan results to a file.
+        /// </summary>
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            if(Report?.RawResponse == null)
+            {
+                MessageBox.Show(Constants.SaveFileDialogNothingToExport, Constants.SaveFileDialogNothingToExportTitle);
+                return;
+            }
+
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.Title = Constants.SaveFileDialogTitle;
+                saveFileDialog.Filter = "JSON|*.json";
+
+                if(saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    FileIOManager exporter = new FileIOManager(Report!.RawResponse, saveFileDialog.FileName);
+                    
+                    // Check if any error occured
+                    if (!exporter.WriteFile())
+                    {
+                        // We have a error message
+                        if (exporter.HasError)
+                        {
+                            string errorMessage = Constants.SaveFileDialogExportError + Environment.NewLine + exporter.ErrorMessage;
+                            MessageBox.Show(errorMessage, Constants.SaveFileDialogExportErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        else
+                        {
+                            MessageBox.Show(Constants.SaveFileDialogExportError, Constants.SaveFileDialogExportErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion
         #region DataGrid and Binding fix
 
         /// <summary>
@@ -138,7 +180,8 @@ namespace Widget
             {
                 Name = name,
                 HeaderText = headerText,
-                DataPropertyName = name
+                DataPropertyName = name,
+                SortMode = DataGridViewColumnSortMode.Automatic
             };
         }
 
@@ -189,6 +232,8 @@ namespace Widget
                 MessageBox.Show($"Error:{scanResponse.ErrorCode.Code}", "API issues");
                 return;
             }
+            // Store it incase user wants to export it
+            Report = scanResponse;
             // Parse report
             await ParseReport(scanResponse);
         }
@@ -275,5 +320,7 @@ namespace Widget
         }
 
         #endregion
+
+
     }
 }
