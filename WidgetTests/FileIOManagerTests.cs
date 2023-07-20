@@ -8,7 +8,7 @@ using Widget;
 
 namespace WidgetTests
 {
-    public class ApiResponseExporterTests
+    public class FileIOManagerTests
     {
         [Fact]
         public void SaveFile_CreatesFile()
@@ -25,6 +25,7 @@ namespace WidgetTests
             // Assert
             Assert.True(SavedFile);
             Assert.True(FileExist);
+            Assert.False(exporter.HasError);
             Assert.Equal(SavedFile, FileExist);
         }
 
@@ -36,8 +37,12 @@ namespace WidgetTests
             string PathToLong = new string('a', 600); // The maximum path length limit in Windows is 260 characters
             FileIOManager exporter = new(APIResponseRaw, PathToLong);
 
+            // Act
+            Exception exception = Record.Exception(() => exporter.WriteFile());
+            
             // Act & Assert
-            Assert.Null(Record.Exception(() => exporter.WriteFile()));
+            Assert.NotNull(exception);
+            Assert.True(exporter.HasError);
         }
 
         [Fact]
@@ -50,6 +55,7 @@ namespace WidgetTests
 
             // Act & Assert
             Assert.Null(Record.Exception(() => exporter.WriteFile()));
+            Assert.True(exporter.HasError);
         }
 
     }

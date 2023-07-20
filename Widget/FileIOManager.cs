@@ -14,7 +14,7 @@ namespace Widget
         /// <summary>
         /// Contains the content of the file to be saved or read.
         /// </summary>
-        public string FileContent  { get; set; }
+        public string FileContent { get; set; }
 
         /// <summary>
         /// The full path of the file for writing or reading.
@@ -24,12 +24,12 @@ namespace Widget
         /// <summary>
         /// Gets a value indicating whether an error occurred during the operation.
         /// </summary>
-        public bool HasError { get; private set; }
+        public bool HasError { get; private set; } = false;
 
         /// <summary>
         ///  Gets the value of the error message.
         /// </summary>
-        public string ErrorMessage { get; private set; }
+        public string ErrorMessage { get; private set; } = string.Empty;
 
         /// <summary>
         /// Initializes a new instance of the FileIOManager class with the file content and file path.
@@ -38,12 +38,10 @@ namespace Widget
         /// <param name="fileFullPath">The full path of the file for writing or reading.</param>
         public FileIOManager(string fileContent, string fileFullPath)
         {
-            ValidatePath(fileFullPath);
 
-            FileContent  = fileContent;
+            FileContent = fileContent;
             FileFullPath = fileFullPath;
 
-            HasError = false;
         }
 
         /// <summary>
@@ -52,14 +50,18 @@ namespace Widget
         /// <returns>True if the file was successfully saved, false otherwise.</returns>
         public bool WriteFile()
         {
+
+            if (!ValidatePath(FileFullPath))
+                return false;
+
             try
             {
-                File.WriteAllText(FileFullPath, FileContent );
-
+                File.WriteAllText(FileFullPath, FileContent);
                 return File.Exists(FileFullPath);
-   
+
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 OnError(ex.Message);
                 return false;
             }
@@ -82,18 +84,14 @@ namespace Widget
         /// <returns>True if the file path is valid, false otherwise.</returns>
         public bool ValidatePath(string path)
         {
-            try
+            if (path.Length >= 260)
             {
-                System.IO.FileInfo fileInfo = new (path);
-                return true;
+                OnError("Path to long");
+                throw new PathTooLongException();
+                
             }
-            catch (System.IO.PathTooLongException ex) {
-                OnError($"ValidatePat PathTooLong:{ex.Message}");
-            }
-            catch(Exception ex) {
-                OnError($"ValidatePath:{ex.Message}");
-            }
-            return false;
+                
+            return true;
         }
 
         private void OnError(string errorMessage)
