@@ -88,7 +88,7 @@ namespace Widget
                 return;
             currentApiKey = txtApiKey.Text;
         }
-        private void btnView_Click(object sender, EventArgs e) => txtApiKey.Text = ToggleAPIKey()
+        private void btnView_Click(object sender, EventArgs e) => txtApiKey.Text = ToggleAPIKey();
         
         private string ToggleAPIKey()
         {
