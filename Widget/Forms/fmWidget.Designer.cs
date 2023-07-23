@@ -106,11 +106,11 @@
             lblExit.BackColor = Color.Transparent;
             lblExit.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
             lblExit.ForeColor = Color.Firebrick;
-            lblExit.Location = new Point(217, 0);
+            lblExit.Location = new Point(211, 0);
             lblExit.Name = "lblExit";
-            lblExit.Size = new Size(27, 30);
+            lblExit.Size = new Size(33, 30);
             lblExit.TabIndex = 8;
-            lblExit.Text = "X";
+            lblExit.Text = " X";
             lblExit.Click += lblExit_Click;
             lblExit.MouseEnter += lblExit_MouseEnter;
             lblExit.MouseLeave += lblExit_MouseLeave;

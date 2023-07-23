@@ -39,7 +39,7 @@ namespace Widget
         {
             base.OnLoad(e);
             if (config.FadeEffect)
-                FormUtils.FadeInForm(Handle, 256);
+                _ = FormUtils.FadeInForm(Handle, 256);
         }
 
         private void fmSettings_Load(object sender, EventArgs e)
@@ -88,16 +88,27 @@ namespace Widget
                 return;
             currentApiKey = txtApiKey.Text;
         }
-        private void btnView_Click(object sender, EventArgs e) => txtApiKey.Text = ToggleAPIKey();
-
+        private void btnView_Click(object sender, EventArgs e) => txtApiKey.Text = ToggleAPIKey()
+        
         private string ToggleAPIKey()
         {
             ShowAPIKey = !ShowAPIKey;
+
+            // Toggle btnView text
+            ToggleBtnViewText();
 
             if (ShowAPIKey)
                 return currentApiKey;
             else
                 return new string('*', 64);
+        }
+
+        private void ToggleBtnViewText()
+        {
+            if (ShowAPIKey)
+                btnView.Text = "View";
+            else
+                btnView.Text = "Hide";
         }
 
         private string ValidateAPIKey(string newKey, string oldKey)

@@ -218,10 +218,10 @@
             // 
             btnView.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
             btnView.Image = null;
-            btnView.Location = new Point(493, 21);
+            btnView.Location = new Point(493, 18);
             btnView.Name = "btnView";
             btnView.NoRounding = false;
-            btnView.Size = new Size(75, 23);
+            btnView.Size = new Size(75, 25);
             btnView.TabIndex = 2;
             btnView.Text = "View";
             btnView.Click += btnView_Click;

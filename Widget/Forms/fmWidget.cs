@@ -30,7 +30,7 @@ namespace Widget
         {
             base.OnLoad(e);
             if (widgetSettings.FadeEffect)
-                FormUtils.FadeInForm(this.Handle);
+                _ = FormUtils.FadeInForm(this.Handle);
         }
         private void frmWidget_Load(object sender, EventArgs e)
         {
@@ -93,7 +93,7 @@ namespace Widget
         /* VirusTotal */
         private void pbImportReport_Click(object sender, EventArgs e)
         {
-            using OpenFileDialog openFileDialog = new OpenFileDialog();
+            using OpenFileDialog openFileDialog = new();
             openFileDialog.Title = Constants.OpenFileDialogTitle;
             openFileDialog.Filter = "JSON|*.json";
 
@@ -128,19 +128,6 @@ namespace Widget
             }
 
         }
-
-        //private void pbScan_DragDrop(object sender, DragEventArgs? e)
-        //{
-        //    if (e?.Data.GetDataPresent(DataFormats.FileDrop) == true)
-        //    {
-        //        string[]? filePaths = e.Data.GetData(DataFormats.FileDrop) as string[];
-        //        if (filePaths != null && filePaths.Length > 0)
-        //        {
-        //            MessageBox.Show(filePaths[0], "File");
-        //        }
-        //    }
-        //}
-
         private CancellationTokenSource cancellationTokenSource;
 
         /// <summary>
@@ -192,6 +179,7 @@ namespace Widget
                 }
             }, cancellationToken);
         }
+
 
     }
 }

@@ -130,28 +130,26 @@ namespace Widget
                 return;
             }
 
-            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
-            {
-                saveFileDialog.Title = Constants.SaveFileDialogTitle;
-                saveFileDialog.Filter = "JSON|*.json";
+            using SaveFileDialog saveFileDialog = new();
+            saveFileDialog.Title = Constants.SaveFileDialogTitle;
+            saveFileDialog.Filter = "JSON|*.json";
 
-                if(saveFileDialog.ShowDialog() == DialogResult.OK)
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                FileIOManager exporter = new(Report!.RawResponse, saveFileDialog.FileName);
+
+                // Check if any error occured
+                if (!exporter.WriteFile())
                 {
-                    FileIOManager exporter = new FileIOManager(Report!.RawResponse, saveFileDialog.FileName);
-                    
-                    // Check if any error occured
-                    if (!exporter.WriteFile())
+                    // We have a error message
+                    if (exporter.HasError)
                     {
-                        // We have a error message
-                        if (exporter.HasError)
-                        {
-                            string errorMessage = Constants.SaveFileDialogExportError + Environment.NewLine + exporter.ErrorMessage;
-                            MessageBox.Show(errorMessage, Constants.SaveFileDialogExportErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                        else
-                        {
-                            MessageBox.Show(Constants.SaveFileDialogExportError, Constants.SaveFileDialogExportErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                        string errorMessage = Constants.SaveFileDialogExportError + Environment.NewLine + exporter.ErrorMessage;
+                        MessageBox.Show(errorMessage, Constants.SaveFileDialogExportErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        MessageBox.Show(Constants.SaveFileDialogExportError, Constants.SaveFileDialogExportErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
@@ -209,14 +207,13 @@ namespace Widget
         /// <param name="pathToReport">The full file path to the VirusTotal report file.</param>
         /// <param name="report">An optional existing <see cref="ResponseParser"/> instance to store the parsed report. If not provided, a new instance will be created.</param>
         /// <returns>A <see cref="ResponseParser"/> containing the parsed report data, or null if an error occurred during file reading or parsing.</returns>
-        private async Task<ResponseParser> ReadReportAsync(string pathToReport, ResponseParser report)
+        private async Task<ResponseParser?> ReadReportAsync(string pathToReport, ResponseParser? report)
         {
             try
             {
                 // Read it
                 FileIOManager importer = new(ReportFilePath!);
-                string fileContent;
-                if(importer.ReadFile(out fileContent))
+                if (importer.ReadFile(out string fileContent))
                 {
                     // Parse it
                     report = new ResponseParser();
@@ -227,7 +224,8 @@ namespace Widget
                     return null;
                 }
 
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
 #if DEBUG
                 Debug.WriteLine($"ReadReportAsync: {ex.Message}");
@@ -248,7 +246,7 @@ namespace Widget
             ResponseParser scanResponse = new();
             bool isScanning = true;
 
-            using (VT vt = new VT(VirusTotalAPIKey!))
+            using (VT vt = new(VirusTotalAPIKey!))
             {
                 try
                 {
@@ -270,7 +268,7 @@ namespace Widget
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("An error occurred during the scanning process.", "Scanning Error");
+                    MessageBox.Show(Constants.ErrorDuringScan, Constants.ErrorDuringScanTitle);
 #if DEBUG
                     Debug.WriteLine("PerformFileScanAsync: Error { ex.Message}");
 #endif
@@ -299,7 +297,7 @@ namespace Widget
             {
                 if (report == null)
                 {
-                    MessageBox.Show($"The report appears to be empty.", "Parse issue");
+                    MessageBox.Show(Constants.ParseReportEmpty, Constants.ParseReportEmptyTitle);
                     return;
                 }
                 

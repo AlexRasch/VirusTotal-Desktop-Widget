@@ -25,10 +25,17 @@ namespace Widget
         #endregion
 
         #region ScanResult Form
+        
         // GUI
         public const string FileSizeLabel = "File size:";
 
         // Scanning
+        public const string ErrorDuringScan = "An error occurred during the scanning process.";
+        public const string ErrorDuringScanTitle = "Scanning error";
+
+        // Parse 
+        public const string ParseReportEmpty = "The report appears to be empty.";
+        public const string ParseReportEmptyTitle = "Parse issue";
 
 
         // Read/Write 
@@ -37,6 +44,7 @@ namespace Widget
         public const string SaveFileDialogNothingToExportTitle = "Nothing to Export";
         public const string SaveFileDialogExportError = "An error occurred while exporting the scan results.";
         public const string SaveFileDialogExportErrorTitle = "Export Error";
+        
         #endregion
 
         // Generic
