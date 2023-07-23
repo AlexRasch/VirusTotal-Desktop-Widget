@@ -15,6 +15,7 @@ Disclaimer: This application/widget is not a substitute for a antivirus software
 ## Features
 - Autostart support
 - Customizable settings (Work in Progress)
+- Export and import scan result
 - Display RAM and CPU usage information
 - Light-weight application that does not use any third-party libraries
 - Perform file scans using the VirusTotal API
