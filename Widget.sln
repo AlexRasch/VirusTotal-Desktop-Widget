@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirusTotal", "VTResponsePar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WidgetTests", "WidgetTests\WidgetTests.csproj", "{2832396F-499A-4D0A-9819-2B19176A5DB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirusTotalTests", "VirusTotalTests\VirusTotalTests.csproj", "{949A331A-BEBC-4719-9661-D556C28CB7F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirusTotalTests", "VirusTotalTests\VirusTotalTests.csproj", "{949A331A-BEBC-4719-9661-D556C28CB7F4}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Installer", "Installer\Installer.vdproj", "{5C1090F9-4E58-485D-886C-804A4BEA48A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,8 @@ Global
 		{949A331A-BEBC-4719-9661-D556C28CB7F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{949A331A-BEBC-4719-9661-D556C28CB7F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{949A331A-BEBC-4719-9661-D556C28CB7F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C1090F9-4E58-485D-886C-804A4BEA48A7}.Debug|Any CPU.ActiveCfg = Debug
+		{5C1090F9-4E58-485D-886C-804A4BEA48A7}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
