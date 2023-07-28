@@ -62,6 +62,13 @@ namespace Widget
             bool IsFadeEffectEnabled = cbFadeEffect.CheckState == CheckState.Checked;
             bool IsSendToEnabled = cbSendTo.CheckState == CheckState.Checked;
 
+            if (currentApiKey.Length < 1 && currentApiKey.Length > 64)
+            {
+                MessageBox.Show("Invalid API key length", "API key issues");
+                return;
+            }
+                
+
             WidgetSettings settings = new()
             {
                 VirusTotalApiKey = ValidateAPIKey(currentApiKey, config.VirusTotalApiKey),
@@ -100,7 +107,7 @@ namespace Widget
             if (ShowAPIKey)
                 return currentApiKey;
             else
-                return new string('*', 64);
+                return new string('*', currentApiKey.Length);
         }
 
         private void ToggleBtnViewText()
