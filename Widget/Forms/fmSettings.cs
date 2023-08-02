@@ -67,7 +67,7 @@ namespace Widget
                 MessageBox.Show("Invalid API key length", "API key issues");
                 return;
             }
-                
+
 
             WidgetSettings settings = new()
             {
@@ -96,7 +96,7 @@ namespace Widget
             currentApiKey = txtApiKey.Text;
         }
         private void btnView_Click(object sender, EventArgs e) => txtApiKey.Text = ToggleAPIKey();
-        
+
         private string ToggleAPIKey()
         {
             ShowAPIKey = !ShowAPIKey;
