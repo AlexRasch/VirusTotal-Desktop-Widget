@@ -43,6 +43,9 @@ namespace Widget
             this.MaximumSize = this.MinimumSize;
 
             // UX
+            System.Windows.Forms.ToolTip toolTipImportReport = new();
+            toolTipImportReport.SetToolTip(this.pbImportReport, "Import and view a VirusTotal analysis");
+
             System.Windows.Forms.ToolTip toolTipScan = new();
             toolTipScan.SetToolTip(this.pbSubmit, "Submit File for VirusTotal Analysis");
 
