@@ -48,10 +48,9 @@
             pbSubmit.BackColor = Color.Transparent;
             pbSubmit.BackgroundImageLayout = ImageLayout.Stretch;
             pbSubmit.Image = Properties.Resources.submit;
-            pbSubmit.Location = new Point(23, 261);
-            pbSubmit.Margin = new Padding(3, 4, 3, 4);
+            pbSubmit.Location = new Point(20, 196);
             pbSubmit.Name = "pbSubmit";
-            pbSubmit.Size = new Size(114, 123);
+            pbSubmit.Size = new Size(100, 92);
             pbSubmit.SizeMode = PictureBoxSizeMode.StretchImage;
             pbSubmit.TabIndex = 0;
             pbSubmit.TabStop = false;
@@ -63,9 +62,9 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
             label1.ForeColor = Color.WhiteSmoke;
-            label1.Location = new Point(24, 59);
+            label1.Location = new Point(21, 44);
             label1.Name = "label1";
-            label1.Size = new Size(57, 31);
+            label1.Size = new Size(48, 25);
             label1.TabIndex = 4;
             label1.Text = "CPU";
             // 
@@ -75,26 +74,28 @@
             lblRAM.BackColor = Color.Transparent;
             lblRAM.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
             lblRAM.ForeColor = Color.WhiteSmoke;
-            lblRAM.Location = new Point(24, 108);
+            lblRAM.Location = new Point(21, 81);
             lblRAM.Name = "lblRAM";
-            lblRAM.Size = new Size(64, 31);
+            lblRAM.Size = new Size(52, 25);
             lblRAM.TabIndex = 5;
             lblRAM.Text = "RAM";
             // 
             // pbRAM
             // 
-            pbRAM.Location = new Point(24, 144);
+            pbRAM.Location = new Point(21, 108);
+            pbRAM.Margin = new Padding(3, 2, 3, 2);
             pbRAM.Name = "pbRAM";
-            pbRAM.Size = new Size(255, 11);
+            pbRAM.Size = new Size(223, 8);
             pbRAM.Step = 1;
             pbRAM.TabIndex = 6;
             pbRAM.Value = 23;
             // 
             // pbCPU
             // 
-            pbCPU.Location = new Point(24, 95);
+            pbCPU.Location = new Point(21, 71);
+            pbCPU.Margin = new Padding(3, 2, 3, 2);
             pbCPU.Name = "pbCPU";
-            pbCPU.Size = new Size(255, 11);
+            pbCPU.Size = new Size(223, 8);
             pbCPU.Step = 1;
             pbCPU.TabIndex = 7;
             pbCPU.Value = 40;
@@ -105,10 +106,10 @@
             lblExit.BackColor = Color.Transparent;
             lblExit.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point);
             lblExit.ForeColor = Color.Firebrick;
-            lblExit.Location = new Point(241, 0);
+            lblExit.Location = new Point(227, 3);
             lblExit.Margin = new Padding(0);
             lblExit.Name = "lblExit";
-            lblExit.Size = new Size(35, 31);
+            lblExit.Size = new Size(29, 25);
             lblExit.TabIndex = 8;
             lblExit.Text = " X";
             lblExit.Click += lblExit_Click;
@@ -128,11 +129,10 @@
             eTheme1.Dock = DockStyle.Fill;
             eTheme1.Image = null;
             eTheme1.Location = new Point(0, 0);
-            eTheme1.Margin = new Padding(3, 4, 3, 4);
             eTheme1.MoveHeight = 30;
             eTheme1.Name = "eTheme1";
             eTheme1.Resizable = false;
-            eTheme1.Size = new Size(297, 400);
+            eTheme1.Size = new Size(260, 300);
             eTheme1.TabIndex = 10;
             eTheme1.Text = "VirusTotal Widget";
             eTheme1.TransparencyKey = Color.Empty;
@@ -143,10 +143,9 @@
             pbImportReport.BackColor = Color.Transparent;
             pbImportReport.BackgroundImageLayout = ImageLayout.Stretch;
             pbImportReport.Image = Properties.Resources.import_report;
-            pbImportReport.Location = new Point(165, 261);
-            pbImportReport.Margin = new Padding(3, 4, 3, 4);
+            pbImportReport.Location = new Point(144, 196);
             pbImportReport.Name = "pbImportReport";
-            pbImportReport.Size = new Size(114, 123);
+            pbImportReport.Size = new Size(100, 92);
             pbImportReport.SizeMode = PictureBoxSizeMode.StretchImage;
             pbImportReport.TabIndex = 11;
             pbImportReport.TabStop = false;
@@ -155,11 +154,10 @@
             // btnSettings
             // 
             btnSettings.Image = null;
-            btnSettings.Location = new Point(24, 191);
-            btnSettings.Margin = new Padding(3, 4, 3, 4);
+            btnSettings.Location = new Point(21, 143);
             btnSettings.Name = "btnSettings";
             btnSettings.NoRounding = false;
-            btnSettings.Size = new Size(75, 37);
+            btnSettings.Size = new Size(66, 28);
             btnSettings.TabIndex = 10;
             btnSettings.Text = "Settings";
             btnSettings.Click += btnSettings_Click;
@@ -167,16 +165,15 @@
             // frmWidget
             // 
             AllowDrop = true;
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.DimGray;
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(297, 400);
+            ClientSize = new Size(260, 300);
             Controls.Add(pbRAM);
             Controls.Add(eTheme1);
             DoubleBuffered = true;
             FormBorderStyle = FormBorderStyle.None;
-            Margin = new Padding(3, 4, 3, 4);
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "frmWidget";

@@ -34,6 +34,10 @@ namespace Widget
 
             System.Windows.Forms.ToolTip toolTipSendTo = new();
             toolTipSendTo.SetToolTip(lblSendTo, "Enables 'Send To' shortcut for easy file submission to VirusTotal.");
+
+            System.Windows.Forms.ToolTip toolTipThreshold = new();
+            toolTipThreshold.SetToolTip(lblThreshold, Constants.ThresholdToolTip);
+
         }
         protected override void OnLoad(EventArgs e)
         {
@@ -48,12 +52,20 @@ namespace Widget
             this.MaximumSize = this.MinimumSize;
 
             config = WidgetSettings.LoadSettingsFromConfigFile();
-            currentApiKey = config.VirusTotalApiKey;
+            currentApiKey = config.VirusTotalApiKey ?? "";
+
+            if (string.IsNullOrEmpty(currentApiKey))
+                currentApiKey = "";
+
             txtApiKey.Text = ToggleAPIKey();
 
             cbAutostart.Checked = config.AutoStartEnabled;
             cbFadeEffect.Checked = config.FadeEffect;
             cbSendTo.Checked = config.SendToEnabled;
+
+            // Get values for combobox
+            SetComboBoxValue(cbbThreshold, config.SystemUsageThreshold);
+            SetComboBoxValue(cbbUpdateInterval, config.SystemUsageUpdateInterval);
         }
 
         private async void btnSave_Click(object sender, EventArgs e)
@@ -61,6 +73,7 @@ namespace Widget
             bool IsAutoStartEnabled = cbAutostart.CheckState == CheckState.Checked;
             bool IsFadeEffectEnabled = cbFadeEffect.CheckState == CheckState.Checked;
             bool IsSendToEnabled = cbSendTo.CheckState == CheckState.Checked;
+
 
             if (currentApiKey.Length < 1 && currentApiKey.Length > 64)
             {
@@ -76,6 +89,8 @@ namespace Widget
                 AutoStartEnabled = IsAutoStartEnabled,
                 FadeEffect = IsFadeEffectEnabled,
                 SendToEnabled = IsSendToEnabled,
+                SystemUsageThreshold = config.SystemUsageThreshold,
+                SystemUsageUpdateInterval = config.SystemUsageUpdateInterval,
 
             };
 
@@ -96,6 +111,19 @@ namespace Widget
             currentApiKey = txtApiKey.Text;
         }
         private void btnView_Click(object sender, EventArgs e) => txtApiKey.Text = ToggleAPIKey();
+
+        private void SetComboBoxValue(ComboBox comboBox, int valueToMatch)
+        {
+            for (int i = 0; i < comboBox.Items.Count; i++)
+            {
+                if (Convert.ToInt32(comboBox.Items[i]) == valueToMatch)
+                {
+                    comboBox.SelectedIndex = i;
+                    break;
+                }
+            }
+        }
+
 
         private string ToggleAPIKey()
         {
@@ -125,6 +153,22 @@ namespace Widget
             return newKey;
         }
 
+        private void cbbThreshold_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+            if (comboBox.SelectedIndex != -1) // -1 means no selection
+            {
+                config.SystemUsageThreshold = Convert.ToInt32(comboBox.SelectedItem);
+            }
+        }
 
+        private void cbbUpdateInterval_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+            if (comboBox.SelectedIndex != -1) // -1 means no selection
+            {
+                config.SystemUsageUpdateInterval = Convert.ToInt32(comboBox.SelectedItem);
+            }
+        }
     }
 }

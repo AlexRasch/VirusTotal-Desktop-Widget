@@ -55,7 +55,7 @@ namespace Widget
             System.Windows.Forms.ToolTip toolTipExitWidget = new();
             toolTipExitWidget.SetToolTip(this.lblExit, "Shutdown the widget");
 
-            GetCurrentSystemUsage();
+            GetCurrentSystemUsage(widgetSettings.SystemUsageUpdateInterval, widgetSettings.SystemUsageThreshold);
         }
         private void lblExit_MouseEnter(object sender, EventArgs e) => lblExit.BackColor = Color.DimGray;
         private void lblExit_MouseLeave(object sender, EventArgs e) => lblExit.BackColor = Color.Transparent;
@@ -141,14 +141,19 @@ namespace Widget
         /// <summary>
         /// Retrieves the current system usage, including CPU and RAM usage, and updates the corresponding UI controls.
         /// </summary>
-        private async void GetCurrentSystemUsage()
+        private async void GetCurrentSystemUsage(int updateInterval, int systemUsageThreshold)
         {
+            if (updateInterval == 0 || systemUsageThreshold == 0)
+                throw new Exception("Settings for SystemUsage invalid");
+
+            float usageThreshold = (float)systemUsageThreshold;
+            updateInterval = updateInterval * 1000;
 
             CancellationToken cancellationToken = cancellationTokenSource.Token;
 
             await Task.Run(() =>
             {
-                const float usageThreshold = 2.0f;
+                
 
                 float cpuUsage;
                 float previousCpuUsage = 0f;
@@ -177,8 +182,7 @@ namespace Widget
                     }
                     previousCpuUsage = cpuUsage;
                     previousRamUsage = ramUsage;
-                    Thread.Sleep(1000);
-                    //Task.Delay(2000);
+                    Thread.Sleep(updateInterval);
                 }
             }, cancellationToken);
         }

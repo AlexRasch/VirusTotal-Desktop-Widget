@@ -31,6 +31,9 @@ namespace Widget
             public bool AutoStartEnabled { get; set; }
             public bool FadeEffect { get; set; }
             public bool SendToEnabled { get; set; }
+            public int WidgetPriority{ get; set; }
+            public int SystemUsageUpdateInterval { get; set; }
+            public int SystemUsageThreshold { get; set; }
 
             // Default settings
             private static readonly WidgetSettings DefaultSettings = new()
@@ -40,6 +43,9 @@ namespace Widget
                 AutoStartEnabled = false,
                 FadeEffect = false,
                 SendToEnabled = false,
+                WidgetPriority = 8,
+                SystemUsageUpdateInterval = 1000,
+                SystemUsageThreshold = 2,
             };
 
             public static WidgetSettings LoadSettingsFromConfigFile()
