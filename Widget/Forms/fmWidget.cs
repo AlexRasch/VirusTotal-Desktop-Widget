@@ -153,7 +153,6 @@ namespace Widget
 
             await Task.Run(() =>
             {
-                
 
                 float cpuUsage;
                 float previousCpuUsage = 0f;
@@ -182,7 +181,7 @@ namespace Widget
                     }
                     previousCpuUsage = cpuUsage;
                     previousRamUsage = ramUsage;
-                    Thread.Sleep(updateInterval);
+                    Task.Delay(updateInterval);
                 }
             }, cancellationToken);
         }
