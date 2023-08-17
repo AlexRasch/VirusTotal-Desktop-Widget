@@ -6,6 +6,11 @@ namespace Widget
 {
     public static partial class WindowsAPI
     {
+        /// <summary>
+        /// Checks whether the user is currently engaged in a full-screen or busy activity,
+        /// such as running a game or a full-screen application.
+        /// </summary>
+        /// <returns>True if the user is engaged in a full-screen or busy activity, false otherwise.</returns>
         public static bool IsUserEngagedInFullScreenActivity()
         {
             return NativeMethods.CheckNotificationState();
@@ -52,14 +57,20 @@ namespace Widget
                 public bool QUNS_APP => State == 7;
 
                 /// <summary>
-                /// Checks if state is ....
+                /// Gets a value indicating whether the user is engaged in a full-screen activity.
+                /// This includes scenarios like QUNS_RUNNING_D3D_SCREEN, QUNS_PRESENTATION_MODE, and QUNS_BUSY.
                 /// </summary>
-                public bool IsFullScreenRunning => State == 3 || State == 2;
+                public bool IsFullScreenRunning => State == 4 || State == 3 || State == 2;
             }
 
             [DllImport("shell32.dll")]
             static extern int SHQueryUserNotificationState(out UserNotificationState state);
 
+            /// <summary>
+            /// Queries the user's notification state to determine if the user is engaged in
+            /// a full-screen or busy activity, such as running a game, presentation, or full-screen application.
+            /// </summary>
+            /// <returns>True if the user is engaged in a full-screen or busy activity, false otherwise.</returns>
             public static bool CheckNotificationState()
             {
                 UserNotificationState userNotificationState;
