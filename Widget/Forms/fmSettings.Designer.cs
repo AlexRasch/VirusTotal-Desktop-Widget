@@ -28,13 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Forms.Pigment pigment8 = new Forms.Pigment();
-            Forms.Pigment pigment9 = new Forms.Pigment();
-            Forms.Pigment pigment10 = new Forms.Pigment();
-            Forms.Pigment pigment11 = new Forms.Pigment();
-            Forms.Pigment pigment12 = new Forms.Pigment();
-            Forms.Pigment pigment13 = new Forms.Pigment();
-            Forms.Pigment pigment14 = new Forms.Pigment();
+            Forms.Pigment pigment1 = new Forms.Pigment();
+            Forms.Pigment pigment2 = new Forms.Pigment();
+            Forms.Pigment pigment3 = new Forms.Pigment();
+            Forms.Pigment pigment4 = new Forms.Pigment();
+            Forms.Pigment pigment5 = new Forms.Pigment();
+            Forms.Pigment pigment6 = new Forms.Pigment();
+            Forms.Pigment pigment7 = new Forms.Pigment();
             txtApiKey = new TextBox();
             label1 = new Label();
             lblSendTo = new Label();
@@ -45,12 +45,17 @@
             lblAutoStart = new Label();
             eTheme1 = new Forms.eTheme();
             eGroupBox2 = new Forms.eGroupBox();
+            cbbUpdateInterval = new ComboBox();
+            llbUpdateInterval = new Label();
+            lblThreshold = new Label();
+            cbbThreshold = new ComboBox();
             btnCancel = new Forms.eButton();
             btnSave = new Forms.FButton();
             eGroupBox1 = new Forms.eGroupBox();
             btnView = new Forms.eButton();
             gbWidgetSettings = new Forms.eGroupBox();
             eTheme1.SuspendLayout();
+            eGroupBox2.SuspendLayout();
             eGroupBox1.SuspendLayout();
             gbWidgetSettings.SuspendLayout();
             SuspendLayout();
@@ -71,7 +76,7 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             label1.ForeColor = Color.WhiteSmoke;
-            label1.Location = new Point(5, 21);
+            label1.Location = new Point(5, 20);
             label1.Name = "label1";
             label1.Size = new Size(135, 21);
             label1.TabIndex = 0;
@@ -158,12 +163,62 @@
             // 
             // eGroupBox2
             // 
+            eGroupBox2.Controls.Add(cbbUpdateInterval);
+            eGroupBox2.Controls.Add(llbUpdateInterval);
+            eGroupBox2.Controls.Add(lblThreshold);
+            eGroupBox2.Controls.Add(cbbThreshold);
             eGroupBox2.Location = new Point(314, 128);
             eGroupBox2.Name = "eGroupBox2";
             eGroupBox2.NoRounding = false;
             eGroupBox2.Size = new Size(274, 111);
             eGroupBox2.TabIndex = 9;
             eGroupBox2.Text = "eGroupBox2";
+            // 
+            // cbbUpdateInterval
+            // 
+            cbbUpdateInterval.FlatStyle = FlatStyle.Flat;
+            cbbUpdateInterval.Font = new Font("Segoe UI", 6.75F, FontStyle.Regular, GraphicsUnit.Point);
+            cbbUpdateInterval.FormattingEnabled = true;
+            cbbUpdateInterval.Items.AddRange(new object[] { "1", "2", "3", "4", "5" });
+            cbbUpdateInterval.Location = new Point(147, 40);
+            cbbUpdateInterval.Name = "cbbUpdateInterval";
+            cbbUpdateInterval.Size = new Size(121, 20);
+            cbbUpdateInterval.TabIndex = 9;
+            cbbUpdateInterval.SelectedIndexChanged += cbbUpdateInterval_SelectedIndexChanged;
+            // 
+            // llbUpdateInterval
+            // 
+            llbUpdateInterval.AutoSize = true;
+            llbUpdateInterval.BackColor = Color.Transparent;
+            llbUpdateInterval.ForeColor = Color.WhiteSmoke;
+            llbUpdateInterval.Location = new Point(16, 40);
+            llbUpdateInterval.Name = "llbUpdateInterval";
+            llbUpdateInterval.Size = new Size(90, 15);
+            llbUpdateInterval.TabIndex = 8;
+            llbUpdateInterval.Text = "Update interval:";
+            // 
+            // lblThreshold
+            // 
+            lblThreshold.AutoSize = true;
+            lblThreshold.BackColor = Color.Transparent;
+            lblThreshold.ForeColor = Color.WhiteSmoke;
+            lblThreshold.Location = new Point(16, 10);
+            lblThreshold.Name = "lblThreshold";
+            lblThreshold.Size = new Size(62, 15);
+            lblThreshold.TabIndex = 7;
+            lblThreshold.Text = "Threshold:";
+            // 
+            // cbbThreshold
+            // 
+            cbbThreshold.FlatStyle = FlatStyle.Flat;
+            cbbThreshold.Font = new Font("Segoe UI", 6.75F, FontStyle.Regular, GraphicsUnit.Point);
+            cbbThreshold.FormattingEnabled = true;
+            cbbThreshold.Items.AddRange(new object[] { "1", "2", "3", "4", "5" });
+            cbbThreshold.Location = new Point(147, 8);
+            cbbThreshold.Name = "cbbThreshold";
+            cbbThreshold.Size = new Size(121, 20);
+            cbbThreshold.TabIndex = 6;
+            cbbThreshold.SelectedIndexChanged += cbbThreshold_SelectedIndexChanged;
             // 
             // btnCancel
             // 
@@ -178,21 +233,21 @@
             // 
             // btnSave
             // 
-            pigment8.Name = "Border";
-            pigment8.Value = Color.FromArgb(254, 133, 0);
-            pigment9.Name = "Backcolor";
-            pigment9.Value = Color.FromArgb(25, 25, 25);
-            pigment10.Name = "Highlight";
-            pigment10.Value = Color.FromArgb(255, 197, 19);
-            pigment11.Name = "Gradient1";
-            pigment11.Value = Color.FromArgb(255, 175, 12);
-            pigment12.Name = "Gradient2";
-            pigment12.Value = Color.FromArgb(255, 127, 1);
-            pigment13.Name = "Text Color";
-            pigment13.Value = Color.White;
-            pigment14.Name = "Text Shadow";
-            pigment14.Value = Color.FromArgb(30, 0, 0, 0);
-            btnSave.Colors = new Forms.Pigment[] { pigment8, pigment9, pigment10, pigment11, pigment12, pigment13, pigment14 };
+            pigment1.Name = "Border";
+            pigment1.Value = Color.FromArgb(254, 133, 0);
+            pigment2.Name = "Backcolor";
+            pigment2.Value = Color.FromArgb(25, 25, 25);
+            pigment3.Name = "Highlight";
+            pigment3.Value = Color.FromArgb(255, 197, 19);
+            pigment4.Name = "Gradient1";
+            pigment4.Value = Color.FromArgb(255, 175, 12);
+            pigment5.Name = "Gradient2";
+            pigment5.Value = Color.FromArgb(255, 127, 1);
+            pigment6.Name = "Text Color";
+            pigment6.Value = Color.White;
+            pigment7.Name = "Text Shadow";
+            pigment7.Value = Color.FromArgb(30, 0, 0, 0);
+            btnSave.Colors = new Forms.Pigment[] { pigment1, pigment2, pigment3, pigment4, pigment5, pigment6, pigment7 };
             btnSave.Font = new Font("Verdana", 8F, FontStyle.Regular, GraphicsUnit.Point);
             btnSave.Location = new Point(452, 257);
             btnSave.Name = "btnSave";
@@ -257,6 +312,8 @@
             Text = "Settings";
             Load += fmSettings_Load;
             eTheme1.ResumeLayout(false);
+            eGroupBox2.ResumeLayout(false);
+            eGroupBox2.PerformLayout();
             eGroupBox1.ResumeLayout(false);
             eGroupBox1.PerformLayout();
             gbWidgetSettings.ResumeLayout(false);
@@ -282,5 +339,9 @@
         private Forms.eButton btnCancel;
         private Forms.eButton btnView;
         private Forms.eGroupBox eGroupBox2;
+        private ComboBox cbbThreshold;
+        private Label lblThreshold;
+        private Label llbUpdateInterval;
+        private ComboBox cbbUpdateInterval;
     }
 }

@@ -24,8 +24,15 @@ namespace Widget
         public const string OpenFileDialogTitle = "Import scan response";
         #endregion
 
+        #region Settings Form
+        public const string ThresholdToolTip = "Widget Update Condition:\n\n" +
+        "If the difference in system usage (CPU or RAM) exceeds the threshold,\n" +
+        "the widget will update to reflect the changes.\n" +
+        "If the difference is below the threshold, the widget will not update.";
+        #endregion
+
         #region ScanResult Form
-        
+
         // GUI
         public const string FileSizeLabel = "File size:";
 
