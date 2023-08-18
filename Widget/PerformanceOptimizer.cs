@@ -18,6 +18,8 @@ namespace Widget
 #endif
         private readonly int extraOptimizationDelay = 5 * 60 * 1000; // 5 Min
 
+        private bool isUserEngagedInFullScreenActivity;
+
         public PerformanceOptimizer(int updateInterval)
         {
             if (updateInterval <= 0)
@@ -29,9 +31,9 @@ namespace Widget
         public bool ShouldCheckFullScreenActivity(int updateInterval)
         {
             timeSinceLastFullScreenCheck += updateInterval;
-            if (timeSinceLastFullScreenCheck >= fullScreenCheckInterval)
+            if (timeSinceLastFullScreenCheck >= fullScreenCheckInterval || isUserEngagedInFullScreenActivity)
             {
-                timeSinceLastFullScreenCheck = 0;
+                timeSinceLastFullScreenCheck = 0; // Reset
                 return true;
             }
             return false;
@@ -39,7 +41,7 @@ namespace Widget
 
         public async Task PerformOptimizationDelay()
         {
-            bool isUserEngagedInFullScreenActivity = await WindowsAPI.IsUserEngagedInFullScreenActivity();
+            isUserEngagedInFullScreenActivity = await WindowsAPI.IsUserEngagedInFullScreenActivity();
 
             if (isUserEngagedInFullScreenActivity)
             {

@@ -197,8 +197,5 @@ namespace Widget
                 }
             }, cancellationToken);
         }
-
-
-
     }
 }
