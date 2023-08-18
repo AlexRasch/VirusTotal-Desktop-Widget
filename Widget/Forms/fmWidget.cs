@@ -55,7 +55,7 @@ namespace Widget
             System.Windows.Forms.ToolTip toolTipExitWidget = new();
             toolTipExitWidget.SetToolTip(this.lblExit, "Shutdown the widget");
 
-            GetCurrentSystemUsage(widgetSettings.SystemUsageUpdateInterval, widgetSettings.SystemUsageThreshold);
+            GetCurrentSystemUsage(widgetSettings.SystemUsageUpdateInterval, widgetSettings.SystemUsageThreshold, widgetSettings.OptimizePerformance);
         }
         private void lblExit_MouseEnter(object sender, EventArgs e) => lblExit.BackColor = Color.DimGray;
         private void lblExit_MouseLeave(object sender, EventArgs e) => lblExit.BackColor = Color.Transparent;
@@ -141,7 +141,7 @@ namespace Widget
         /// <summary>
         /// Retrieves the current system usage, including CPU and RAM usage, and updates the corresponding UI controls.
         /// </summary>
-        private async void GetCurrentSystemUsage(int updateInterval, int systemUsageThreshold)
+        private async void GetCurrentSystemUsage(int updateInterval, int systemUsageThreshold, bool optimizePerformance)
         {
             if (updateInterval == 0 || systemUsageThreshold == 0)
                 throw new Exception("Settings for SystemUsage invalid");
@@ -151,7 +151,14 @@ namespace Widget
 
             CancellationToken cancellationToken = cancellationTokenSource.Token;
 
-            await Task.Run(() =>
+            // Optimize performance
+            PerformanceOptimizer optimizer = null;
+
+            if (optimizePerformance)
+                optimizer = new(updateInterval);
+
+
+            await Task.Run(async () =>
             {
 
                 float cpuUsage;
@@ -181,10 +188,16 @@ namespace Widget
                     }
                     previousCpuUsage = cpuUsage;
                     previousRamUsage = ramUsage;
-                    Task.Delay(updateInterval);
+
+                    // Optimize performance
+                    if (optimizer != null && optimizer.ShouldCheckFullScreenActivity(updateInterval))
+                        await optimizer.PerformOptimizationDelay();
+                    
+                    await Task.Delay(updateInterval);
                 }
             }, cancellationToken);
         }
+
 
 
     }

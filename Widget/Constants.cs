@@ -62,6 +62,10 @@ namespace Widget
         public const string SubmittingFileTitle = "Sending file to VirusTotal";
         public const string SubmittingFileMessage = "We are now submitting your file to VirusTotal for scanning...";
 
+        #region PerformanceOptimizer
+        public const string PerformanceOptimizerError = "Update interval must be a positive value";
+        #endregion
+
 
 
         public static string GetApplicationPath()

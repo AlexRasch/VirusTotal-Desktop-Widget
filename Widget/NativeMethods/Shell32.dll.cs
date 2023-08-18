@@ -11,9 +11,9 @@ namespace Widget
         /// such as running a game or a full-screen application.
         /// </summary>
         /// <returns>True if the user is engaged in a full-screen or busy activity, false otherwise.</returns>
-        public static bool IsUserEngagedInFullScreenActivity()
+        public static async Task<bool> IsUserEngagedInFullScreenActivity()
         {
-            return NativeMethods.CheckNotificationState();
+            return await NativeMethods.CheckNotificationState();
         }
 
         internal static partial class NativeMethods
@@ -71,7 +71,7 @@ namespace Widget
             /// a full-screen or busy activity, such as running a game, presentation, or full-screen application.
             /// </summary>
             /// <returns>True if the user is engaged in a full-screen or busy activity, false otherwise.</returns>
-            public static bool CheckNotificationState()
+            public static async Task<bool> CheckNotificationState()
             {
                 UserNotificationState userNotificationState;
                 var returnVal = SHQueryUserNotificationState(out userNotificationState);

@@ -62,6 +62,7 @@ namespace Widget
             cbAutostart.Checked = config.AutoStartEnabled;
             cbFadeEffect.Checked = config.FadeEffect;
             cbSendTo.Checked = config.SendToEnabled;
+            cbOptimizePerformance.Checked = config.OptimizePerformance;
 
             // Get values for combobox
             SetComboBoxValue(cbbThreshold, config.SystemUsageThreshold);
@@ -73,6 +74,7 @@ namespace Widget
             bool IsAutoStartEnabled = cbAutostart.CheckState == CheckState.Checked;
             bool IsFadeEffectEnabled = cbFadeEffect.CheckState == CheckState.Checked;
             bool IsSendToEnabled = cbSendTo.CheckState == CheckState.Checked;
+            bool IsOptimizePerformanceEnabled = cbOptimizePerformance.CheckState == CheckState.Checked;
 
 
             if (currentApiKey.Length < 1 && currentApiKey.Length > 64)
@@ -91,6 +93,7 @@ namespace Widget
                 SendToEnabled = IsSendToEnabled,
                 SystemUsageThreshold = config.SystemUsageThreshold,
                 SystemUsageUpdateInterval = config.SystemUsageUpdateInterval,
+                OptimizePerformance = IsOptimizePerformanceEnabled,
 
             };
 
