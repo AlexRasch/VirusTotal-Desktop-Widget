@@ -12,7 +12,7 @@ namespace Widget
         private int timeSinceLastFullScreenCheck = 0;
 
 #if !DEBUG
-        private int checkForFullScreenActivityDelay = 5 * 60 * 1000; // 5 Min
+        private int fullScreenCheckInterval = 5 * 60 * 1000; // 5 Min
 #else
         private readonly int fullScreenCheckInterval = 1 * 60 * 1000; // 1 Min
 #endif
