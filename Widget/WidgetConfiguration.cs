@@ -31,6 +31,8 @@ namespace Widget
             public bool AutoStartEnabled { get; set; }
             public bool FadeEffect { get; set; }
             public bool SendToEnabled { get; set; }
+            public bool OptimizePerformance { get; set; }
+
             public int WidgetPriority{ get; set; }
             public int SystemUsageUpdateInterval { get; set; }
             public int SystemUsageThreshold { get; set; }
@@ -43,6 +45,8 @@ namespace Widget
                 AutoStartEnabled = false,
                 FadeEffect = false,
                 SendToEnabled = false,
+                OptimizePerformance = false,
+
                 WidgetPriority = 8,
                 SystemUsageUpdateInterval = 1000,
                 SystemUsageThreshold = 2,
@@ -91,7 +95,7 @@ namespace Widget
                 }
 
                 HandleAutostart(widgetSettings!.AutoStartEnabled);
-                //ShortcutManager.HandleSendTo(widgetSettings!.SendToEnabled, shortcutName);
+                ShortcutManager.HandleSendTo(widgetSettings!.SendToEnabled, shortcutName);
 
                 return widgetSettings;
             }
