@@ -31,7 +31,7 @@ namespace Widget
         public bool ShouldCheckFullScreenActivity(int updateInterval)
         {
             timeSinceLastFullScreenCheck += updateInterval;
-            if (timeSinceLastFullScreenCheck >= fullScreenCheckInterval || isUserEngagedInFullScreenActivity)
+            if (timeSinceLastFullScreenCheck >= fullScreenCheckInterval)
             {
                 timeSinceLastFullScreenCheck = 0; // Reset
                 return true;
@@ -49,7 +49,4 @@ namespace Widget
             }
         }
     }
-
-
-
 }
