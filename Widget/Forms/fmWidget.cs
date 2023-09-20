@@ -42,6 +42,8 @@ namespace Widget
             this.MinimumSize = new Size(Width, Height);
             this.MaximumSize = this.MinimumSize;
 
+            lblExit.Location = new Point(Width, 0);
+
             // UX
             System.Windows.Forms.ToolTip toolTipImportReport = new();
             toolTipImportReport.SetToolTip(this.pbImportReport, "Import and view a VirusTotal analysis");
@@ -192,7 +194,7 @@ namespace Widget
                     // Optimize performance
                     if (optimizer != null && optimizer.ShouldCheckFullScreenActivity(updateInterval))
                         await optimizer.PerformOptimizationDelay();
-                    
+
                     await Task.Delay(updateInterval);
                 }
             }, cancellationToken);
